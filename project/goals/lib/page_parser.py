@@ -1,4 +1,5 @@
 import contextlib
+import re
 from datetime import datetime, timedelta
 
 from bs4 import BeautifulSoup
@@ -20,6 +21,18 @@ class PageParser:
         """
         content = BeautifulSoup(page, "html.parser")
         return content.find_all("div", id=lambda x: x and x.startswith("feed-entry-"))
+
+    def get_entry_id(self, item: ResultSet) -> int:
+        """
+        Parses the entry id from a given feed item.
+        Args:
+            item (bs4.element.ResultSet): The feed item to parse.
+        Returns:
+            int: The entry id.
+        """
+        entry_id = item.find_all('div', id=re.compile("feed-entry-"))
+        entry_id = entry_id[0].get('id')
+        return int(entry_id.split('-')[-1])
 
     def get_strava_id(self, item: ResultSet) -> int:
         """
@@ -62,7 +75,16 @@ class PageParser:
                 (datetime.now() - timedelta(days=1)).strftime("%B %d, %Y"),
             )
 
-        formats = ["%B %d, %Y at %I:%M %p", "%B %d, %Y at %I:%M", "%B %d, %Y"]
+        formats = [
+            "%d %B %Y",
+            "%d %B %Y at %H:%M",
+            "%B %d %Y",
+            "%B %d, %Y",
+            "%B %d, %Y at %I:%M %p",
+            "%B %d, %Y at %I:%M",
+            "%B %d, %Y at %H:%M"
+        ]
+
         for fmt in formats:
             with contextlib.suppress(ValueError):
                 return datetime.strptime(date_str, fmt)

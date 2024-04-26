@@ -23,6 +23,13 @@ def test_get_items():
     assert len(obj.items) == 2
 
 
+def test_strava_entry_id():
+    item = BeautifulSoup('<div class="------packages-feed-ui-src-features-FeedEntry__entry-container--FPn3K" id="feed-entry-123456789" role="button" style="" tabindex="0"></div>', "html.parser")
+
+    entry_id = PageParser("").get_entry_id(item)
+    assert entry_id == 123456789
+
+
 @pytest.mark.parametrize(
     "value, unit, expected",
     [
@@ -110,9 +117,14 @@ def test_get_name():
 @pytest.mark.parametrize(
     "value, expect",
     [
+        ("21 April 2024", datetime(2024, 4, 21, 0, 0, 0)),
+        ("21 April 2024 at 15:00", datetime(2024, 4, 21, 15, 0, 0)),
         ("April 21, 2024", datetime(2024, 4, 21, 0, 0, 0)),
+        ("April 21 2024", datetime(2024, 4, 21, 0, 0, 0)),
         ("April 21, 2024 at 06:05 AM", datetime(2024, 4, 21, 6, 5, 0)),
         ("April 21, 2024 at 06:05 PM", datetime(2024, 4, 21, 18, 5, 0)),
+        ("April 21, 2024 at 06:05", datetime(2024, 4, 21, 6, 5, 0)),
+        ("April 21, 2024 at 18:05", datetime(2024, 4, 21, 18, 5, 0)),
         ("Today", datetime(2022, 4, 25, 0, 0, 0)),
         ("Today at 6:36 AM", datetime(2022, 4, 25, 6, 36, 0)),
         ("Today at 6:36 PM", datetime(2022, 4, 25, 18, 36, 0)),
