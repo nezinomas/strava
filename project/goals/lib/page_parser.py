@@ -30,9 +30,9 @@ class PageParser:
         Returns:
             int: The entry id.
         """
-        entry_id = item.find_all('div', id=re.compile("feed-entry-"))
-        entry_id = entry_id[0].get('id')
-        return int(entry_id.split('-')[-1])
+        pattern = re.compile(r'feed-entry-(\d+)')
+        res = re.findall(pattern, str(item))
+        return int(res[0])
 
     def get_strava_id(self, item: ResultSet) -> int:
         """
