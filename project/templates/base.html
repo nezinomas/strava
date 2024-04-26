@@ -1,0 +1,18 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <title>Strava</title>
+  </head>
+
+  <body tabindex="-1">
+    {% block body %}
+    {% endblock body %}
+  </body>
+</html>

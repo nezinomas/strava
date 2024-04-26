@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>{% translate 'Server Error' %}</title>
+
+<meta charset="UTF-8" />
+
+<link rel="stylesheet" href="{% static 'css/error.css' %}">
+
+</head>
+<body>
+    <section id="error-page" class="error-500">
+        <a id="back_button" href="{% url 'bookkeeping:index' %}">{% translate 'Back to homepage' %}</a>
+        <div id="error-message">ERROR #500</div>
+    </section>
+</body>
+</html>
