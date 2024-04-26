@@ -23,6 +23,13 @@ def test_get_items():
     assert len(obj.items) == 2
 
 
+def test_strava_entry_id():
+    item = BeautifulSoup('<div class="------packages-feed-ui-src-features-FeedEntry__entry-container--FPn3K" id="feed-entry-123456789" role="button" style="" tabindex="0"></div>', "html.parser")
+
+    entry_id = PageParser("").get_entry_id(item)
+    assert entry_id == 123456789
+
+
 @pytest.mark.parametrize(
     "value, unit, expected",
     [
