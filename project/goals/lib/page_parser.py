@@ -63,14 +63,15 @@ class PageParser:
             )
 
         formats = [
-            "%B %d, %Y at %I:%M %p",
-            "%B %d, %Y at %I:%M",
-            "%B %d, %Y",
             "%d %B %Y",
             "%d %B %Y at %H:%M",
             "%B %d %Y",
+            "%B %d, %Y",
+            "%B %d, %Y at %I:%M %p",
+            "%B %d, %Y at %I:%M",
             "%B %d, %Y at %H:%M"
         ]
+
         for fmt in formats:
             with contextlib.suppress(ValueError):
                 return datetime.strptime(date_str, fmt)
