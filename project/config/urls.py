@@ -4,7 +4,7 @@ from django.views.defaults import (page_not_found, permission_denied,
                                    server_error)
 
 urlpatterns = [
-
+    path("", include("project.goals.urls")),
 ]
 
 
