@@ -1,14 +1,17 @@
 from django.db import models
 from django.utils.text import slugify
-from .managers import AthleteManager, EntryManager
+
+from .managers import AthleteManager, EntryManager, GoalManager
 
 
 class Goal(models.Model):
     year = models.PositiveIntegerField()
     month = models.PositiveIntegerField()
+    hours = models.PositiveIntegerField()
 
+    objects = GoalManager.as_manager()
     def __str__(self):
-        return f"{self.year} / {self.month}"
+        return f"{self.year} / {self.month} / {self.hours}"
 
 
 class Athlete(models.Model):

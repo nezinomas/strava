@@ -11,6 +11,7 @@ class GoalFactory(factory.django.DjangoModelFactory):
 
     year = 2022
     month = 4
+    hours = 10
 
 
 class AthleteFactory(factory.django.DjangoModelFactory):
