@@ -26,7 +26,7 @@ class EntryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Entry
 
-    athlete = factory.SubFactory(Athlete)
+    athlete = factory.SubFactory(AthleteFactory)
     entry_id = 112233
     activity = "Running"
     date = datetime(2022, 4, 25, 3, 2, 1)
