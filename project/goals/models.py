@@ -35,7 +35,8 @@ class AthleteModel(models.Model):
 class EntryModel(models.Model):
     athlete = models.ForeignKey(AthleteModel, on_delete=models.CASCADE)
     date = models.DateField()
-    moving_time = models.PositiveIntegerField()
+    num_activities = models.PositiveIntegerField(default=1)
+    moving_time = models.PositiveIntegerField(default=0)
     distance = models.PositiveIntegerField(default=0)
     ascent = models.PositiveIntegerField(default=0)
 

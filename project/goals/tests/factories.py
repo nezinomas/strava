@@ -20,7 +20,7 @@ class AthleteFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ("strava_id",)
 
     name = factory.Faker("name")
-    strava_id = 123456
+    strava_id = 1
 
 
 class EntryFactory(factory.django.DjangoModelFactory):
@@ -29,6 +29,6 @@ class EntryFactory(factory.django.DjangoModelFactory):
 
     athlete = factory.SubFactory(AthleteFactory)
     date = date(2022, 4, 25)
-    moving_time = 3600
-    distance = 1000
-    ascent = 100
+    moving_time = 30
+    distance = 1
+    ascent = 10
