@@ -41,6 +41,16 @@ def test_get_distance(value, expect):
     assert distance == expect
 
 
+def test_num_activities():
+    item = BeautifulSoup(
+        '<td class="num_activities">666</td>',
+        "html.parser",
+    )
+
+    distance = PageParser("").get_num_activities(item)
+    assert distance == 666
+
+
 def test_get_distance_empty():
     item = BeautifulSoup(
         '<td class="distance">--</td>',

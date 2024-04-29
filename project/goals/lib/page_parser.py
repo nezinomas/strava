@@ -44,6 +44,19 @@ class PageParser:
         """
         return item.find("a", {"class": "athlete-name"}).text
 
+    def get_num_activities(self, item: ResultSet) -> int:
+        """
+        Parses the distance from a given feed item.
+        Args:
+            item (bs4.element.ResultSet): The feed item to parse.
+        Returns:
+            int: Number of activities.
+        """
+        num_str = item.find("td", {"class": "num_activities"}).text
+
+        return int(num_str)
+
+
     def get_distance(self, item: ResultSet) -> int:
         """
         Parses the distance from a given feed item.
