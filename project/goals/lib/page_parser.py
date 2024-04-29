@@ -1,7 +1,7 @@
-from typing import Type
+from dataclasses import dataclass
+
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
-from dataclasses import dataclass
 
 
 @dataclass
@@ -9,6 +9,14 @@ class Athlete:
     strava_id: int
     name: str
 
+
+@dataclass
+class Entry:
+    strava_id: int
+    moving_time: int
+    distance: int
+    num_activities: int
+    ascent: int
 
 
 class PageParser:
@@ -20,6 +28,8 @@ class PageParser:
         self.items = self.get_items(page_html)
 
         self.athletes = []
+        self.data = []
+
         if not self.items:
             return
 
@@ -27,10 +37,15 @@ class PageParser:
             try:
                 strava_id = self.get_strava_id(item)
                 name = self.get_name(item)
+                moving_time = self.get_time(item)
+                distance = self.get_distance(item)
+                num_activities = self.get_num_activities(item)
+                ascent = self.get_ascent(item)
             except TypeError:
                 continue
 
             self.athletes.append(Athlete(strava_id, name))
+            self.data.append(Entry(strava_id, moving_time, distance, num_activities, ascent))
 
     def get_items(self, page: str) -> ResultSet:
         """
