@@ -31,4 +31,5 @@ class EntryFactory(factory.django.DjangoModelFactory):
     date = date(2022, 4, 25)
     moving_time = 30
     distance = 1
+    num_activities = 1
     ascent = 10
