@@ -1,11 +1,51 @@
+from dataclasses import dataclass
+
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
 
 
+@dataclass
+class Athlete:
+    strava_id: int
+    name: str
+
+
+@dataclass
+class Entry:
+    strava_id: int
+    moving_time: int
+    distance: int
+    num_activities: int
+    ascent: int
+
+
 class PageParser:
 
-    def __init__(self, page):
-        self.items = self.get_items(page)
+    def __init__(self, page_html: str):
+        self.create_objects(page_html)
+
+    def create_objects(self, page_html: str):
+        self.items = self.get_items(page_html)
+
+        self.athletes = []
+        self.data = []
+
+        if not self.items:
+            return
+
+        for item in self.items:
+            try:
+                strava_id = self.get_strava_id(item)
+                name = self.get_name(item)
+                moving_time = self.get_time(item)
+                distance = self.get_distance(item)
+                num_activities = self.get_num_activities(item)
+                ascent = self.get_ascent(item)
+            except TypeError:
+                continue
+
+            self.athletes.append(Athlete(strava_id, name))
+            self.data.append(Entry(strava_id, moving_time, distance, num_activities, ascent))
 
     def get_items(self, page: str) -> ResultSet:
         """
@@ -43,6 +83,19 @@ class PageParser:
             str: The strava athlete name.
         """
         return item.find("a", {"class": "athlete-name"}).text
+
+    def get_num_activities(self, item: ResultSet) -> int:
+        """
+        Parses the distance from a given feed item.
+        Args:
+            item (bs4.element.ResultSet): The feed item to parse.
+        Returns:
+            int: Number of activities.
+        """
+        num_str = item.find("td", {"class": "num_activities"}).text
+
+        return int(num_str)
+
 
     def get_distance(self, item: ResultSet) -> int:
         """
