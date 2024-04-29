@@ -100,4 +100,4 @@ class PageParser:
         except ValueError:
             return 0
 
-        return int(ascent)
+        return int(float(ascent.replace(",", ".")))
