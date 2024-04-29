@@ -71,14 +71,22 @@ def test_get_time_hours_minutes():
     assert time == 3720
 
 
-def test_get_ascent():
+@pytest.mark.parametrize(
+    "value, expect",
+    [
+        ("117", 117),
+        ("117,1", 117),
+        ("2,091", 2),
+    ],
+)
+def test_get_ascent(value, expect):
     item = BeautifulSoup(
-        '<td class="elev_gain">117 <abbr class="unit short" title="meters">m</abbr></td>',
+        f'<td class="elev_gain">{value} <abbr class="unit short" title="meters">m</abbr></td>',
         "html.parser",
     )
 
     ascent = PageParser("").get_ascent(item)
-    assert ascent == 117
+    assert ascent == expect
 
 
 def test_get_ascent_empty():
