@@ -14,19 +14,19 @@ with open(conf_path / ".conf", "rb") as f:
 
 
 options = webdriver.ChromeOptions()
-# options.add_argument('--headless')
+options.add_argument('--headless')
 
 service = Service(conf["CHROMEDRIVER_PATH"])
 
 browser = webdriver.Chrome(service=service, options=options)
 browser.get('https://www.strava.com/login')
 
-sleep(0.5)
+sleep(0.25)
 
 
 browser.find_element(By.XPATH, "//button[@class='btn-accept-cookie-banner']").click()
 
-sleep(0.5)
+sleep(0.25)
 
 
 browser.find_element(By.ID, "email").send_keys(conf["STRAVA_USER"])
@@ -36,9 +36,9 @@ browser.find_element(By.ID, "login-button").click()
 
 browser.get('https://www.strava.com/clubs/1028542/leaderboard')
 
-sleep(0.25)
 
 # this week
+sleep(0.25)
 text = browser.find_element(By.XPATH, "//div[@class='leaderboard']").get_attribute('outerHTML')
 with open('this-week.txt', 'w', encoding='utf-8') as reader:
     reader.write(text)
@@ -46,6 +46,7 @@ with open('this-week.txt', 'w', encoding='utf-8') as reader:
 
 # last week
 browser.find_element(By.XPATH, "//span[@class='button last-week']").click()
+sleep(0.25)
 text = browser.find_element(By.XPATH, "//div[@class='leaderboard']").get_attribute('outerHTML')
 with open('last-week.txt', 'w', encoding='utf-8') as reader:
     reader.write(text)
