@@ -1,8 +1,37 @@
 import pytest
 from bs4 import BeautifulSoup
 
-from ..lib.page_parser import PageParser
+from ..lib.page_parser import PageParser, Athlete
 
+
+@pytest.fixture(name="table_html")
+def fixture_table_html():
+    return """
+    <div class="leaderboard">
+        <table  class="dense striped sortable">
+            <thead>
+                <tr><th></th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="athlete">
+                        <a class="athlete-name minimalt" href="/athletes/123456789">AAA A.</a>
+                    </td>
+
+                    <td class="moving_time">
+                        1<abbr class="unit" title="minute">m</abbr>
+                    </td>
+
+                    <td class="num_activities">1</td>
+
+                    <td class="distance">1 <abbr class="unit short" title="kilometers">km</abbr></td>
+
+                    <td class="elev_gain">1 <abbr class="unit short" title="meters">m</abbr></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    """
 
 def test_get_items():
     page = """
@@ -127,3 +156,10 @@ def test_get_name():
 
     name = PageParser("").get_name(item)
     assert name == "UserName"
+
+
+def test_athletes_list(table_html):
+    obj = PageParser(table_html)
+
+    assert len(obj.athletes) == 1
+    assert obj.athletes[0] == Athlete(strava_id=123456789, name="AAA A.")

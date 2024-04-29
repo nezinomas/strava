@@ -1,11 +1,36 @@
+from typing import Type
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
+from dataclasses import dataclass
+
+
+@dataclass
+class Athlete:
+    strava_id: int
+    name: str
+
 
 
 class PageParser:
 
-    def __init__(self, page):
-        self.items = self.get_items(page)
+    def __init__(self, page_html: str):
+        self.create_objects(page_html)
+
+    def create_objects(self, page_html: str):
+        self.items = self.get_items(page_html)
+
+        self.athletes = []
+        if not self.items:
+            return
+
+        for item in self.items:
+            try:
+                strava_id = self.get_strava_id(item)
+                name = self.get_name(item)
+            except TypeError:
+                continue
+
+            self.athletes.append(Athlete(strava_id, name))
 
     def get_items(self, page: str) -> ResultSet:
         """
