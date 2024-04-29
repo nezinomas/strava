@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 import factory
 
@@ -28,9 +28,7 @@ class EntryFactory(factory.django.DjangoModelFactory):
         model = Entry
 
     athlete = factory.SubFactory(AthleteFactory)
-    entry_id = 112233
-    activity = "Running"
-    date = datetime(2022, 4, 25, 3, 2, 1)
-    time = 3600
+    date = date(2022, 4, 25)
+    moving_time = 3600
     distance = 1000
     ascent = 100
