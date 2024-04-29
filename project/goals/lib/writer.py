@@ -16,7 +16,10 @@ class Writer:
     def _get_data(self):
         html = get_leaderboard()
 
-        return get_last_week_leaderboard_html(html), get_leaderboard_html(html)
+        this_week = get_leaderboard_html(html)
+        last_week = get_last_week_leaderboard_html(html)
+
+        return last_week, this_week
 
     def _parse_data(self):
         last_week, this_week = self._get_data()
