@@ -1,4 +1,5 @@
 from dataclasses import asdict
+from datetime import timedelta
 
 import pendulum
 
@@ -26,8 +27,10 @@ class Writer:
 
         return PageParser(last_week), PageParser(this_week)
 
-    def new_athletes(self):
-        athletes = self.this_week.athletes
+    def new_athletes(self, athletes=None):
+        if not athletes:
+            athletes = self.this_week.athletes
+
         atheletes_db = AthleteModel.objects.all().values_list("strava_id", flat=True)
 
         if data := [
@@ -37,9 +40,14 @@ class Writer:
         ]:
             AthleteModel.objects.bulk_create(data)
 
-    def new_data(self):
-        entries = self.this_week.data
-        week_data = EntryModel.objects.week_stats(pendulum.today())
+    def new_data(self, dt=None, entries=None):
+        if not dt:
+            dt = pendulum.now('Europe/Vilnius')
+
+        if not entries:
+            entries = self.this_week.data
+
+        week_data = EntryModel.objects.week_stats(dt)
         data = []
         for entry in entries:
             athlete = AthleteModel.objects.get(strava_id=entry.strava_id)
@@ -51,7 +59,7 @@ class Writer:
                 data.append(
                     EntryModel(
                         athlete=athlete,
-                        date=pendulum.today(),
+                        date=dt,
                         moving_time=entry.moving_time,
                         distance=entry.distance,
                         ascent=entry.ascent,
@@ -62,5 +70,11 @@ class Writer:
             EntryModel.objects.bulk_create(data)
 
     def write(self):
+        # this week
         self.new_athletes()
         self.new_data()
+
+        # last week
+        dt = pendulum.now('Europe/Vilnius').start_of("week") - timedelta(days=1)
+        self.new_athletes(self.last_week.athletes)
+        self.new_data(dt, self.last_week.data)
