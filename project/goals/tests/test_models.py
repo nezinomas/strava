@@ -5,9 +5,11 @@ from .factories import AthleteFactory, EntryFactory, GoalFactory
 
 pytestmark = pytest.mark.django_db
 
+
 def test_goal_str():
     goal = GoalFactory()
     assert str(goal) == f"{goal.year} / {goal.month} / {goal.hours}"
+
 
 def test_goal_current():
     GoalFactory(year=2022, month=2, hours=20)
@@ -17,6 +19,7 @@ def test_goal_current():
     actual = Goal.objects.get_goal(2022, 4)
 
     assert actual.hours == 40
+
 
 def test_goal_not_set():
     GoalFactory()
