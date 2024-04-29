@@ -44,9 +44,9 @@ with open('this-week.txt', 'w', encoding='utf-8') as reader:
     reader.write(text)
 
 
-# last week
-browser.find_element(By.XPATH, "//span[@class='button last-week']").click()
-sleep(0.25)
-text = browser.find_element(By.XPATH, "//div[@class='leaderboard']").get_attribute('outerHTML')
-with open('last-week.txt', 'w', encoding='utf-8') as reader:
-    reader.write(text)
+# # last week
+# browser.find_element(By.XPATH, "//span[@class='button last-week']").click()
+# sleep(0.25)
+# text = browser.find_element(By.XPATH, "//div[@class='leaderboard']").get_attribute('outerHTML')
+# with open('last-week.txt', 'w', encoding='utf-8') as reader:
+#     reader.write(text)
