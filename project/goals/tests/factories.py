@@ -2,12 +2,12 @@ from datetime import date
 
 import factory
 
-from ..models import Athlete, Entry, Goal
+from ..models import AthleteModel, EntryModel, GoalModel
 
 
 class GoalFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Goal
+        model = GoalModel
 
     year = 2022
     month = 4
@@ -16,7 +16,7 @@ class GoalFactory(factory.django.DjangoModelFactory):
 
 class AthleteFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Athlete
+        model = AthleteModel
         django_get_or_create = ("strava_id",)
 
     name = factory.Faker("name")
@@ -25,7 +25,7 @@ class AthleteFactory(factory.django.DjangoModelFactory):
 
 class EntryFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Entry
+        model = EntryModel
 
     athlete = factory.SubFactory(AthleteFactory)
     date = date(2022, 4, 25)

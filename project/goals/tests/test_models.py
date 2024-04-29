@@ -1,6 +1,6 @@
 import pytest
 
-from ..models import Athlete, Entry, Goal
+from ..models import AthleteModel, EntryModel, GoalModel
 from .factories import AthleteFactory, EntryFactory, GoalFactory
 
 pytestmark = pytest.mark.django_db
@@ -16,7 +16,7 @@ def test_goal_current():
     GoalFactory(year=2022, month=3, hours=30)
     GoalFactory(year=2022, month=4, hours=40)
 
-    actual = Goal.objects.get_goal(2022, 4)
+    actual = GoalModel.objects.get_goal(2022, 4)
 
     assert actual.hours == 40
 
@@ -24,7 +24,7 @@ def test_goal_current():
 def test_goal_not_set():
     GoalFactory()
 
-    actual = Goal.objects.get_goal(1999, 4)
+    actual = GoalModel.objects.get_goal(1999, 4)
 
     assert actual == 0
 

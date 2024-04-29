@@ -4,7 +4,7 @@ from django.utils.text import slugify
 from .managers import AthleteManager, EntryManager, GoalManager
 
 
-class Goal(models.Model):
+class GoalModel(models.Model):
     year = models.PositiveIntegerField()
     month = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
@@ -14,7 +14,7 @@ class Goal(models.Model):
         return f"{self.year} / {self.month} / {self.hours}"
 
 
-class Athlete(models.Model):
+class AthleteModel(models.Model):
     name = models.CharField(max_length=255)
     strava_id = models.PositiveIntegerField(unique=True)
     slug = models.SlugField(max_length=255, unique=True)
@@ -32,8 +32,8 @@ class Athlete(models.Model):
         return f"{self.name}"
 
 
-class Entry(models.Model):
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
+class EntryModel(models.Model):
+    athlete = models.ForeignKey(AthleteModel, on_delete=models.CASCADE)
     date = models.DateField()
     moving_time = models.PositiveIntegerField()
     distance = models.PositiveIntegerField(default=0)
