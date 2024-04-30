@@ -1,5 +1,3 @@
-from types import SimpleNamespace
-
 import pytest
 import time_machine
 from mock import patch
@@ -132,10 +130,10 @@ def test_data_append_new_entry(mck):
     data=[
         Activity(
             strava_id=1,
-            moving_time=30,
-            distance=1,
+            moving_time=60,
+            distance=2,
             num_activities=2,
-            ascent=10,
+            ascent=20,
         )
     ]
 
@@ -146,6 +144,7 @@ def test_data_append_new_entry(mck):
     actual = Activities.objects.all()
 
     assert actual.count() == 2
+
 
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
@@ -161,5 +160,5 @@ def test_data_append_new_entry_num_queries(mck, django_assert_num_queries):
         )
     ]
 
-    with django_assert_num_queries(3):
+    with django_assert_num_queries(1):
         Writer().new_data(now(), data)

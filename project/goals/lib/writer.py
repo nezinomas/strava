@@ -43,20 +43,20 @@ class Writer:
         for entry in entries:
             entry_db = week_data.get(entry.strava_id)
 
-            if not entry_db or (
-                entry_db.get("moving_time", 0) < entry.moving_time
-                or entry_db.get("num_activities", 0) < entry.num_activities
-            ):
-                athlete = Athletes.objects.get(strava_id=entry.strava_id)
-                data.append(
-                    Activities(
-                        athlete=athlete,
-                        date=dt,
-                        moving_time=entry.moving_time,
-                        distance=entry.distance,
-                        ascent=entry.ascent,
-                    )
+            if entry_db and (entry_db.get("moving_time", 0) >= entry.moving_time
+                or entry_db.get("num_activities", 0) >= entry.num_activities):
+                continue
+
+            athlete = Athletes.objects.get(strava_id=entry.strava_id)
+            data.append(
+                Activities(
+                    athlete=athlete,
+                    date=dt,
+                    moving_time=entry.moving_time,
+                    distance=entry.distance,
+                    ascent=entry.ascent,
                 )
+            )
 
         if data:
             Activities.objects.bulk_create(data)
