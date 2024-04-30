@@ -1,13 +1,11 @@
 from django import template
-
+from ..lib import utils
 register = template.Library()
 
 
 @register.filter
 def convert_seconds(seconds):
-    hours = seconds // (60*60)
-    seconds %= (60*60)
-    minutes = seconds // 60
+    hours, minutes = utils.convert_seconds(seconds)
 
     hours = f"{hours}h" if hours else ""
     minutes = f"{minutes}m" if minutes else "0m"
