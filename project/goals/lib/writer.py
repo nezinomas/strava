@@ -3,7 +3,7 @@ from datetime import timedelta
 
 import pendulum
 
-from ..models import Athletes, Activities
+from ..models import Activities, Athletes
 from .page_getter import (get_last_week_leaderboard_html, get_leaderboard,
                           get_leaderboard_html)
 from .page_parser import PageParser
@@ -42,7 +42,7 @@ class Writer:
 
     def new_data(self, dt=None, entries=None):
         if not dt:
-            dt = pendulum.now('Europe/Vilnius')
+            dt = pendulum.now("Europe/Vilnius")
 
         if not entries:
             entries = self.this_week.data
@@ -76,6 +76,6 @@ class Writer:
         self.new_data()
 
         # last week
-        dt = pendulum.now('Europe/Vilnius').start_of("week") - timedelta(hours=1)
+        dt = pendulum.now("Europe/Vilnius").start_of("week") - timedelta(hours=1)
         self.new_athletes(self.last_week.athletes)
         self.new_data(dt, self.last_week.data)
