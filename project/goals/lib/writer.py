@@ -45,6 +45,7 @@ class Writer:
         data = []
         for entry in activities:
             entry_db = week_data.get(entry.strava_id, {})
+
             num_activities = entry_db.get("num_activities", 0)
             moving_time = entry_db.get("moving_time", 0)
             distance = entry_db.get("distance", 0)
