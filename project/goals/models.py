@@ -3,7 +3,7 @@ from django.db import models
 from .managers import AthleteManager, EntryManager, GoalManager
 
 
-class GoalModel(models.Model):
+class Goals(models.Model):
     year = models.PositiveIntegerField()
     month = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
@@ -13,7 +13,7 @@ class GoalModel(models.Model):
         return f"{self.year} / {self.month} / {self.hours}"
 
 
-class AthleteModel(models.Model):
+class Athletes(models.Model):
     name = models.CharField(max_length=255)
     strava_id = models.PositiveIntegerField(unique=True)
 
@@ -26,8 +26,8 @@ class AthleteModel(models.Model):
         return f"{self.name}"
 
 
-class EntryModel(models.Model):
-    athlete = models.ForeignKey(AthleteModel, on_delete=models.CASCADE)
+class Activities(models.Model):
+    athlete = models.ForeignKey(Athletes, on_delete=models.CASCADE)
     date = models.DateField()
     num_activities = models.PositiveIntegerField(default=1)
     moving_time = models.PositiveIntegerField(default=0)

@@ -6,7 +6,7 @@ from mock import patch
 
 from ..lib.page_parser import Athlete, Activity
 from ..lib.writer import Writer
-from ..models import AthleteModel, EntryModel
+from ..models import Athletes, Activities
 from .factories import AthleteFactory, EntryFactory
 
 pytestmark = pytest.mark.django_db
@@ -30,11 +30,11 @@ def test_new_athletes(mck):
             data=[],
         ),
     )
-    assert AthleteModel.objects.count() == 0
+    assert Athletes.objects.count() == 0
 
     Writer().new_athletes()
 
-    actual = AthleteModel.objects.all()
+    actual = Athletes.objects.all()
 
     assert actual.count() == 1
     assert actual[0].name == "AAA"
@@ -67,11 +67,11 @@ def test_new_athletes_one_exists(mck):
         ),
     )
 
-    assert AthleteModel.objects.count() == 1
+    assert Athletes.objects.count() == 1
 
     Writer().new_athletes()
 
-    actual = AthleteModel.objects.all()
+    actual = Athletes.objects.all()
 
     assert actual.count() == 2
 
@@ -94,11 +94,11 @@ def test_new_athletes_not_insert(mck):
         ),
     )
 
-    assert AthleteModel.objects.count() == 1
+    assert Athletes.objects.count() == 1
 
     Writer().new_athletes()
 
-    actual = AthleteModel.objects.all()
+    actual = Athletes.objects.all()
 
     assert actual.count() == 1
 
@@ -123,11 +123,11 @@ def test_data_new(mck):
         ),
     )
 
-    assert EntryModel.objects.count() == 0
+    assert Activities.objects.count() == 0
 
     Writer().new_data()
 
-    actual = EntryModel.objects.all()
+    actual = Activities.objects.all()
 
     assert actual.count() == 1
 
@@ -153,11 +153,11 @@ def test_data_moving_time_and_num_activities_exists(mck):
         ),
     )
 
-    assert EntryModel.objects.count() == 1
+    assert Activities.objects.count() == 1
 
     Writer().new_data()
 
-    actual = EntryModel.objects.all()
+    actual = Activities.objects.all()
 
     assert actual.count() == 1
 
@@ -183,11 +183,11 @@ def test_data_append_new_entry(mck):
         ),
     )
 
-    assert EntryModel.objects.count() == 1
+    assert Activities.objects.count() == 1
 
     Writer().new_data()
 
-    actual = EntryModel.objects.all()
+    actual = Activities.objects.all()
 
     assert actual.count() == 2
 

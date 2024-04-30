@@ -3,7 +3,7 @@ from datetime import timedelta
 
 import pendulum
 
-from ..models import AthleteModel, EntryModel
+from ..models import Athletes, Activities
 from .page_getter import (get_last_week_leaderboard_html, get_leaderboard,
                           get_leaderboard_html)
 from .page_parser import PageParser
@@ -31,14 +31,14 @@ class Writer:
         if not athletes:
             athletes = self.this_week.athletes
 
-        atheletes_db = AthleteModel.objects.all().values_list("strava_id", flat=True)
+        atheletes_db = Athletes.objects.all().values_list("strava_id", flat=True)
 
         if data := [
-            AthleteModel(**asdict(athlete))
+            Athletes(**asdict(athlete))
             for athlete in athletes
             if athlete.strava_id not in atheletes_db
         ]:
-            AthleteModel.objects.bulk_create(data)
+            Athletes.objects.bulk_create(data)
 
     def new_data(self, dt=None, entries=None):
         if not dt:
@@ -47,7 +47,7 @@ class Writer:
         if not entries:
             entries = self.this_week.data
 
-        week_data = EntryModel.objects.week_stats(dt)
+        week_data = Activities.objects.week_stats(dt)
         data = []
         for entry in entries:
             entry_db = week_data.get(entry.strava_id)
@@ -57,9 +57,9 @@ class Writer:
                 or entry_db.get("num_activities", 0) < entry.num_activities
             )
             if not entry_db or new_activities:
-                athlete = AthleteModel.objects.get(strava_id=entry.strava_id)
+                athlete = Athletes.objects.get(strava_id=entry.strava_id)
                 data.append(
-                    EntryModel(
+                    Activities(
                         athlete=athlete,
                         date=dt,
                         moving_time=entry.moving_time,
@@ -69,7 +69,7 @@ class Writer:
                 )
 
         if data:
-            EntryModel.objects.bulk_create(data)
+            Activities.objects.bulk_create(data)
 
     def write(self):
         # this week
