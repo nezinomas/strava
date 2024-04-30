@@ -44,24 +44,14 @@ class Writer:
         week_data = Activities.objects.week_stats(dt)
         data = []
         for entry in activities:
-            entry_db = week_data.get(entry.strava_id)
+            entry_db = week_data.get(entry.strava_id, {})
+            num_activities = entry_db.get("num_activities", 0)
+            moving_time = entry_db.get("moving_time", 0)
+            distance = entry_db.get("distance", 0)
+            ascent = entry_db.get("ascent", 0)
 
-            num_activities = 0
-            moving_time = 0
-            distance = 0
-            ascent = 0
-
-            if entry_db:
-                num_activities = entry_db["num_activities"]
-                moving_time = entry_db["moving_time"]
-                distance = entry_db["distance"]
-                ascent = entry_db["ascent"]
-
-                if (
-                    moving_time >= entry.moving_time
-                    or num_activities >= entry.num_activities
-                ):
-                    continue
+            if moving_time >= entry.moving_time or num_activities >= entry.num_activities:
+                continue
 
             athlete = Athletes.objects.get(strava_id=entry.strava_id)
             data.append(
