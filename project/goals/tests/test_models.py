@@ -44,7 +44,8 @@ def test_entry_str():
 def test_entry_week_stats():
     EntryFactory()
     EntryFactory()
-    EntryFactory(date=date(2022, 4, 1))
+    EntryFactory(date=date(2022, 4, 24))
+    EntryFactory(date=date(2022, 4, 24), athlete=AthleteFactory(strava_id=2))
 
     actual = Activities.objects.week_stats(pendulum.date(2022, 4, 25))
 

@@ -26,7 +26,7 @@ class EntryManager(models.QuerySet):
 
         qs = (
             self.related()
-            .filter(date__gte=start, date__lte=end)
+            .filter(date__range=[start, end])
             .annotate(cnt=Count("athlete__strava_id"))
             .values("athlete__strava_id")
             .annotate(
