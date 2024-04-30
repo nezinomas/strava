@@ -4,8 +4,11 @@ from datetime import timedelta
 import pendulum
 
 from ..models import Activities, Athletes
-from .page_getter import (get_last_week_leaderboard_html, get_leaderboard,
-                          get_leaderboard_html)
+from .page_getter import (
+    get_last_week_leaderboard_html,
+    get_leaderboard,
+    get_leaderboard_html,
+)
 from .page_parser import PageParser
 
 
@@ -43,18 +46,29 @@ class Writer:
         for entry in entries:
             entry_db = week_data.get(entry.strava_id)
 
-            if entry_db and (entry_db.get("moving_time", 0) >= entry.moving_time
-                or entry_db.get("num_activities", 0) >= entry.num_activities):
-                continue
+            num_activities = 0
+            moving_time = 0
+            distance = 0
+            ascent = 0
+
+            if entry_db:
+                num_activities = entry_db["num_activities"]
+                moving_time = entry_db["moving_time"]
+                distance = entry_db["distance"]
+                ascent = entry_db["ascent"]
+
+                if (moving_time >= entry.moving_time or num_activities >= entry.num_activities):
+                    continue
 
             athlete = Athletes.objects.get(strava_id=entry.strava_id)
             data.append(
                 Activities(
                     athlete=athlete,
                     date=dt,
-                    moving_time=entry.moving_time,
-                    distance=entry.distance,
-                    ascent=entry.ascent,
+                    num_activities=entry.num_activities - num_activities,
+                    moving_time=entry.moving_time - moving_time,
+                    distance=entry.distance - distance,
+                    ascent=entry.ascent - ascent,
                 )
             )
 

@@ -145,6 +145,11 @@ def test_data_append_new_entry(mck):
 
     assert actual.count() == 2
 
+    assert actual[0].moving_time + actual[1].moving_time == 60
+    assert actual[0].num_activities + actual[1].num_activities == 2
+    assert actual[0].distance + actual[1].distance == 2
+    assert actual[0].ascent + actual[1].ascent == 20
+
 
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
