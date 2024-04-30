@@ -7,7 +7,7 @@ from django.db.models import Count, F, Sum
 class GoalManager(models.QuerySet):
     def get_goal(self, year, month):
         try:
-            return self.get(year=year, month=month)
+            return self.get(year=year, month=month).hours
         except ObjectDoesNotExist:
             return 0
 
