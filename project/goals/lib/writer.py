@@ -52,11 +52,10 @@ class Writer:
         for entry in entries:
             entry_db = week_data.get(entry.strava_id)
 
-            new_activities = (
+            if not entry_db or (
                 entry_db.get("moving_time", 0) < entry.moving_time
                 or entry_db.get("num_activities", 0) < entry.num_activities
-            )
-            if not entry_db or new_activities:
+            ):
                 athlete = Athletes.objects.get(strava_id=entry.strava_id)
                 data.append(
                     Activities(
