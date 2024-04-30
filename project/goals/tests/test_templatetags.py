@@ -30,8 +30,8 @@ def test_convert_seconds(value, expect, seconds_template):
 @pytest.mark.parametrize(
     "value, expect",
     [
-        (1100, "1.1km"),
-        (100, '0.1km'),
+        (1100, "1,1km"),
+        (100, '0,1km'),
     ],
 )
 def test_convert_meters(value, expect, meters_template):

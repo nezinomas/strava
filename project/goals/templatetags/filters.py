@@ -17,4 +17,4 @@ def convert_seconds(seconds):
 
 @register.filter
 def convert_meters(meters):
-    return f"{(meters / 1000):.1f}km"
+    return f"{(meters / 1000):,.1f}km".replace(".", ",")
