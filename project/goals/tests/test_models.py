@@ -48,4 +48,4 @@ def test_entry_week_stats():
 
     actual = Activities.objects.week_stats(pendulum.date(2022, 4, 25))
 
-    assert actual == {1: {"moving_time": 60, "num_activities": 2}}
+    assert actual == {1: {"moving_time": 60, "num_activities": 2, "distance": 2, "ascent": 20}}

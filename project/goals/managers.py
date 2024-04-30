@@ -30,17 +30,21 @@ class EntryManager(models.QuerySet):
             .annotate(cnt=Count("athlete__strava_id"))
             .values("athlete__strava_id")
             .annotate(
+                num_activities=Sum("num_activities"),
                 moving_time=Sum("moving_time"),
-                num_activities=Sum("num_activities")
+                distance=Sum("distance"),
+                ascent=Sum("ascent"),
             )
             .order_by("athlete__strava_id")
-            .values("athlete__strava_id", "moving_time", "num_activities")
+            .values("athlete__strava_id", "moving_time", "num_activities", "distance", "ascent")
         )
 
         return {
             entry["athlete__strava_id"]: {
-                "moving_time": entry["moving_time"],
                 "num_activities": entry["num_activities"],
+                "moving_time": entry["moving_time"],
+                "distance": entry["distance"],
+                "ascent": entry["ascent"],
             }
             for entry in qs
         }
