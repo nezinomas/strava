@@ -115,7 +115,7 @@ def test_get_time_hours_minutes():
     [
         ("117", 117),
         ("117,1", 117),
-        ("2,091", 2),
+        ("2,091", 2091),
     ],
 )
 def test_get_ascent(value, expect):

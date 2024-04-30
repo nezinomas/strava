@@ -1,3 +1,4 @@
+import contextlib
 from dataclasses import dataclass
 
 from bs4 import BeautifulSoup
@@ -153,4 +154,8 @@ class PageParser:
         except ValueError:
             return 0
 
-        return int(float(ascent.replace(",", ".")))
+        with contextlib.suppress(IndexError):
+            parts = ascent.split(",")
+            ascent = "".join(parts) if len(parts[1]) >= 3 else parts[0]
+
+        return int(ascent)
