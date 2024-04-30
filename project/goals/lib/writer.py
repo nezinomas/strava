@@ -43,26 +43,26 @@ class Writer:
     def new_activities(self, dt: pendulum.DateTime, activities: list):
         week_data = Activities.objects.week_stats(dt)
         data = []
-        for entry in activities:
-            entry_db = week_data.get(entry.strava_id, {})
+        for activity in activities:
+            db_activity = week_data.get(activity.strava_id, {})
 
-            num_activities = entry_db.get("num_activities", 0)
-            moving_time = entry_db.get("moving_time", 0)
-            distance = entry_db.get("distance", 0)
-            ascent = entry_db.get("ascent", 0)
+            db_num_activity = db_activity.get("num_activities", 0)
+            db_moving_time = db_activity.get("moving_time", 0)
+            db_distance = db_activity.get("distance", 0)
+            db_ascent = db_activity.get("ascent", 0)
 
-            if moving_time >= entry.moving_time or num_activities >= entry.num_activities:
+            if db_moving_time >= activity.moving_time or db_num_activity >= activity.num_activities:
                 continue
 
-            athlete = Athletes.objects.get(strava_id=entry.strava_id)
+            athlete = Athletes.objects.get(strava_id=activity.strava_id)
             data.append(
                 Activities(
                     athlete=athlete,
                     date=dt,
-                    num_activities=entry.num_activities - num_activities,
-                    moving_time=entry.moving_time - moving_time,
-                    distance=entry.distance - distance,
-                    ascent=entry.ascent - ascent,
+                    num_activities=activity.num_activities - db_num_activity,
+                    moving_time=activity.moving_time - db_moving_time,
+                    distance=activity.distance - db_distance,
+                    ascent=activity.ascent - db_ascent,
                 )
             )
 
