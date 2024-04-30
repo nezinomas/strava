@@ -50,12 +50,14 @@ class Writer:
         week_data = EntryModel.objects.week_stats(dt)
         data = []
         for entry in entries:
-            athlete = AthleteModel.objects.get(strava_id=entry.strava_id)
             entry_db = week_data.get(entry.strava_id)
-            if not entry_db or (
+
+            new_activities = (
                 entry_db.get("moving_time", 0) < entry.moving_time
                 or entry_db.get("num_activities", 0) < entry.num_activities
-            ):
+            )
+            if not entry_db or new_activities:
+                athlete = AthleteModel.objects.get(strava_id=entry.strava_id)
                 data.append(
                     EntryModel(
                         athlete=athlete,
@@ -75,6 +77,6 @@ class Writer:
         self.new_data()
 
         # last week
-        dt = pendulum.now('Europe/Vilnius').start_of("week") - timedelta(days=1)
+        dt = pendulum.now('Europe/Vilnius').start_of("week") - timedelta(hours=1)
         self.new_athletes(self.last_week.athletes)
         self.new_data(dt, self.last_week.data)
