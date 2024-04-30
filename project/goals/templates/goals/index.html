@@ -1,1 +1,21 @@
-Hellow World
+{% extends 'base.html' %}
+{% load filters %}
+{% block content %}
+<div class="container">
+    <div>{{ year }} {{ month }}</div>
+    <div class="info-row">
+        {% if goal_hours %}
+        <div data-info-row="{{ goal_hours|floatformat:'0' }}">Tikslas:</div>
+        {% endif %}
+        <div data-info-row="{{ goal_collected|floatformat:'0' }}">Surinkta:</div>
+        {% if goal_hours %}
+        <div data-info-row="{{ goal_left|floatformat:'0' }}">Liko:</div>
+        {% endif %}
+    </div>
+
+    <div>
+        {% include 'goals/table.html' %}
+    </div>
+
+</div>
+{% endblock %}

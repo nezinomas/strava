@@ -1,0 +1,25 @@
+{% load filters %}
+<table class="main striped hover">
+    <thead>
+        <tr>
+            <th>Vieta</th>
+            <th>Eksplėnas</th>
+            <th>Laikas</th>
+            <th>Veiklos</th>
+            <th>Atstumas</th>
+            <th>Sukilimas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in object_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ object.athlete_name|truncatechars:21 }}</td>
+            <td>{{ object.moving_time|convert_seconds }}</td>
+            <td>{{ object.num_activities }}</td>
+            <td>{{ object.distance|convert_meters }}</td>
+            <td>{{ object.ascent|floatformat:"0g" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
