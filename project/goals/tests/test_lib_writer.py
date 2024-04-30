@@ -3,10 +3,11 @@ from types import SimpleNamespace
 import pytest
 import time_machine
 from mock import patch
+from pendulum import now
 
-from ..lib.page_parser import Athlete, Activity
+from ..lib.page_parser import Activity, Athlete
 from ..lib.writer import Writer
-from ..models import Athletes, Activities
+from ..models import Activities, Athletes
 from .factories import AthleteFactory, EntryFactory
 
 pytestmark = pytest.mark.django_db
@@ -21,18 +22,13 @@ def test_get_data(mck):
     assert this_week == "this_week"
 
 
-@patch("project.goals.lib.writer.Writer._parse_data")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
 def test_new_athletes(mck):
-    mck.return_value = (
-        SimpleNamespace(),
-        SimpleNamespace(
-            athletes=[Athlete(1, "AAA")],
-            data=[],
-        ),
-    )
+    athletes=[Athlete(1, "AAA")]
+
     assert Athletes.objects.count() == 0
 
-    Writer().new_athletes()
+    Writer().new_athletes(athletes)
 
     actual = Athletes.objects.all()
 
@@ -41,35 +37,22 @@ def test_new_athletes(mck):
     assert actual[0].strava_id == 1
 
 
-@patch("project.goals.lib.writer.Writer._parse_data")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
 def test_new_athletes_querries(mck, django_assert_num_queries):
-    mck.return_value = (
-        SimpleNamespace(),
-        SimpleNamespace(
-            athletes=[Athlete(1, "AAA")],
-            data=[],
-        ),
-    )
+    athletes=[Athlete(1, "AAA")]
 
     with django_assert_num_queries(2):
-        Writer().new_athletes()
+        Writer().new_athletes(athletes)
 
 
-@patch("project.goals.lib.writer.Writer._parse_data")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
 def test_new_athletes_one_exists(mck):
+    athletes=[Athlete(2, "AAA")]
     a = AthleteFactory()
-
-    mck.return_value = (
-        SimpleNamespace(),
-        SimpleNamespace(
-            athletes=[Athlete(2, "AAA")],
-            data=[],
-        ),
-    )
 
     assert Athletes.objects.count() == 1
 
-    Writer().new_athletes()
+    Writer().new_athletes(athletes)
 
     actual = Athletes.objects.all()
 
@@ -82,50 +65,37 @@ def test_new_athletes_one_exists(mck):
     assert actual[1].strava_id == 1
 
 
-@patch("project.goals.lib.writer.Writer._parse_data")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
 def test_new_athletes_not_insert(mck):
     AthleteFactory(name="AAA", strava_id=1)
-
-    mck.return_value = (
-        SimpleNamespace(),
-        SimpleNamespace(
-            athletes=[Athlete(1, "AAA")],
-            data=[],
-        ),
-    )
+    athletes=[Athlete(1, "AAA")]
 
     assert Athletes.objects.count() == 1
 
-    Writer().new_athletes()
+    Writer().new_athletes(athletes)
 
     actual = Athletes.objects.all()
 
     assert actual.count() == 1
 
+
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
 def test_data_new(mck):
     AthleteFactory()
-
-    mck.return_value = (
-        SimpleNamespace(),
-        SimpleNamespace(
-            athletes=[Athlete(strava_id=1, name="AAA")],
-            data=[
-                Activity(
-                    strava_id=1,
-                    moving_time=30,
-                    distance=1,
-                    num_activities=1,
-                    ascent=10,
-                )
-            ],
-        ),
-    )
+    data=[
+        Activity(
+            strava_id=1,
+            moving_time=30,
+            distance=1,
+            num_activities=1,
+            ascent=10,
+        )
+    ]
 
     assert Activities.objects.count() == 0
 
-    Writer().new_data()
+    Writer().new_data(now(), data)
 
     actual = Activities.objects.all()
 
@@ -133,29 +103,22 @@ def test_data_new(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
 def test_data_moving_time_and_num_activities_exists(mck):
     EntryFactory()
-
-    mck.return_value = (
-        SimpleNamespace(),
-        SimpleNamespace(
-            athletes=[Athlete(strava_id=1, name="AAA")],
-            data=[
-                Activity(
-                    strava_id=1,
-                    moving_time=30,
-                    distance=1,
-                    num_activities=1,
-                    ascent=10,
-                )
-            ],
-        ),
-    )
+    data=[
+        Activity(
+            strava_id=1,
+            moving_time=30,
+            distance=1,
+            num_activities=1,
+            ascent=10,
+        )
+    ]
 
     assert Activities.objects.count() == 1
 
-    Writer().new_data()
+    Writer().new_data(now(), data)
 
     actual = Activities.objects.all()
 
@@ -163,54 +126,40 @@ def test_data_moving_time_and_num_activities_exists(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
 def test_data_append_new_entry(mck):
     EntryFactory()
-
-    mck.return_value = (
-        SimpleNamespace(),
-        SimpleNamespace(
-            athletes=[Athlete(strava_id=1, name="AAA")],
-            data=[
-                Activity(
-                    strava_id=1,
-                    moving_time=30,
-                    distance=1,
-                    num_activities=2,
-                    ascent=10,
-                )
-            ],
-        ),
-    )
+    data=[
+        Activity(
+            strava_id=1,
+            moving_time=30,
+            distance=1,
+            num_activities=2,
+            ascent=10,
+        )
+    ]
 
     assert Activities.objects.count() == 1
 
-    Writer().new_data()
+    Writer().new_data(now(), data)
 
     actual = Activities.objects.all()
 
     assert actual.count() == 2
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
 def test_data_append_new_entry_num_queries(mck, django_assert_num_queries):
     EntryFactory()
-
-    mck.return_value = (
-        SimpleNamespace(),
-        SimpleNamespace(
-            athletes=[Athlete(strava_id=1, name="AAA")],
-            data=[
-                Activity(
-                    strava_id=1,
-                    moving_time=30,
-                    distance=1,
-                    num_activities=2,
-                    ascent=10,
-                )
-            ],
-        ),
-    )
+    data=[
+        Activity(
+            strava_id=1,
+            moving_time=30,
+            distance=1,
+            num_activities=2,
+            ascent=10,
+        )
+    ]
 
     with django_assert_num_queries(3):
-        Writer().new_data()
+        Writer().new_data(now(), data)
