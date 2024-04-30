@@ -40,10 +40,10 @@ class Writer:
         ]:
             Athletes.objects.bulk_create(data)
 
-    def new_data(self, dt: pendulum.DateTime, entries: list):
+    def new_activities(self, dt: pendulum.DateTime, activities: list):
         week_data = Activities.objects.week_stats(dt)
         data = []
-        for entry in entries:
+        for entry in activities:
             entry_db = week_data.get(entry.strava_id)
 
             num_activities = 0
@@ -79,9 +79,9 @@ class Writer:
         # this week
         dt = pendulum.now("Europe/Vilnius")
         self.new_athletes(self.this_week.athletes)
-        self.new_data(dt, self.this_week.data)
+        self.new_activities(dt, self.this_week.data)
 
         # last week
         dt = dt.start_of("week") - timedelta(hours=1)
         self.new_athletes(self.last_week.athletes)
-        self.new_data(dt, self.last_week.data)
+        self.new_activities(dt, self.last_week.data)

@@ -93,7 +93,7 @@ def test_data_new(mck):
 
     assert Activities.objects.count() == 0
 
-    Writer().new_data(now(), data)
+    Writer().new_activities(now(), data)
 
     actual = Activities.objects.all()
 
@@ -116,7 +116,7 @@ def test_data_moving_time_and_num_activities_exists(mck):
 
     assert Activities.objects.count() == 1
 
-    Writer().new_data(now(), data)
+    Writer().new_activities(now(), data)
 
     actual = Activities.objects.all()
 
@@ -139,7 +139,7 @@ def test_data_append_new_entry(mck):
 
     assert Activities.objects.count() == 1
 
-    Writer().new_data(now(), data)
+    Writer().new_activities(now(), data)
 
     actual = Activities.objects.all()
 
@@ -166,4 +166,4 @@ def test_data_append_new_entry_num_queries(mck, django_assert_num_queries):
     ]
 
     with django_assert_num_queries(1):
-        Writer().new_data(now(), data)
+        Writer().new_activities(now(), data)
