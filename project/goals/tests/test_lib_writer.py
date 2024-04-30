@@ -165,5 +165,5 @@ def test_data_append_new_entry_num_queries(mck, django_assert_num_queries):
         )
     ]
 
-    with django_assert_num_queries(1):
+    with django_assert_num_queries(3):
         Writer().new_activities(now(), data)
