@@ -1,7 +1,7 @@
 import pytest
 from bs4 import BeautifulSoup
 
-from ..lib.page_parser import PageParser, Athlete, Entry
+from ..lib.page_parser import PageParser, Athlete, Activity
 
 
 @pytest.fixture(name="table_html")
@@ -169,7 +169,7 @@ def test_data_list(table_html):
     obj = PageParser(table_html)
 
     assert len(obj.data) == 1
-    assert obj.data[0] == Entry(
+    assert obj.data[0] == Activity(
                             strava_id=123456789,
                             moving_time=60,
                             distance=1000,

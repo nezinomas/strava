@@ -11,7 +11,7 @@ class Athlete:
 
 
 @dataclass
-class Entry:
+class Activity:
     strava_id: int
     moving_time: int
     distance: int
@@ -45,7 +45,7 @@ class PageParser:
                 continue
 
             self.athletes.append(Athlete(strava_id, name))
-            self.data.append(Entry(strava_id, moving_time, distance, num_activities, ascent))
+            self.data.append(Activity(strava_id, moving_time, distance, num_activities, ascent))
 
     def get_items(self, page: str) -> ResultSet:
         """

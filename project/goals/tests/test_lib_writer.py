@@ -4,7 +4,7 @@ import pytest
 import time_machine
 from mock import patch
 
-from ..lib.page_parser import Athlete, Entry
+from ..lib.page_parser import Athlete, Activity
 from ..lib.writer import Writer
 from ..models import AthleteModel, EntryModel
 from .factories import AthleteFactory, EntryFactory
@@ -112,7 +112,7 @@ def test_data_new(mck):
         SimpleNamespace(
             athletes=[Athlete(strava_id=1, name="AAA")],
             data=[
-                Entry(
+                Activity(
                     strava_id=1,
                     moving_time=30,
                     distance=1,
@@ -142,7 +142,7 @@ def test_data_moving_time_and_num_activities_exists(mck):
         SimpleNamespace(
             athletes=[Athlete(strava_id=1, name="AAA")],
             data=[
-                Entry(
+                Activity(
                     strava_id=1,
                     moving_time=30,
                     distance=1,
@@ -172,7 +172,7 @@ def test_data_append_new_entry(mck):
         SimpleNamespace(
             athletes=[Athlete(strava_id=1, name="AAA")],
             data=[
-                Entry(
+                Activity(
                     strava_id=1,
                     moving_time=30,
                     distance=1,
@@ -201,7 +201,7 @@ def test_data_append_new_entry_num_queries(mck, django_assert_num_queries):
         SimpleNamespace(
             athletes=[Athlete(strava_id=1, name="AAA")],
             data=[
-                Entry(
+                Activity(
                     strava_id=1,
                     moving_time=30,
                     distance=1,
