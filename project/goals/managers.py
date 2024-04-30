@@ -3,6 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Count, F, Sum
 
+from .lib import utils
+
 
 class GoalManager(models.QuerySet):
     def get_goal(self, year, month):
@@ -80,3 +82,18 @@ class EntryManager(models.QuerySet):
             )
             .order_by("-moving_time")
         )
+
+    def total_time(self, date: pendulum.Date):
+        start = date.start_of("month")
+        end = date.end_of("month")
+
+        seconds = (
+            self.related()
+            .filter(date__gte=start, date__lte=end)
+            .aggregate(Sum("moving_time"))
+            .get("moving_time__sum")
+        )
+
+        hours, minutes = utils.convert_seconds(seconds)
+
+        return hours + minutes

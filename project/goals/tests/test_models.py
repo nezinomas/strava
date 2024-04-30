@@ -81,3 +81,13 @@ def test_entry_month_stats_ordering_by_moving_time():
 
     assert actual[1]["athlete_name"] == a2.name
     assert actual[1]["moving_time"] == 30
+
+
+def test_entry_total_time():
+    EntryFactory()
+    EntryFactory()
+    EntryFactory(date=date(2022, 5, 1))
+
+    actual = Activities.objects.total_time(pendulum.date(2022, 4, 25))
+
+    assert actual == 1
