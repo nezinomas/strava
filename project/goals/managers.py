@@ -36,7 +36,13 @@ class EntryManager(models.QuerySet):
                 ascent=Sum("ascent"),
             )
             .order_by("athlete__strava_id")
-            .values("athlete__strava_id", "moving_time", "num_activities", "distance", "ascent")
+            .values(
+                "athlete__strava_id",
+                "moving_time",
+                "num_activities",
+                "distance",
+                "ascent",
+            )
         )
 
         return {
@@ -65,6 +71,12 @@ class EntryManager(models.QuerySet):
                 ascent=Sum("ascent"),
             )
             .order_by("athlete__strava_id")
-            .values("moving_time", "num_activities", "distance", "ascent", athlete_name=F("athlete__name"))
+            .values(
+                "moving_time",
+                "num_activities",
+                "distance",
+                "ascent",
+                athlete_name=F("athlete__name"),
+            )
             .order_by("-moving_time")
         )
