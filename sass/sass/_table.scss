@@ -1,0 +1,58 @@
+.main {
+    border-collapse: collapse;
+    min-width: 100%;
+    width: 100%;
+
+    thead  {
+        border-bottom: #383838 solid 3px;
+    }
+
+    thead th {
+        font-weight: bold;
+        min-height: 36px;
+        background-color: $table-thead;
+        text-align: left;
+    }
+
+    th, td {
+        padding: .5rem .25rem;
+    }
+
+    // Striped styles
+    &.striped {
+        tbody tr:nth-child(odd) {
+            > td {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+        }
+    }
+
+    // Hover styles
+    &.hover {
+        tbody tr:hover {
+            > td {
+                background-color: $hover-bg !important;
+            }
+        }
+    }
+
+    .w-rank {
+        width: 4rem;
+    }
+
+    .w-ascent {
+        width: 6rem;
+    }
+
+    .w-distance {
+        width: 6rem;
+    }
+
+    .w-activities {
+        width: 4rem;
+    }
+
+    .w-time {
+        width: 6rem;
+    }
+}
