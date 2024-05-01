@@ -42,6 +42,7 @@ class Writer:
 
     def new_activities(self, dt: pendulum.DateTime, activities: list):
         week_data = Activities.objects.week_stats(dt)
+
         data = []
         for activity in activities:
             db_activity = week_data.get(activity.strava_id, {})
@@ -73,9 +74,9 @@ class Writer:
         # this week
         dt = pendulum.now("Europe/Vilnius")
         self.new_athletes(self.this_week.athletes)
-        self.new_activities(dt, self.this_week.data)
+        self.new_activities(dt.date(), self.this_week.data)
 
         # last week
         dt = dt.start_of("week") - timedelta(hours=1)
         self.new_athletes(self.last_week.athletes)
-        self.new_activities(dt, self.last_week.data)
+        self.new_activities(dt.date(), self.last_week.data)

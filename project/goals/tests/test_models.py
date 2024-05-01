@@ -21,7 +21,7 @@ def test_goal_current():
 
     actual = Goals.objects.get_goal(2022, 4)
 
-    assert actual == 40
+    assert actual == 144_000 # 40 * 60 * 60
 
 
 def test_goal_not_set():
@@ -45,7 +45,8 @@ def test_entry_str():
 def test_entry_week_stats():
     EntryFactory()
     EntryFactory()
-    EntryFactory(date=date(2022, 4, 1))
+    EntryFactory(date=date(2022, 4, 24))
+    EntryFactory(date=date(2022, 4, 24), athlete=AthleteFactory(strava_id=2))
 
     actual = Activities.objects.week_stats(pendulum.date(2022, 4, 25))
 
@@ -90,4 +91,4 @@ def test_entry_total_time():
 
     actual = Activities.objects.total_time(pendulum.date(2022, 4, 25))
 
-    assert actual == 1
+    assert actual == 60
