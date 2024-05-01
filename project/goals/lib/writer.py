@@ -55,6 +55,9 @@ class Writer:
             if db_moving_time >= activity.moving_time or db_num_activity >= activity.num_activities:
                 continue
 
+            ascent = activity.ascent - db_ascent
+            print(f"{ascent=}")
+            ascent = ascent if ascent > 0 else 0
             athlete = Athletes.objects.get(strava_id=activity.strava_id)
             data.append(
                 Activities(
@@ -63,7 +66,7 @@ class Writer:
                     num_activities=activity.num_activities - db_num_activity,
                     moving_time=activity.moving_time - db_moving_time,
                     distance=activity.distance - db_distance,
-                    ascent=activity.ascent - db_ascent,
+                    ascent=ascent,
                 )
             )
 
