@@ -1,6 +1,23 @@
 .container {
     display: grid;
-    grid-template-columns: 1fr;
-    row-gap: calc($gap / 2);
+    grid-template-columns: 1fr 2fr 1fr;
+    row-gap: calc($gap * 2);
     justify-items: center;
+
+    grid-template-areas:
+        ".  nav-header  ."
+        ".  info-row    ."
+        ".  data-table  .";
+
+    #nav-header {
+        grid-area: nav-header;
+    }
+
+    #info-row {
+        grid-area: info-row;
+    }
+
+    #data-table {
+        grid-area: data-table;
+    }
 }
