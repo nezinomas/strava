@@ -7,25 +7,59 @@ body {
     font-family: $font-family-sans-serif;
     font-size: .85rem;
     color: black;
-    max-width: 75%;
     margin: $gap auto;
 }
 
 .info-row {
     display: flex;
-    align-items: center;
+    white-space:nowrap;
+    justify-content: space-evenly;
     gap: 2rem;
+    width: 100%;
+    padding: .5rem 0;
 
-    & ::after {
+    > *:first-child {
+        margin-left: auto;
+    }
+
+    > *:last-child {
+        margin-right: auto;
+    }
+
+    ::after {
         content: attr(data-info-row);
         font-weight: 400;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         margin-left: 0.25rem;
         vertical-align: -8%;
-        color: green;
+        color: $success;
     }
+
+    .danger::after {
+        color: $danger;
+    }
+
+    .success {
+        color: $success;
+        font-size: 1.1rem;
+    }
+}
+
+#nav-header {
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    padding: .5rem 0;
 }
 
 .text-center {
     text-align: center;
+}
+
+.shadow {
+    --border-radius: 0.05rem;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: var(--border-radius);
 }
