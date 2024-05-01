@@ -91,4 +91,4 @@ def test_entry_total_time():
 
     actual = Activities.objects.total_time(pendulum.date(2022, 4, 25))
 
-    assert actual == 1
+    assert actual == 60

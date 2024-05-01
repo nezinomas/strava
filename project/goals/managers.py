@@ -63,7 +63,7 @@ class EntryManager(models.QuerySet):
 
         return (
             self.related()
-            .filter(date__gte=start, date__lte=end)
+            .filter(date__range=[start, end])
             .annotate(cnt=Count("athlete__strava_id"))
             .values("athlete__strava_id")
             .annotate(
@@ -87,13 +87,9 @@ class EntryManager(models.QuerySet):
         start = date.start_of("month")
         end = date.end_of("month")
 
-        seconds = (
+        return (
             self.related()
-            .filter(date__gte=start, date__lte=end)
+            .filter(date__range=[start, end])
             .aggregate(Sum("moving_time"))
             .get("moving_time__sum")
         )
-
-        hours, minutes = utils.convert_seconds(seconds)
-
-        return hours + minutes
