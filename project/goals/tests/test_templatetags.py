@@ -2,6 +2,7 @@ import pytest
 from django.template import Context, Template
 
 
+@pytest.fixture(name="seconds_template")
 def fixture_seconds_template():
     return Template("{% load filters %}{{ val|convert_seconds }}")
 
