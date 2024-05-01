@@ -2,20 +2,27 @@
 {% load filters %}
 {% block content %}
 <div class="container">
-    <div>{{ year }} {{ month }}</div>
-    <div class="info-row">
+
+    <div id="nav-header" class="shadow">{{ year }} {{ month }}</div>
+
+
+    <div id="info-row" class="info-row shadow">
         {% if goal_hours %}
         <div data-info-row="{{ goal_hours|floatformat:'0g'}}h">Tikslas:</div>
         {% endif %}
         <div data-info-row="{{ goal_collected|convert_seconds }}">Surinkta:</div>
         {% if goal_hours %}
-        <div data-info-row="{{ goal_left|convert_seconds }}">Liko:</div>
+        {% if goal_left > 0 %}
+        <div class="danger" data-info-row="{{ goal_left|convert_seconds }}">Liko:</div>
+        {% else %}
+        <div class="success">Tikslas pasiektas!</div>
+        {% endif %}
         {% endif %}
     </div>
 
-    <div>
-        {% include 'goals/table.html' %}
-    </div>
+
+    {% include 'goals/table.html' %}
+
 
 </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% load filters %}
-<table class="main striped hover">
+<table id="data-table" class="main striped hover">
     <thead>
         <tr>
             <th class="w-rank">Vieta</th>
@@ -18,7 +18,7 @@
             <td>{{ object.moving_time|convert_seconds }}</td>
             <td>{{ object.num_activities }}</td>
             <td>{{ object.distance|convert_meters }}</td>
-            <td>{{ object.ascent|floatformat:"0g" }}</td>
+            <td>{{ object.ascent|floatformat:"0g" }}m</td>
         </tr>
         {% endfor %}
     </tbody>
