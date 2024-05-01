@@ -21,7 +21,7 @@ def test_goal_current():
 
     actual = Goals.objects.get_goal(2022, 4)
 
-    assert actual == 40
+    assert actual == 144_000 # 40 * 60 * 60
 
 
 def test_goal_not_set():

@@ -9,7 +9,7 @@ from .lib import utils
 class GoalManager(models.QuerySet):
     def get_goal(self, year, month):
         try:
-            return self.get(year=year, month=month).hours
+            return self.get(year=year, month=month).hours * 3600
         except ObjectDoesNotExist:
             return 0
 
