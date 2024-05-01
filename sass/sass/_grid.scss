@@ -1,0 +1,6 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: calc($gap / 2);
+    justify-items: center;
+}
