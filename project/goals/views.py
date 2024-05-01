@@ -9,19 +9,19 @@ class Index(ListView):
     model = Activities
 
     def get_queryset(self):
-        return Activities.objects.month_stats(pendulum.now())
+        return Activities.objects.month_stats(pendulum.now().date())
 
     def get_context_data(self, **kwargs):
         year = self.kwargs.get("year", pendulum.now().year)
         month = self.kwargs.get("month", pendulum.now().month)
 
-        hours = Goals.objects.get_goal(year, month)
+        goal = Goals.objects.get_goal(year, month)
         collected = Activities.objects.total_time(pendulum.Date(year, month, 1))
 
         context = {
-            "goal_hours": hours,
+            "goal_hours": goal / 3600,
             "goal_collected": collected,
-            "goal_left": hours - collected,
+            "goal_left": goal - collected,
             "year": year,
             "month": month
         }

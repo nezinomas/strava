@@ -1,13 +1,13 @@
 {% load filters %}
-<table class="main striped hover">
+<table id="data-table" class="main striped hover">
     <thead>
         <tr>
-            <th>Vieta</th>
-            <th>Eksplėnas</th>
-            <th>Laikas</th>
-            <th>Veiklos</th>
-            <th>Atstumas</th>
-            <th>Sukilimas</th>
+            <th class="w-rank">Vieta</th>
+            <th class="w-athlete">Eksplėnas</th>
+            <th class="w-time">Laikas</th>
+            <th class="w-activities">Veiklos</th>
+            <th class="w-distance">Atstumas</th>
+            <th class="w-ascent">Sukilimas</th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +18,7 @@
             <td>{{ object.moving_time|convert_seconds }}</td>
             <td>{{ object.num_activities }}</td>
             <td>{{ object.distance|convert_meters }}</td>
-            <td>{{ object.ascent|floatformat:"0g" }}</td>
+            <td>{{ object.ascent|floatformat:"0g" }}m</td>
         </tr>
         {% endfor %}
     </tbody>
