@@ -14,9 +14,6 @@ Highcharts.theme = {
     ],
     chart: {
         backgroundColor: null,
-        style: {
-            fontFamily: "Dosis, sans-serif"
-        },
     },
     title: {
         verticalAlign: "top",
