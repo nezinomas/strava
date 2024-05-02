@@ -12,6 +12,10 @@ body {
     margin: $gap auto;
 }
 
+a, a:visited, a:hover, a:active {
+    text-decoration: none;
+}
+
 .info-row {
     display: flex;
     white-space:nowrap;
