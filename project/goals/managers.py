@@ -91,5 +91,5 @@ class EntryManager(models.QuerySet):
             self.related()
             .filter(date__range=[start, end])
             .aggregate(Sum("moving_time"))
-            .get("moving_time__sum")
+            .get("moving_time__sum") or 0
         )
