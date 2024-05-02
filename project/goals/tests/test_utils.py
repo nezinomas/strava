@@ -19,6 +19,19 @@ def test_convert_seconds(value, expect):
 @pytest.mark.parametrize(
     "value, expect",
     [
+        (60, 0.02),
+        (3600, 1),
+        (5400, 1.5),
+    ],
+)
+def test_convert_seconds_to_hours(value, expect):
+    actual = utils.convert_seconds_to_hours(value)
+    assert round(actual, 2) == expect
+
+
+@pytest.mark.parametrize(
+    "value, expect",
+    [
         (1, "Sausis"),
         (13, "Sausis"),
     ],

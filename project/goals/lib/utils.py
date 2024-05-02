@@ -6,6 +6,11 @@ def convert_seconds(seconds):
     return hours, minutes
 
 
+def convert_seconds_to_hours(seconds):
+    hours, minutes = convert_seconds(seconds)
+    return hours + minutes / 60
+
+
 def get_month(month: int):
     month_list = {
         1: "Sausis",
