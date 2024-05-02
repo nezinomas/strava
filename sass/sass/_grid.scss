@@ -5,9 +5,10 @@
     justify-items: center;
 
     grid-template-areas:
-        ".  nav-header  ."
-        ".  info-row    ."
-        ".  data-table  .";
+        ".  nav-header               ."
+        ".  info-row                 ."
+        ".  chart-goals-container    ."
+        ".  data-table               .";
 
     #nav-header {
         grid-area: nav-header;
@@ -19,5 +20,9 @@
 
     #data-table {
         grid-area: data-table;
+    }
+
+    #chart-goals-container {
+        grid-area: chart-goals-container;
     }
 }

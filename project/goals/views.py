@@ -42,5 +42,12 @@ class Index(ListView):
             "next_month_str": next_month_str,
             "previous_month_int": previous_month_int,
             "previous_month_str": previous_month_str,
+            "chart_data": {
+                "categories": ["Tikslas"],
+                "target": [goal / 3600],
+                "fact": [{"y": utils.convert_seconds_to_hours(collected), "target": goal / 3600}],
+                "factTitle": "Faktas",
+                "targetTitle": "Planas",
+            }
         }
         return super().get_context_data(**kwargs) | context

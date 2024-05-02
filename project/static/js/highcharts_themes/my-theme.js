@@ -14,9 +14,6 @@ Highcharts.theme = {
     ],
     chart: {
         backgroundColor: null,
-        style: {
-            fontFamily: "Dosis, sans-serif"
-        },
     },
     title: {
         verticalAlign: "top",
@@ -97,11 +94,3 @@ Highcharts.theme = {
 
 // Apply the theme
 Highcharts.setOptions(Highcharts.theme);
-
-// Set decimal point format
-Highcharts.setOptions({
-    lang: {
-        thousandsSep: ".",
-        decimalPoint: ",",
-    }
-});
