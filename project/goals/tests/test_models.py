@@ -92,3 +92,9 @@ def test_entry_total_time():
     actual = Activities.objects.total_time(pendulum.date(2022, 4, 25))
 
     assert actual == 60
+
+
+def test_entry_total_time_no_records():
+    actual = Activities.objects.total_time(pendulum.date(2022, 4, 25))
+
+    assert actual == 0

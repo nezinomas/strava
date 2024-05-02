@@ -14,3 +14,15 @@ from ..lib import utils
 def test_convert_seconds(value, expect):
     actual = utils.convert_seconds(value)
     assert actual == expect
+
+
+@pytest.mark.parametrize(
+    "value, expect",
+    [
+        (1, "Sausis"),
+        (13, "Sausis"),
+    ],
+)
+def test_get_month(value, expect):
+    actual = utils.get_month(value)
+    assert actual == expect

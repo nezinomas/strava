@@ -1,4 +1,7 @@
 {% load filters %}
+
+{% if object_list %}
+
 <table id="data-table" class="main striped hover">
     <thead>
         <tr>
@@ -14,7 +17,7 @@
         {% for object in object_list %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ object.athlete_name|truncatechars:21 }}</td>
+            <td>{{ object.athlete_name }}</td>
             <td>{{ object.moving_time|convert_seconds }}</td>
             <td>{{ object.num_activities }}</td>
             <td>{{ object.distance|convert_meters }}</td>
@@ -23,3 +26,9 @@
         {% endfor %}
     </tbody>
 </table>
+
+{% else %}
+
+<div id="data-table" class="alert alert-warning">{{ year }} {{month_str|lower}} neturi įrašų.</div>
+
+{% endif %}
