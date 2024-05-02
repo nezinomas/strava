@@ -1,7 +1,8 @@
 import pendulum
 from vanilla import ListView
+
 from .lib import utils
-from project.goals.models import Activities, Goals
+from .models import Activities, Goals
 
 
 class Index(ListView):
@@ -9,7 +10,10 @@ class Index(ListView):
     model = Activities
 
     def get_queryset(self):
-        return Activities.objects.month_stats(pendulum.now().date())
+        year = self.kwargs.get("year", pendulum.now().year)
+        month = self.kwargs.get("month", pendulum.now().month)
+
+        return Activities.objects.month_stats(pendulum.Date(year, month, 1))
 
     def get_context_data(self, **kwargs):
         year = self.kwargs.get("year", pendulum.now().year)
