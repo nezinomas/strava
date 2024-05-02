@@ -6,14 +6,14 @@
 {% block content %}
 <div class="container">
 
-    <div id="nav-header" class="shadow">
+    <div id="nav-header">
         <a href="{% url 'goals:index_month' year previous_month_int %}">&laquo; {{previous_month_str}}</a>
         <div>{{month_str}}, {{ year }}</div>
         <a href="{% url 'goals:index_month' year next_month_int %}">{{next_month_str}} &raquo;</a>
     </div>
 
     {% if object_list %}
-        <div id="info-row" class="info-row shadow">
+        <div id="info-row" class="info-row">
             {% if goal_hours %}
                 <div data-info-row="{{ goal_hours|floatformat:'0g'}}h">Tikslas:</div>
             {% endif %}
@@ -29,18 +29,18 @@
             {% endif %}
         </div>
 
-        <div id="chart-goals-container" class="shadow"></div>
+        <div id="chart-goals-container"></div>
         {% else %}
 
         {% if goal_hours %}
-            <div id="info-row" class="info-row shadow">
+            <div id="info-row" class="info-row">
                 <div data-info-row="{{ goal_hours|floatformat:'0g'}}h">Tikslas:</div>
             </div>
         {% endif %}
 
     {% endif %}
 
-    <div id="data-table" class="shadow">
+    <div id="data-table">
         {% include 'goals/table.html' %}
     </div>
 
