@@ -1,6 +1,6 @@
 import pendulum
 from vanilla import ListView
-
+from .lib import utils
 from project.goals.models import Activities, Goals
 
 
@@ -23,6 +23,7 @@ class Index(ListView):
             "goal_collected": collected,
             "goal_left": goal - collected,
             "year": year,
-            "month": month
+            "month_int": month,
+            "month_str": utils.get_month(month),
         }
         return super().get_context_data(**kwargs) | context
