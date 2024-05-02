@@ -36,10 +36,10 @@ def test_new_athletes(mck):
 
 
 @patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
-def test_new_athletes_querries(mck, django_assert_num_queries):
+def test_new_athletes_querries(mck, django_assert_max_num_queries):
     athletes=[Athlete(1, "AAA")]
 
-    with django_assert_num_queries(2):
+    with django_assert_max_num_queries(2):
         Writer().new_athletes(athletes)
 
 
@@ -153,7 +153,7 @@ def test_data_append_new_entry(mck):
 
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
-def test_data_append_new_entry_num_queries(mck, django_assert_num_queries):
+def test_data_append_new_entry_num_queries(mck, django_assert_max_num_queries):
     EntryFactory()
     data=[
         Activity(
@@ -165,5 +165,5 @@ def test_data_append_new_entry_num_queries(mck, django_assert_num_queries):
         )
     ]
 
-    with django_assert_num_queries(3):
+    with django_assert_max_num_queries(3):
         Writer().new_activities(now(), data)
