@@ -45,7 +45,7 @@ class Index(ListView):
             "chart_data": {
                 "categories": ["Tikslas"],
                 "target": [goal / 3600],
-                "fact": [{"y": utils.convert_seconds_to_hours(collected)}],
+                "fact": [{"y": utils.convert_seconds_to_hours(collected), "target": goal / 3600}],
                 "factTitle": "Faktas",
                 "targetTitle": "Planas",
             }

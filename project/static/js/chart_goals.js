@@ -4,7 +4,7 @@ function loadChart(idData, idContainer) {
     Highcharts.chart(idContainer, {
         chart: {
             type: 'bar',
-            // height: 85,
+            height: 85,
         },
         title: {
             text: ''
@@ -24,7 +24,7 @@ function loadChart(idData, idContainer) {
         tooltip: {
             shared: true,
             headerFormat: '',
-            pointFormat: '{series.name}: <b>{point.y:.1f}</b><br/>',
+            pointFormat: '{series.name}: <b>{point.y:.0f}</b><br/>',
         },
         series: [{
             name: chartData.targetTitle,
@@ -33,18 +33,7 @@ function loadChart(idData, idContainer) {
             data: chartData.target,
             pointWidth: 19,
             dataLabels: {
-                enabled: true,
-                color: '#000',
-                x: -2,
-                y: -15,
-                overflow: 'none',
-                crop: false,
-                format: '{point.y:.0f}',
-                style: {
-                    fontSize: '9px',
-                    fontWeight: 'bold',
-                    textOutline: false
-                }
+                enabled: false,
             }
         }, {
             name: chartData.factTitle,
@@ -53,11 +42,11 @@ function loadChart(idData, idContainer) {
             pointWidth: 13,
             borderRadius: 0,
             targetOptions: {
-                borderWidth: 2,
-                borderColor: 'red',
+                borderWidth: 0,
+                borderColor: '#000',
                 height: 2,
-                color: '#000',
-                width: '200%'
+                color: 'black',
+                width: '250%'
             },
             dataLabels: {
                 format: '{point.y:.0f}',
