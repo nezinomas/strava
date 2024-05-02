@@ -1,4 +1,7 @@
 {% load filters %}
+
+{% if object_list %}
+
 <table id="data-table" class="main striped hover">
     <thead>
         <tr>
@@ -23,3 +26,9 @@
         {% endfor %}
     </tbody>
 </table>
+
+{% else %}
+
+<div id="data-table" class="alert alert-warning">{{ year }} {{month_str|lower}} neturi įrašų.</div>
+
+{% endif %}
