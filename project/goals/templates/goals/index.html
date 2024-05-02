@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load filters %}
+
+
 {% block content %}
 <div class="container">
 
@@ -8,7 +11,6 @@
         <div>{{month_str}}, {{ year }}</div>
         <a href="{% url 'goals:index_month' year next_month_int %}">{{next_month_str}} &raquo;</a>
     </div>
-
 
     {% if object_list %}
         <div id="info-row" class="info-row shadow">
@@ -26,6 +28,8 @@
                 {% endif %}
             {% endif %}
         </div>
+
+        <div id="chart-goals-container" class="shadow"></div>
         {% else %}
 
         {% if goal_hours %}
@@ -41,4 +45,8 @@
 
 
 </div>
+
+{{chart_data|json_script:"chart-goals-data"}}
+<script>loadChart('chart-goals-data', 'chart-goals-container');</script>
+
 {% endblock %}
