@@ -3,7 +3,11 @@
 {% block content %}
 <div class="container">
 
-    <div id="nav-header" class="shadow">{{month_str}}, {{ year }}</div>
+    <div id="nav-header" class="shadow">
+        <a href="{% url 'goals:index_month' year previous_month_int %}">&laquo; {{previous_month_str}}</a>
+        <div>{{month_str}}, {{ year }}</div>
+        <a href="{% url 'goals:index_month' year next_month_int %}">{{next_month_str}} &raquo;</a>
+    </div>
 
 
     <div id="info-row" class="info-row shadow">
