@@ -106,6 +106,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django_htmx",
 ]
 INSTALLED_APPS.extend(f"project.{app}" for app in PROJECT_APPS)
 
