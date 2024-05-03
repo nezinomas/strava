@@ -1,14 +1,16 @@
-def convert_seconds_to_hours_and_minutes(seconds):
+def convert_seconds(seconds: int) -> tuple[int, int, int]:
     hours = seconds // (60*60)
     seconds %= (60*60)
     minutes = seconds // 60
+    seconds %= 60
 
-    return hours, minutes
+    return hours, minutes, seconds
 
 
 def convert_seconds_to_hours(seconds):
-    hours, minutes = convert_seconds_to_hours_and_minutes(seconds)
-    return hours + minutes / 60
+    hours, minutes, seconds = convert_seconds(seconds)
+    print(f"{hours=}h {minutes=}m")
+    return hours + minutes / 60 + seconds / 3600
 
 
 def get_month(month: int):
