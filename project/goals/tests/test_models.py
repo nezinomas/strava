@@ -75,7 +75,7 @@ def test_entry_month_stats_ordering_by_moving_time():
     EntryFactory(athlete=a1)
 
     actual = Activities.objects.month_stats(pendulum.date(2022, 4, 25))
-    print(actual)
+
     assert actual.count() == 2
     assert actual[0]["athlete_name"] == a1.name
     assert actual[0]["moving_time"] == 60

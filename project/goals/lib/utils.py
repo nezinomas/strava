@@ -9,7 +9,6 @@ def convert_seconds(seconds: int) -> tuple[int, int, int]:
 
 def convert_seconds_to_hours(seconds):
     hours, minutes, seconds = convert_seconds(seconds)
-    print(f"{hours=}h {minutes=}m")
     return hours + minutes / 60 + seconds / 3600
 
 
