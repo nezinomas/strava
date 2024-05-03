@@ -3,8 +3,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Count, F, Sum
 
-from .lib import utils
-
 
 class GoalManager(models.QuerySet):
     def get_goal(self, year, month):
