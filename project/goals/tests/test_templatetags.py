@@ -46,8 +46,8 @@ def test_convert_meters(value, expect, meters_template):
 @pytest.mark.parametrize(
     "value, expect",
     [
-        ("John Smith", "John S."),
-        ("John Smith-Doe", "John S."),
+        ("John Smith", "John Sm."),
+        ("John Smith-Doe", "John Sm."),
     ],
 )
 def test_cut_name(value, expect):

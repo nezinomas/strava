@@ -21,4 +21,4 @@ def convert_meters(meters):
 @register.filter
 def cut_name(name: str):
     name, _ = name.rsplit(" ", 1)
-    return f"{name} {_[0]}."
+    return f"{name} {_[:2]}."
