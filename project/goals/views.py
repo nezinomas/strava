@@ -71,7 +71,7 @@ class Table(ListView):
 
         context = {
             "date": f"{self.kwargs['year']} {utils.get_month(self.kwargs['month']).lower()}",
-            active_col: active_col,
+            "active_col": active_col,
 
         }
         return super().get_context_data(**kwargs) | context

@@ -8,25 +8,25 @@
             {% with request.resolver_match.kwargs as kwargs %}
             {% url 'goals:table' year=kwargs.year month=kwargs.month as url %}
             <th class="w-rank">Vieta</th>
-            <th class="w-athlete order {{athlete}}" hx-get="{{url}}?order=athlete" hx-target="#data-table">
+            <th class="w-athlete order {% if active_col == 'athlete' %}active-col{% endif %}" hx-get="{{url}}?order=athlete" hx-target="#data-table">
                 Eksplėnas
-                {% if not athlete %}<span class="asc"></span>{% endif%}
+                {% if active_col != 'athlete' %}<span class="asc"></span>{% endif%}
             </th>
-            <th class="w-time order {{moving_time}}" hx-get="{{url}}?order=moving_time" hx-target="#data-table">
+            <th class="w-time order {% if active_col == 'moving_time' %}active-col{% endif %}" hx-get="{{url}}?order=moving_time" hx-target="#data-table">
                 Laikas
-                {% if not moving_time %}<span></span>{% endif%}
+                {% if active_col != 'moving_time' %}<span></span>{% endif%}
             </th>
-            <th class="w-activities order {{num_activities}}" hx-get="{{url}}?order=num_activities" hx-target="#data-table">
+            <th class="w-activities order {% if active_col == 'num_activities' %}active-col{% endif %}" hx-get="{{url}}?order=num_activities" hx-target="#data-table">
                 Veiklos
-                {% if not num_activities %}<span></span>{% endif%}
+                {% if active_col != 'num_activities' %}<span></span>{% endif%}
             </th>
-            <th class="w-distance order {{distance}}" hx-get="{{url}}?order=distance" hx-target="#data-table">
+            <th class="w-distance order {% if active_col == 'distance' %}active-col{% endif %}" hx-get="{{url}}?order=distance" hx-target="#data-table">
                 Atstumas
-                {% if not distance %}<span></span>{% endif%}
+                {% if active_col != 'distance' %}<span></span>{% endif%}
             </th>
-            <th class="w-ascent order {{ascent}}" hx-get="{{url}}?order=ascent" hx-target="#data-table">
+            <th class="w-ascent order {% if active_col == 'ascent' %}active-col{% endif %}" hx-get="{{url}}?order=ascent" hx-target="#data-table">
                 Sukilimas
-                {% if not ascent %}<span></span>{% endif%}
+                {% if active_col != 'ascent' %}<span></span>{% endif%}
             </th>
             {% endwith %}
         </tr>
@@ -35,11 +35,11 @@
         {% for object in object_list %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td class="{{athlete}}">{{ object.athlete_name|cut_name }}</td>
-            <td class="{{moving_time}}"">{{ object.moving_time|convert_seconds }}</td>
-            <td class="{{num_activities}}">{{ object.num_activities }}</td>
-            <td class="{{distance}}">{{ object.distance|convert_meters }}</td>
-            <td class="{{ascent}}">{{ object.ascent|floatformat:"0g" }}m</td>
+            <td {% if active_col == 'athlete' %}class="active-col"{% endif %}>{{ object.athlete_name|cut_name }}</td>
+            <td {% if active_col == 'moving_time' %}class="active-col"{% endif %}>{{ object.moving_time|convert_seconds }}</td>
+            <td {% if active_col == 'num_activities' %}class="active-col"{% endif %}>{{ object.num_activities }}</td>
+            <td {% if active_col == 'distance' %}class="active-col"{% endif %}>{{ object.distance|convert_meters }}</td>
+            <td {% if active_col == 'ascent' %}class="active-col"{% endif %}>{{ object.ascent|floatformat:"0g" }}m</td>
         </tr>
         {% endfor %}
     </tbody>
