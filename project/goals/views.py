@@ -27,7 +27,7 @@ class Index(TemplateView):
         context = {
             "goal_hours": goal,
             "goal_collected": collected,
-            "goal_left": goal * 3600 - collected,
+            "goal_left": int(goal * 3600 - collected),
             "year": year,
             "month_str": utils.get_month(month),
             "table": rendered_content(self.request, Table, **self.kwargs | {"year": year, "month": month}),
