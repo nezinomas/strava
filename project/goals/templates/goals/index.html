@@ -7,9 +7,9 @@
 <div class="container">
 
     <div id="nav-header">
-        <a href="{% url 'goals:index_month' year previous_month_int %}">&laquo; {{previous_month_str}}</a>
+        <a href="{{previous.url}}">&laquo; {{previous.title}}</a>
         <div>{{month_str}}, {{ year }}</div>
-        <a href="{% url 'goals:index_month' year next_month_int %}">{{next_month_str}} &raquo;</a>
+        <a href="{{next.url}}">{{next.title}} &raquo;</a>
     </div>
 
     {% if object_list %}

@@ -45,3 +45,27 @@ def test_index_year_month_records(client):
     actual = response.context['object_list']
 
     assert len(actual) == 1
+
+
+@time_machine.travel("1974-01-01")
+def test_index_next_prev_links_january(client):
+    url = reverse('goals:index')
+    actual = client.get(url).context
+
+    assert actual['next']["url"] == reverse('goals:index_month', kwargs={'year': 1974, 'month': 2})
+    assert actual['next']["title"] == "Vasaris"
+
+    assert actual['previous']["url"] == reverse('goals:index_month', kwargs={'year': 1973, 'month': 12})
+    assert actual['previous']["title"] == "Gruodis"
+
+
+@time_machine.travel("1974-12-01")
+def test_index_next_prev_links_december(client):
+    url = reverse('goals:index')
+    actual = client.get(url).context
+
+    assert actual['next']["url"] == reverse('goals:index_month', kwargs={'year': 1975, 'month': 1})
+    assert actual['next']["title"] == "Sausis"
+
+    assert actual['previous']["url"] == reverse('goals:index_month', kwargs={'year': 1974, 'month': 11})
+    assert actual['previous']["title"] == "Lapkritis"

@@ -1,5 +1,7 @@
 from datetime import timedelta
+
 import pendulum
+from django.urls import reverse
 from vanilla import ListView
 
 from .lib import utils
@@ -23,10 +25,7 @@ class Index(ListView):
         date = pendulum.Date(year, month, 1)
 
         next_month_int = (date + timedelta(days=32)).month
-        next_month_str = utils.get_month(next_month_int)
-
         previous_month_int = (date - timedelta(days=2)).month
-        previous_month_str = utils.get_month(previous_month_int)
 
         goal = Goals.objects.get_goal(year, month)
         collected = Activities.objects.total_time(date)
@@ -38,16 +37,20 @@ class Index(ListView):
             "year": year,
             "month_int": month,
             "month_str": utils.get_month(month),
-            "next_month_int": next_month_int,
-            "next_month_str": next_month_str,
-            "previous_month_int": previous_month_int,
-            "previous_month_str": previous_month_str,
             "chart_data": {
                 "categories": ["Tikslas"],
                 "target": [goal / 3600],
                 "fact": [{"y": utils.convert_seconds_to_hours(collected), "target": goal / 3600}],
                 "factTitle": "Faktas",
                 "targetTitle": "Planas",
+            },
+            "next": {
+                "url": reverse("goals:index_month", kwargs={"year": (year + 1) if month == 12 else year, "month": next_month_int}),
+                "title": utils.get_month(next_month_int),
+            },
+            "previous": {
+                "url": reverse("goals:index_month", kwargs={"year": (year - 1) if month == 1 else year, "month": previous_month_int}),
+                "title": utils.get_month(previous_month_int),
             }
         }
         return super().get_context_data(**kwargs) | context
