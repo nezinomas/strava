@@ -67,7 +67,11 @@ class Table(ListView):
         return sql
 
     def get_context_data(self, **kwargs):
+        active_col = self.request.GET.get("order") or "moving_time"
+
         context = {
             "date": f"{self.kwargs['year']} {utils.get_month(self.kwargs['month']).lower()}",
+            active_col: active_col,
+
         }
         return super().get_context_data(**kwargs) | context

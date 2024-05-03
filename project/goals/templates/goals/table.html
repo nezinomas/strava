@@ -5,6 +5,8 @@
 <table class="main striped hover">
     <thead>
         <tr>
+            {% with request.resolver_match.kwargs as kwargs %}
+            {% url 'goals:table' year=kwargs.year month=kwargs.month as url %}
             <th class="w-rank">Vieta</th>
             <th class="w-athlete order {{athlete}}" hx-get="{{url}}?order=athlete" hx-target="#data-table">
                 Eksplėnas
@@ -33,11 +35,11 @@
         {% for object in object_list %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ object.athlete_name }}</td>
-            <td>{{ object.moving_time|convert_seconds }}</td>
-            <td>{{ object.num_activities }}</td>
-            <td>{{ object.distance|convert_meters }}</td>
-            <td>{{ object.ascent|floatformat:"0g" }}m</td>
+            <td class="{{athlete}}">{{ object.athlete_name }}</td>
+            <td class="{{moving_time}}"">{{ object.moving_time|convert_seconds }}</td>
+            <td class="{{num_activities}}">{{ object.num_activities }}</td>
+            <td class="{{distance}}">{{ object.distance|convert_meters }}</td>
+            <td class="{{ascent}}">{{ object.ascent|floatformat:"0g" }}m</td>
         </tr>
         {% endfor %}
     </tbody>
