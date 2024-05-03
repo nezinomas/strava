@@ -35,7 +35,7 @@
         {% for object in object_list %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td class="{{athlete}}">{{ object.athlete_name }}</td>
+            <td class="{{athlete}}">{{ object.athlete_name|cut_name }}</td>
             <td class="{{moving_time}}"">{{ object.moving_time|convert_seconds }}</td>
             <td class="{{num_activities}}">{{ object.num_activities }}</td>
             <td class="{{distance}}">{{ object.distance|convert_meters }}</td>

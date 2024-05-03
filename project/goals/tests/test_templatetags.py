@@ -41,3 +41,19 @@ def test_convert_meters(value, expect, meters_template):
     actual =  meters_template.render(context)
 
     assert actual == expect
+
+
+@pytest.mark.parametrize(
+    "value, expect",
+    [
+        ("John Smith", "John S."),
+        ("John Smith-Doe", "John S."),
+    ],
+)
+def test_cut_name(value, expect):
+    context = Context({"val": value})
+    template = Template("{% load filters %}{{ val|cut_name }}")
+
+    actual = template.render(context)
+
+    assert actual == expect
