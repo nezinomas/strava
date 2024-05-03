@@ -1,0 +1,15 @@
+[run]
+omit =
+  *apps.py,
+  */__init__.py,
+  */migrations/*.py,
+  */settings/*.py,
+  */tests/*.py,
+  *urls.py,
+  *wsgi*,
+  *conftest*,
+  manage.py,
+[report]
+exclude_lines =
+    pragma: no cover
+    @abstract
