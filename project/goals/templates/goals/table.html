@@ -6,11 +6,27 @@
     <thead>
         <tr>
             <th class="w-rank">Vieta</th>
-            <th class="w-athlete">Eksplėnas</th>
-            <th class="w-time">Laikas</th>
-            <th class="w-activities">Veiklos</th>
-            <th class="w-distance">Atstumas</th>
-            <th class="w-ascent">Sukilimas</th>
+            <th class="w-athlete order {{athlete}}" hx-get="{{url}}?order=athlete" hx-target="#data-table">
+                Eksplėnas
+                {% if not athlete %}<span class="asc"></span>{% endif%}
+            </th>
+            <th class="w-time order {{moving_time}}" hx-get="{{url}}?order=moving_time" hx-target="#data-table">
+                Laikas
+                {% if not moving_time %}<span></span>{% endif%}
+            </th>
+            <th class="w-activities order {{num_activities}}" hx-get="{{url}}?order=num_activities" hx-target="#data-table">
+                Veiklos
+                {% if not num_activities %}<span></span>{% endif%}
+            </th>
+            <th class="w-distance order {{distance}}" hx-get="{{url}}?order=distance" hx-target="#data-table">
+                Atstumas
+                {% if not distance %}<span></span>{% endif%}
+            </th>
+            <th class="w-ascent order {{ascent}}" hx-get="{{url}}?order=ascent" hx-target="#data-table">
+                Sukilimas
+                {% if not ascent %}<span></span>{% endif%}
+            </th>
+            {% endwith %}
         </tr>
     </thead>
     <tbody>

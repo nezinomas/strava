@@ -54,10 +54,17 @@ class Table(ListView):
     template_name = "goals/table.html"
 
     def get_queryset(self):
+        order = self.request.GET.get("order")
+
         year = self.kwargs.get("year", pendulum.now().year)
         month = self.kwargs.get("month", pendulum.now().month)
 
-        return Activities.objects.month_stats(pendulum.Date(year, month, 1))
+        sql = Activities.objects.month_stats(pendulum.Date(year, month, 1))
+        if order and order in ["athlete", "num_activities", "moving_time", "distance", "ascent"]:
+            sort = order if order == "athlete" else f"-{order}"
+            sql = sql.order_by(sort)
+
+        return sql
 
     def get_context_data(self, **kwargs):
         context = {
