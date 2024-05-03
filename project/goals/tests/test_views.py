@@ -1,8 +1,10 @@
 import pytest
+import time_machine
 from django.urls import resolve, reverse
 from pendulum import date
-from . import views
-from .tests.factories import EntryFactory
+
+from .. import views
+from .factories import EntryFactory
 
 pytestmark = pytest.mark.django_db
 
