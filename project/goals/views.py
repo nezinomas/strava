@@ -27,20 +27,19 @@ class Index(ListView):
         next_month_int = (date + timedelta(days=32)).month
         previous_month_int = (date - timedelta(days=2)).month
 
-        goal = Goals.objects.get_goal(year, month)
+        goal = Goals.objects.get_goal(year, month) / 3600
         collected = Activities.objects.total_time(date)
 
         context = {
-            "goal_hours": goal / 3600,
+            "goal_hours": goal,
             "goal_collected": collected,
-            "goal_left": goal - collected,
+            "goal_left": goal * 3600 - collected,
             "year": year,
-            "month_int": month,
             "month_str": utils.get_month(month),
             "chart_data": {
                 "categories": ["Tikslas"],
-                "target": [goal / 3600],
-                "fact": [{"y": utils.convert_seconds_to_hours(collected), "target": goal / 3600}],
+                "target": [goal],
+                "fact": [{"y": utils.convert_seconds_to_hours(collected), "target": goal}],
                 "factTitle": "Faktas",
                 "targetTitle": "Planas",
             },
