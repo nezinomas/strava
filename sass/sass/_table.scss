@@ -10,7 +10,7 @@
     thead th {
         font-weight: bold;
         min-height: 36px;
-        background-color: $table-thead;
+        background-color: hsl(40, 60%, 90%);
         text-align: left;
     }
 
@@ -18,11 +18,52 @@
         padding: .5rem .25rem;
     }
 
+    th.order {
+        position: relative;
+        cursor: pointer;
+
+        > span {
+            &:before, &:after {
+                content: "";
+                position: absolute;
+                background-color: hotpink;
+                width: 2px;
+                height: 7px;
+                margin-top: 0.35rem;
+                margin-left: .75rem;
+            }
+
+            &:before {
+                transform: translate(2px, 0) rotate(45deg);
+            }
+
+            &:after {
+                transform: translate(-2px, 0) rotate(-45deg);
+            }
+
+            &.asc:before {
+                transform: translate(-2px, 0) rotate(45deg);
+            }
+
+            &.asc:after {
+                transform: translate(2px, 0) rotate(-45deg);
+            }
+        }
+    }
+
     // Striped styles
     &.striped {
         tbody tr:nth-child(odd) {
-            > td {
+            td {
                 background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            td.athlete,
+            td.moving_time,
+            td.num_activities,
+            td.distance,
+            td.ascent {
+                background-color: rgba(0, 0, 0, 0.11);
             }
         }
     }
@@ -34,6 +75,22 @@
                 background-color: $hover-bg !important;
             }
         }
+    }
+
+    th.athlete,
+    th.moving_time,
+    th.num_activities,
+    th.distance,
+    th.ascent {
+        background-color: hsl(40, 60%, 85%);
+    }
+
+    td.athlete,
+    td.moving_time,
+    td.num_activities,
+    td.distance,
+    td.ascent {
+        background-color: rgba(0, 0, 0, 0.08);
     }
 
     .w-rank {
@@ -49,7 +106,7 @@
     }
 
     .w-activities {
-        width: 4rem;
+        width: 6rem;
     }
 
     .w-time {

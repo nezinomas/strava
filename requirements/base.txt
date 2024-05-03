@@ -1,4 +1,5 @@
 Django==5.0.4
+django-htmx==1.17.3
 django-vanilla-views==3.0.0
 mysqlclient==2.2.1
 pendulum==3.0.0

@@ -152,3 +152,16 @@ def test_index_year(client):
     actual = client.get(url).context["year"]
 
     assert actual == 2022
+
+
+def test_table_view_fuction():
+    view = resolve("/table/1974/1/")
+
+    assert views.Table == view.func.view_class
+
+
+def test_table_view_200(client):
+    url = reverse("goals:table", kwargs={"year": 1974, "month": 1})
+    response =  client.get(url)
+
+    assert response.status_code == 200

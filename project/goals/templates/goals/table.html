@@ -5,23 +5,41 @@
 <table class="main striped hover">
     <thead>
         <tr>
+            {% with request.resolver_match.kwargs as kwargs %}
+            {% url 'goals:table' year=kwargs.year month=kwargs.month as url %}
             <th class="w-rank">Vieta</th>
-            <th class="w-athlete">Eksplėnas</th>
-            <th class="w-time">Laikas</th>
-            <th class="w-activities">Veiklos</th>
-            <th class="w-distance">Atstumas</th>
-            <th class="w-ascent">Sukilimas</th>
+            <th class="w-athlete order {{athlete}}" hx-get="{{url}}?order=athlete" hx-target="#data-table">
+                Eksplėnas
+                {% if not athlete %}<span class="asc"></span>{% endif%}
+            </th>
+            <th class="w-time order {{moving_time}}" hx-get="{{url}}?order=moving_time" hx-target="#data-table">
+                Laikas
+                {% if not moving_time %}<span></span>{% endif%}
+            </th>
+            <th class="w-activities order {{num_activities}}" hx-get="{{url}}?order=num_activities" hx-target="#data-table">
+                Veiklos
+                {% if not num_activities %}<span></span>{% endif%}
+            </th>
+            <th class="w-distance order {{distance}}" hx-get="{{url}}?order=distance" hx-target="#data-table">
+                Atstumas
+                {% if not distance %}<span></span>{% endif%}
+            </th>
+            <th class="w-ascent order {{ascent}}" hx-get="{{url}}?order=ascent" hx-target="#data-table">
+                Sukilimas
+                {% if not ascent %}<span></span>{% endif%}
+            </th>
+            {% endwith %}
         </tr>
     </thead>
     <tbody>
         {% for object in object_list %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ object.athlete_name }}</td>
-            <td>{{ object.moving_time|convert_seconds }}</td>
-            <td>{{ object.num_activities }}</td>
-            <td>{{ object.distance|convert_meters }}</td>
-            <td>{{ object.ascent|floatformat:"0g" }}m</td>
+            <td class="{{athlete}}">{{ object.athlete_name }}</td>
+            <td class="{{moving_time}}"">{{ object.moving_time|convert_seconds }}</td>
+            <td class="{{num_activities}}">{{ object.num_activities }}</td>
+            <td class="{{distance}}">{{ object.distance|convert_meters }}</td>
+            <td class="{{ascent}}">{{ object.ascent|floatformat:"0g" }}m</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -29,6 +47,6 @@
 
 {% else %}
 
-<div id="data-table" class="alert alert-warning">{{ year }} {{month_str|lower}} neturi įrašų.</div>
+<div id="data-table" class="alert alert-warning">{{date}} neturi įrašų.</div>
 
 {% endif %}

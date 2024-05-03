@@ -12,7 +12,7 @@
         <a href="{{next.url}}">{{next.title}} &raquo;</a>
     </div>
 
-    {% if object_list %}
+    {% if goal_collected %}
         <div id="info-row" class="info-row">
             {% if goal_hours %}
                 <div data-info-row="{{ goal_hours|floatformat:'0g'}}h">Tikslas:</div>
@@ -40,9 +40,7 @@
 
     {% endif %}
 
-    <div id="data-table">
-        {% include 'goals/table.html' %}
-    </div>
+    <div id="data-table">{{table}}</div>
 
 
 </div>
