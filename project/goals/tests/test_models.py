@@ -3,7 +3,7 @@ from datetime import date
 import pendulum
 import pytest
 
-from ..models import Activities, Athletes, Goals
+from ..models import Activities, Goals
 from .factories import AthleteFactory, EntryFactory, GoalFactory
 
 pytestmark = pytest.mark.django_db
@@ -21,7 +21,7 @@ def test_goal_current():
 
     actual = Goals.objects.get_goal(2022, 4)
 
-    assert actual == 144_000 # 40 * 60 * 60
+    assert actual == 144_000  # 40 * 60 * 60
 
 
 def test_goal_not_set():
@@ -50,7 +50,9 @@ def test_entry_week_stats():
 
     actual = Activities.objects.week_stats(pendulum.date(2022, 4, 25))
 
-    assert actual == {1: {"moving_time": 60, "num_activities": 2, "distance": 2, "ascent": 20}}
+    assert actual == {
+        1: {"moving_time": 60, "num_activities": 2, "distance": 2, "ascent": 20}
+    }
 
 
 def test_entry_month_stats():
