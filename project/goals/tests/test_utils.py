@@ -12,7 +12,7 @@ from ..lib import utils
     ],
 )
 def test_convert_seconds(value, expect):
-    actual = utils.convert_seconds(value)
+    actual = utils.convert_seconds_to_hours_and_minutes(value)
     assert actual == expect
 
 

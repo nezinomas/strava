@@ -1,4 +1,4 @@
-def convert_seconds(seconds):
+def convert_seconds_to_hours_and_minutes(seconds):
     hours = seconds // (60*60)
     seconds %= (60*60)
     minutes = seconds // 60
@@ -7,7 +7,7 @@ def convert_seconds(seconds):
 
 
 def convert_seconds_to_hours(seconds):
-    hours, minutes = convert_seconds(seconds)
+    hours, minutes = convert_seconds_to_hours_and_minutes(seconds)
     return hours + minutes / 60
 
 

@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.filter
 def convert_seconds(seconds):
-    hours, minutes = utils.convert_seconds(seconds)
+    hours, minutes = utils.convert_seconds_to_hours_and_minutes(seconds)
 
     hours = f"{hours}h" if hours else ""
     minutes = f"{minutes}m" if minutes else "0m"
