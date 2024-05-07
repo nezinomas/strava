@@ -4,7 +4,7 @@ function loadChart(idData, idContainer) {
     Highcharts.chart(idContainer, {
         chart: {
             type: 'bar',
-            height: 85,
+            height: 100,
         },
         title: {
             text: ''
@@ -31,7 +31,7 @@ function loadChart(idData, idContainer) {
             type: 'bar',
             color: 'rgba(0,0,0,0.07)',
             data: chartData.target,
-            pointWidth: 19,
+            border: 0,
             dataLabels: {
                 enabled: false,
             }
@@ -39,7 +39,7 @@ function loadChart(idData, idContainer) {
             name: chartData.factTitle,
             type: 'bullet',
             data: chartData.fact,
-            pointWidth: 13,
+            border: 0,
             borderRadius: 0,
             targetOptions: {
                 borderWidth: 0,
@@ -55,8 +55,8 @@ function loadChart(idData, idContainer) {
                 align: 'right',
                 y: -1,
                 style: {
-                    fontWeight: 'bold',
                     textOutline: false,
+                    fontSize: '14px',
                 },
             },
         }
@@ -69,7 +69,7 @@ function loadChart(idData, idContainer) {
         y = parseFloat(point.y.toFixed(1));
 
         if (y <= max) {
-            color = 'rgb(254, 83, 106)';
+            color = 'hsl(0, 100%, 80%)';
         }
         else {
             color = '#28a745';
