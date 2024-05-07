@@ -37,6 +37,7 @@ class Index(TemplateView):
                 "fact": [{"y": utils.convert_seconds_to_hours(collected), "target": goal}],
                 "factTitle": "Faktas",
                 "targetTitle": "Planas",
+                "ymax": goal if int(goal * 3600 - collected) > 0 else None,
             },
             "next": {
                 "url": reverse("goals:index_month", kwargs={"year": (year + 1) if month == 12 else year, "month": next_month_int}),

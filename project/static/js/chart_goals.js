@@ -17,6 +17,7 @@ function loadChart(idData, idContainer) {
             }
         },
         yAxis: {
+            max: chartData.ymax,
             title: {
                 text: ''
             },
@@ -74,9 +75,11 @@ function loadChart(idData, idContainer) {
         }
         else {
             color = '#28a745';
+
         }
 
         point.color = color;
         point.graphic.attr({ fill: color });
+
     });
 };
