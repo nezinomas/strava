@@ -4,7 +4,7 @@ function loadChart(idData, idContainer) {
     Highcharts.chart(idContainer, {
         chart: {
             type: 'bar',
-            height: 100,
+            height: 90,
         },
         title: {
             text: ''
@@ -55,6 +55,7 @@ function loadChart(idData, idContainer) {
                 align: 'right',
                 y: -1,
                 style: {
+                    fontWeight: 'regular',
                     textOutline: false,
                     fontSize: '14px',
                 },
