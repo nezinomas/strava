@@ -52,7 +52,7 @@ DATABASES = {"default": DB}
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = "lt"
 LANGUAGES = [
     ("en", _("English")),
     ("lt", _("Lithuanian")),
