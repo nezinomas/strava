@@ -11,8 +11,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            # Writer().write()
-            pass
+            Writer().write()
         except Exception as e:
             raise CommandError(f"Can't sync with Strava - {e}")
 
