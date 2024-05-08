@@ -28,7 +28,7 @@
                 {% endif %}
             {% endif %}
 
-            {% if last_update %}<div class="last-update">Duomenys atnaujinti: {{last_update}}</div>{% endif %}
+            {% if last_update %}<div class="last-update">Duomenys atnaujinti: {{last_update|date:"Y-m-d H:i"}}</div>{% endif %}
         </div>
 
         <div id="chart-goals-container"></div>
