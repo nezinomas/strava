@@ -25,7 +25,7 @@ class Index(TemplateView):
         collected = Activities.objects.total_time(date)
 
         last_update = Logs.objects.last()
-        last_update = last_update.date + timedelta(hours=3) if last_update else None
+        last_update = last_update.date if last_update else None
 
         context = {
             "last_update": last_update,
