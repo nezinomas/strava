@@ -6,7 +6,7 @@ from vanilla import ListView, TemplateView
 
 from .lib import utils
 from .mixins.views import rendered_content
-from .models import Activities, Goals
+from .models import Activities, Goals, Logs
 
 
 class Index(TemplateView):
@@ -24,7 +24,11 @@ class Index(TemplateView):
         goal = Goals.objects.get_goal(year, month) / 3600
         collected = Activities.objects.total_time(date)
 
+        last_update = Logs.objects.last()
+        last_update = last_update.date + timedelta(hours=3) if last_update else None
+
         context = {
+            "last_update": last_update,
             "goal_hours": goal,
             "goal_collected": collected,
             "goal_left": int(goal * 3600 - collected),

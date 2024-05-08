@@ -3,6 +3,10 @@ from django.db import models
 from .managers import AthleteManager, EntryManager, GoalManager
 
 
+class Logs(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+
+
 class Goals(models.Model):
     year = models.PositiveIntegerField()
     month = models.PositiveIntegerField()

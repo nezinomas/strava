@@ -27,6 +27,8 @@
                     <div class="success">Tikslas pasiektas!</div>
                 {% endif %}
             {% endif %}
+
+            {% if last_update %}<div class="last-update">Duomenys atnaujinti: {{last_update}}</div>{% endif %}
         </div>
 
         <div id="chart-goals-container"></div>

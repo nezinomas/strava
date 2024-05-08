@@ -1,9 +1,11 @@
-from datetime import date
+from datetime import date, datetime, timezone
+from zoneinfo import ZoneInfo
 
 import pendulum
 import pytest
+import time_machine
 
-from ..models import Activities, Goals
+from ..models import Activities, Goals, Logs
 from .factories import AthleteFactory, EntryFactory, GoalFactory
 
 pytestmark = pytest.mark.django_db
@@ -100,3 +102,12 @@ def test_entry_total_time_no_records():
     actual = Activities.objects.total_time(pendulum.date(2022, 4, 25))
 
     assert actual == 0
+
+
+@time_machine.travel("1974-1-2 5:4:3")
+def test_log_created():
+    Logs.objects.create()
+
+    actual = Logs.objects.last()
+
+    assert actual.date == datetime(1974, 1, 2, 3, 4, 3, tzinfo=timezone.utc)
