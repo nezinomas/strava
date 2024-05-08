@@ -19,9 +19,10 @@ a, a:visited, a:hover, a:active {
 
 .info-row {
     display: flex;
+    flex-wrap: wrap;
     white-space:nowrap;
     justify-content: space-evenly;
-    gap: 2rem;
+    column-gap: 2rem;
     width: 100%;
     padding: .5rem 0;
 
@@ -29,8 +30,16 @@ a, a:visited, a:hover, a:active {
         margin-left: auto;
     }
 
-    > *:last-child {
+    // left hours
+    > *:nth-child(3) {
         margin-right: auto;
+    }
+
+    > .last-update {
+        flex-basis: 100%;
+        font-size: x-small;
+        text-align: center;
+        color: #6e6d6d;
     }
 
     ::after {
