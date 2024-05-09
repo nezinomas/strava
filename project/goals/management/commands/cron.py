@@ -15,7 +15,7 @@ class Command(BaseCommand):
         except Exception as e:
             Logs.objects.create(status="Failed", message=str(e))
 
-            raise CommandError(f"Can't sync with Strava - {e}")
+            raise CommandError(f"Can't sync with Strava - {e}") from e
 
         Logs.objects.create(status="Success")
 
