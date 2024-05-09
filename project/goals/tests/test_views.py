@@ -1,10 +1,13 @@
+import datetime
+
 import pytest
 import time_machine
 from django.urls import resolve, reverse
 from pendulum import date
 
 from .. import views
-from .factories import EntryFactory, GoalFactory
+from .factories import (EntryFactory, GoalFactory, LogFailFactory,
+                        LogSuccessFactory)
 
 pytestmark = pytest.mark.django_db
 
@@ -152,6 +155,29 @@ def test_index_year(client):
     actual = client.get(url).context["year"]
 
     assert actual == 2022
+
+
+def test_index_log_success(client, time_machine):
+    time_machine.move_to("1974-1-1 5:4:3")
+    LogSuccessFactory()
+
+    time_machine.move_to("2022-04-02")
+    LogFailFactory()
+
+    url = reverse("goals:index")
+    actual = client.get(url).context["last_update"]
+
+    assert actual == datetime.datetime(1974, 1, 1, 3, 4, 3, tzinfo=datetime.timezone.utc)
+
+
+def test_index_log_failed(client, time_machine):
+    time_machine.move_to("2022-04-02")
+    LogFailFactory()
+
+    url = reverse("goals:index")
+    actual = client.get(url).context["last_update"]
+
+    assert not actual
 
 
 def test_table_view_fuction():

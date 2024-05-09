@@ -1,8 +1,8 @@
-from datetime import date
+from datetime import date, datetime
 
 import factory
 
-from ..models import Athletes, Activities, Goals
+from ..models import Athletes, Activities, Goals, Logs
 
 
 class GoalFactory(factory.django.DjangoModelFactory):
@@ -33,3 +33,19 @@ class EntryFactory(factory.django.DjangoModelFactory):
     distance = 1
     num_activities = 1
     ascent = 10
+
+
+class LogSuccessFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Logs
+
+    status = "Success"
+    message = None
+
+
+class LogFailFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Logs
+
+    status = "Failed"
+    message = "Exception message"

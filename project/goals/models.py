@@ -5,6 +5,8 @@ from .managers import AthleteManager, EntryManager, GoalManager
 
 class Logs(models.Model):
     date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10)
+    message = models.TextField(null=True, blank=True)
 
 
 class Goals(models.Model):
