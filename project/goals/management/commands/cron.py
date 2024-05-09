@@ -7,7 +7,7 @@ from ...models import Logs
 
 
 class Command(BaseCommand):
-    help = "Get bike activities from Garmin"
+    help = "Get leaderboard from Strava"
 
     def handle(self, *args, **options):
         try:
