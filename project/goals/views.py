@@ -24,7 +24,7 @@ class Index(TemplateView):
         goal = Goals.objects.get_goal(year, month) / 3600
         collected = Activities.objects.total_time(date)
 
-        last_update = Logs.objects.last()
+        last_update = Logs.objects.filter(status="Success").last()
         last_update = last_update.date if last_update else None
 
         context = {
