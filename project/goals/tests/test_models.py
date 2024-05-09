@@ -1,12 +1,12 @@
 from datetime import date, datetime, timezone
-from zoneinfo import ZoneInfo
 
 import pendulum
 import pytest
 import time_machine
 
 from ..models import Activities, Goals, Logs
-from .factories import AthleteFactory, EntryFactory, GoalFactory
+from .factories import (AthleteFactory, EntryFactory, GoalFactory,
+                        LogFailFactory, LogSuccessFactory)
 
 pytestmark = pytest.mark.django_db
 
@@ -111,3 +111,25 @@ def test_log_created():
     actual = Logs.objects.last()
 
     assert actual.date == datetime(1974, 1, 2, 3, 4, 3, tzinfo=timezone.utc)
+
+
+@time_machine.travel("1974-1-2 5:4:3")
+def test_log_successful():
+    LogSuccessFactory()
+
+    actual = Logs.objects.last()
+
+    assert actual.date == datetime(1974, 1, 2, 3, 4, 3, tzinfo=timezone.utc)
+    assert actual.status == "Success"
+    assert not actual.message
+
+
+@time_machine.travel("1974-1-2 5:4:3")
+def test_log_failed():
+    LogFailFactory()
+
+    actual = Logs.objects.last()
+
+    assert actual.date == datetime(1974, 1, 2, 3, 4, 3, tzinfo=timezone.utc)
+    assert actual.status == "Failed"
+    assert actual.message == "Exception message"
