@@ -9,6 +9,9 @@ from .mixins.views import rendered_content
 from .models import Activities, Goals, Logs
 
 
+SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
+
+
 class Index(TemplateView):
     template_name = "goals/index.html"
 
@@ -65,14 +68,15 @@ class Table(ListView):
         month = self.kwargs.get("month", pendulum.now().month)
 
         sql = Activities.objects.month_stats(pendulum.Date(year, month, 1))
-        if order and order in ["athlete", "num_activities", "moving_time", "distance", "ascent"]:
+        if order and order in SORT_BY:
             sort = order if order == "athlete" else f"-{order}"
             sql = sql.order_by(sort)
 
         return sql
 
     def get_context_data(self, **kwargs):
-        active_col = self.request.GET.get("order") or "moving_time"
+        active_col = self.request.GET.get("order", "moving_time")
+        active_col = active_col if active_col in SORT_BY else "moving_time"
 
         context = {
             "date": f"{self.kwargs['year']} {utils.get_month(self.kwargs['month']).lower()}",
