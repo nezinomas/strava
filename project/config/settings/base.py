@@ -52,7 +52,7 @@ DATABASES = {"default": DB}
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = "lt"
 LANGUAGES = [
     ("en", _("English")),
     ("lt", _("Lithuanian")),
@@ -60,7 +60,7 @@ LANGUAGES = [
 LOCALE_PATHS = [SITE_ROOT / "locale"]
 
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Vilnius"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
