@@ -16,10 +16,10 @@ class Index(TemplateView):
         year = self.kwargs.get("year", pendulum.now().year)
         month = self.kwargs.get("month", pendulum.now().month)
 
-        _kwargs = self.kwargs | {"year": year, "month": month}
+        table_view_kwargs = self.kwargs | {"year": year, "month": month}
 
         context = {
-            "table": rendered_content(self.request, Table, **_kwargs),
+            "table": rendered_content(self.request, Table, **table_view_kwargs),
             **load_service(year, month).context,
         }
         return super().get_context_data(**kwargs) | context
