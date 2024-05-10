@@ -53,11 +53,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
 LANGUAGE_CODE = "lt"
-LANGUAGES = [
-    ("en", _("English")),
-    ("lt", _("Lithuanian")),
-]
-LOCALE_PATHS = [SITE_ROOT / "locale"]
 
 
 TIME_ZONE = "Europe/Vilnius"
