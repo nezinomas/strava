@@ -16,19 +16,9 @@ class Index(TemplateView):
         year = self.kwargs.get("year", pendulum.now().year)
         month = self.kwargs.get("month", pendulum.now().month)
 
-        obj = load_service(year, month)
-
         context = {
-            "last_update": obj.last_update,
-            "goal_hours": obj.goal_hours,
-            "goal_collected": obj.collected,
-            "goal_left": obj.left_to_collect,
-            "year": year,
-            "month_str": utils.get_month(month),
             "table": rendered_content(self.request, Table, **self.kwargs | {"year": year, "month": month}),
-            "chart_data": obj.chart_context,
-            "next": obj.next_month,
-            "previous": obj.previous_month,
+            **load_service(year, month).context
         }
         return super().get_context_data(**kwargs) | context
 

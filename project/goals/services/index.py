@@ -97,6 +97,20 @@ class IndexService:
             "ymax": self.goal_hours if int(self.goal - self.collected) > 0 else None,
         }
 
+    @property
+    def context(self):
+        return {
+            "year": self.year,
+            "month_str": utils.get_month(self.month),
+            "last_update": self.last_update,
+            "goal_hours": self.goal_hours,
+            "goal_collected": self.collected,
+            "goal_left": self.left_to_collect,
+            "chart_data": self.chart_context,
+            "next": self.next_month,
+            "previous": self.previous_month,
+        }
+
 
 def load_service(year, month):
     data = IndexServiceData(year, month)
