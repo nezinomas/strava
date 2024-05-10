@@ -39,7 +39,7 @@
             <td {% if active_col == 'moving_time' %}class="active-col"{% endif %}>{{ object.moving_time|convert_seconds }}</td>
             <td {% if active_col == 'num_activities' %}class="active-col"{% endif %}>{{ object.num_activities }}</td>
             <td {% if active_col == 'distance' %}class="active-col"{% endif %}>{{ object.distance|convert_meters }}</td>
-            <td {% if active_col == 'ascent' %}class="active-col"{% endif %}>{{ object.ascent|floatformat:"0g" }}m</td>
+            <td {% if active_col == 'ascent' %}class="active-col"{% endif %}>{{ object.ascent|floatformat:"0g"|intcomma }}m</td>
         </tr>
         {% endfor %}
     </tbody>
