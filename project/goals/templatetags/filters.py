@@ -1,5 +1,8 @@
 from django import template
+from django.template.defaultfilters import floatformat
+
 from ..lib import utils
+
 register = template.Library()
 
 
@@ -22,3 +25,8 @@ def convert_meters(meters):
 def cut_name(name: str):
     name, _ = name.rsplit(" ", 1)
     return f"{name} {_[:2]}."
+
+
+@register.filter
+def intcomma(number):
+    return str(number).replace(",", ".")

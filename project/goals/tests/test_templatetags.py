@@ -57,3 +57,19 @@ def test_cut_name(value, expect):
     actual = template.render(context)
 
     assert actual == expect
+
+
+@pytest.mark.parametrize(
+    "value, expect",
+    [
+        (123456, "123.456"),
+        (123456.12, "123.456"),
+    ],
+)
+def test_intcomma(value, expect):
+    context = Context({"val": value})
+    template = Template("{% load filters %}{{ val|floatformat:'0g'|intcomma }}")
+
+    actual = template.render(context)
+
+    assert actual == expect
