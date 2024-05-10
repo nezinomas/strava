@@ -50,7 +50,6 @@ function loadChart(idData, idContainer) {
                 width: '250%'
             },
             dataLabels: {
-                format: '{point.y:.0f}',
                 enabled: true,
                 color: '#000',
                 align: 'right',
@@ -59,6 +58,9 @@ function loadChart(idData, idContainer) {
                     fontWeight: 'regular',
                     textOutline: false,
                     fontSize: '14px',
+                },
+                formatter: function() {
+                    return `${chartData.percent}%`;
                 },
             },
         }
