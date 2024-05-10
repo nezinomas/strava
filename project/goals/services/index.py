@@ -80,39 +80,31 @@ class IndexService:
     def left_to_collect(self):
         return int(self.goal - self.collected)
 
-    @property
-    def chart_context(self):
-        return {
-            "categories": ["Tikslas"],
-            "target": [self.goal_hours],
-            "fact": [
-                {
-                    "y": utils.convert_seconds_to_hours(self.collected),
-                    "target": self.goal_hours,
-                }
-            ],
-            "factTitle": "Faktas",
-            "targetTitle": "Planas",
-            "percent": self.percent,
-            "ymax": self.goal_hours if int(self.goal - self.collected) > 0 else None,
-        }
 
-    @property
-    def context(self):
-        return {
-            "year": self.year,
-            "month_str": utils.get_month(self.month),
-            "last_update": self.last_update,
-            "goal_hours": self.goal_hours,
-            "goal_collected": self.collected,
-            "goal_left": self.left_to_collect,
-            "chart_data": self.chart_context,
-            "next": self.next_month,
-            "previous": self.previous_month,
-        }
-
-
-def load_service(year, month):
+def load_index_context(year, month):
     data = IndexServiceData(year, month)
 
-    return IndexService(year, month, data)
+    obj = IndexService(year, month, data)
+
+    return {
+        "year": obj.year,
+        "month_str": utils.get_month(obj.month),
+        "last_update": obj.last_update,
+        "goal_hours": obj.goal_hours,
+        "goal_collected": obj.collected,
+        "goal_left": obj.left_to_collect,
+        "next": obj.next_month,
+        "previous": obj.previous_month,
+        "chart_data": {
+            "categories": ["Tikslas"],
+            "target": [obj.goal_hours],
+            "fact": [{
+                "y": utils.convert_seconds_to_hours(obj.collected),
+                "target": obj.goal_hours,
+            }],
+            "factTitle": "Faktas",
+            "targetTitle": "Planas",
+            "percent": obj.percent,
+            "ymax": obj.goal_hours if int(obj.goal - obj.collected) > 0 else None,
+        },
+    }

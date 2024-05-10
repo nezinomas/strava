@@ -4,7 +4,7 @@ from vanilla import ListView, TemplateView
 from .lib import utils
 from .mixins.views import rendered_content
 from .models import Activities
-from .services.index import load_service
+from .services.index import load_index_context
 
 
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
@@ -21,7 +21,7 @@ class Index(TemplateView):
 
         context = {
             "table": rendered_content(self.request, Table, **table_view_kwargs),
-            **load_service(year, month).context,
+            **load_index_context(year, month),
         }
         return super().get_context_data(**kwargs) | context
 
