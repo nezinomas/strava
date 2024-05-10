@@ -113,6 +113,7 @@ def test_index_chart_data(client):
     assert actual["fact"][0]["target"] == 10
     assert actual["factTitle"] == "Faktas"
     assert actual["targetTitle"] == "Planas"
+    assert actual["percent"] == 0.2
 
 
 @time_machine.travel("2022-04-01")
