@@ -77,6 +77,10 @@ class IndexService:
         }
 
     @property
+    def left_to_collect(self):
+        return int(self.goal - self.collected)
+
+    @property
     def chart_context(self):
         return {
             "categories": ["Tikslas"],
@@ -92,10 +96,6 @@ class IndexService:
             "percent": self.percent,
             "ymax": self.goal_hours if int(self.goal - self.collected) > 0 else None,
         }
-
-    @property
-    def left_to_collect(self):
-        return int(self.goal - self.collected)
 
 
 def load_service(year, month):
