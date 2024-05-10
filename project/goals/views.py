@@ -1,13 +1,10 @@
-from datetime import timedelta
-
 import pendulum
-from django.urls import reverse
 from vanilla import ListView, TemplateView
 
 from .lib import utils
 from .mixins.views import rendered_content
-from .models import Activities, Goals, Logs
-
+from .models import Activities
+from .services.index import load_service
 
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
 
@@ -19,46 +16,19 @@ class Index(TemplateView):
         year = self.kwargs.get("year", pendulum.now().year)
         month = self.kwargs.get("month", pendulum.now().month)
 
-        date = pendulum.Date(year, month, 1)
-
-        next_month_int = (date + timedelta(days=32)).month
-        previous_month_int = (date - timedelta(days=2)).month
-
-        goal_seconds = Goals.objects.get_goal(year, month)
-        goal_hours = goal_seconds / 3600
-
-        collected_seconds = Activities.objects.total_time(date)
-
-        percent = round((collected_seconds * 100 / goal_seconds), 1) if goal_seconds > 0 else 0
-
-        last_update = Logs.objects.filter(status="Success").last()
-        last_update = last_update.date if last_update else None
+        obj = load_service(year, month)
 
         context = {
-            "last_update": last_update,
-            "goal_hours": goal_hours,
-            "goal_collected": collected_seconds,
-            "goal_left": int(goal_seconds - collected_seconds),
+            "last_update": obj.last_update,
+            "goal_hours": obj.goal_hours,
+            "goal_collected": obj.collected,
+            "goal_left": obj.left_to_collect,
             "year": year,
             "month_str": utils.get_month(month),
             "table": rendered_content(self.request, Table, **self.kwargs | {"year": year, "month": month}),
-            "chart_data": {
-                "categories": ["Tikslas"],
-                "target": [goal_hours],
-                "fact": [{"y": utils.convert_seconds_to_hours(collected_seconds), "target": goal_hours}],
-                "factTitle": "Faktas",
-                "targetTitle": "Planas",
-                "percent": percent,
-                "ymax": goal_hours if int(goal_seconds - collected_seconds) > 0 else None,
-            },
-            "next": {
-                "url": reverse("goals:index_month", kwargs={"year": (year + 1) if month == 12 else year, "month": next_month_int}),
-                "title": utils.get_month(next_month_int),
-            },
-            "previous": {
-                "url": reverse("goals:index_month", kwargs={"year": (year - 1) if month == 1 else year, "month": previous_month_int}),
-                "title": utils.get_month(previous_month_int),
-            }
+            "chart_data": obj.chart_context,
+            "next": obj.next_month,
+            "previous": obj.previous_month,
         }
         return super().get_context_data(**kwargs) | context
 
