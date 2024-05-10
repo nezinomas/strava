@@ -6,6 +6,7 @@ from .mixins.views import rendered_content
 from .models import Activities
 from .services.index import load_service
 
+
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
 
 
