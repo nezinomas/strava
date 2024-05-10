@@ -16,9 +16,11 @@ class Index(TemplateView):
         year = self.kwargs.get("year", pendulum.now().year)
         month = self.kwargs.get("month", pendulum.now().month)
 
+        _kwargs = self.kwargs | {"year": year, "month": month}
+
         context = {
-            "table": rendered_content(self.request, Table, **self.kwargs | {"year": year, "month": month}),
-            **load_service(year, month).context
+            "table": rendered_content(self.request, Table, **_kwargs),
+            **load_service(year, month).context,
         }
         return super().get_context_data(**kwargs) | context
 
@@ -46,6 +48,5 @@ class Table(ListView):
         context = {
             "date": f"{self.kwargs['year']} {utils.get_month(self.kwargs['month']).lower()}",
             "active_col": active_col,
-
         }
         return super().get_context_data(**kwargs) | context
