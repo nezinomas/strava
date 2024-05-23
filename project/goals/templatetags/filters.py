@@ -1,5 +1,4 @@
 from django import template
-from django.template.defaultfilters import floatformat
 
 from ..lib import utils
 
@@ -18,7 +17,13 @@ def convert_seconds(seconds):
 
 @register.filter
 def convert_meters(meters):
-    return f"{(meters / 1000):,.1f}km".replace(".", ",")
+    tmp_placeholder = "#"
+    return (
+        f"{(meters / 1000):,.1f}km"
+        .replace(".", tmp_placeholder)
+        .replace(",", ".")
+        .replace(tmp_placeholder, ",")
+    )
 
 
 @register.filter

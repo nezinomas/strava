@@ -33,6 +33,7 @@ def test_convert_seconds(value, expect, seconds_template):
     [
         (1100, "1,1km"),
         (100, '0,1km'),
+        (1234567.89, '1.234,6km'),
     ],
 )
 def test_convert_meters(value, expect, meters_template):
