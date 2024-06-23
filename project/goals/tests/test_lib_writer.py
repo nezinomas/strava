@@ -167,3 +167,49 @@ def test_data_append_new_entry_num_queries(mck, django_assert_max_num_queries):
 
     with django_assert_max_num_queries(3):
         Writer().new_activities(now(), data)
+
+
+@time_machine.travel("2022-04-25")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+def test_data_append_negative_distance(mck):
+    EntryFactory(distance=9)
+    data=[
+        Activity(
+            strava_id=1,
+            moving_time=60,
+            distance=1,
+            num_activities=2,
+            ascent=10,
+        )
+    ]
+
+    Writer().new_activities(now(), data)
+
+    actual = Activities.objects.all()
+
+    assert actual.count() == 2
+    assert actual[0].distance == 9
+    assert actual[1].distance == -8
+
+
+@time_machine.travel("2022-04-25")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+def test_data_append_negative_ascent(mck):
+    EntryFactory(ascent=9)
+    data=[
+        Activity(
+            strava_id=1,
+            moving_time=60,
+            distance=1,
+            num_activities=2,
+            ascent=1,
+        )
+    ]
+
+    Writer().new_activities(now(), data)
+
+    actual = Activities.objects.all()
+
+    assert actual.count() == 2
+    assert actual[0].ascent == 9
+    assert actual[1].ascent == -8
