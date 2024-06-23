@@ -11,7 +11,7 @@ class Logs(models.Model):
 
 class Goals(models.Model):
     year = models.PositiveIntegerField()
-    month = models.IntegerField()
+    month = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
 
     objects = GoalManager.as_manager()
@@ -37,8 +37,8 @@ class Activities(models.Model):
     date = models.DateField()
     num_activities = models.PositiveIntegerField(default=1)
     moving_time = models.PositiveIntegerField(default=0)
-    distance = models.PositiveIntegerField(default=0)
-    ascent = models.PositiveIntegerField(default=0)
+    distance = models.IntegerField(default=0)
+    ascent = models.IntegerField(default=0)
 
     objects = EntryManager.as_manager()
 
