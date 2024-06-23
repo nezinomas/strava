@@ -11,7 +11,7 @@ class Logs(models.Model):
 
 class Goals(models.Model):
     year = models.PositiveIntegerField()
-    month = models.IntegerField()
+    month = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
 
     objects = GoalManager.as_manager()
