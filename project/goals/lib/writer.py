@@ -47,12 +47,12 @@ class Writer:
         for activity in activities:
             db_activity = week_data.get(activity.strava_id, {})
 
-            db_num_activity = db_activity.get("num_activities", 0)
-            db_moving_time = db_activity.get("moving_time", 0)
-            db_distance = db_activity.get("distance", 0)
-            db_ascent = db_activity.get("ascent", 0)
+            dif_num_activity = activity.num_activities - db_activity.get("num_activities", 0)
+            dif_moving_time = activity.moving_time - db_activity.get("moving_time", 0)
+            dif_distance = activity.distance - db_activity.get("distance", 0)
+            dif_ascent = activity.ascent - db_activity.get("ascent", 0)
 
-            if db_moving_time >= activity.moving_time:
+            if dif_moving_time == 0:
                 continue
 
             athlete = Athletes.objects.get(strava_id=activity.strava_id)
@@ -60,10 +60,10 @@ class Writer:
                 Activities(
                     athlete=athlete,
                     date=dt,
-                    num_activities=activity.num_activities - db_num_activity,
-                    moving_time=activity.moving_time - db_moving_time,
-                    distance=activity.distance - db_distance,
-                    ascent=activity.ascent - db_ascent,
+                    num_activities=dif_num_activity,
+                    moving_time=dif_moving_time,
+                    distance=dif_distance,
+                    ascent=dif_ascent,
                 )
             )
 

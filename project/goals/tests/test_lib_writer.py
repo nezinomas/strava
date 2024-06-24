@@ -236,3 +236,26 @@ def test_data_append_negative_num_activities(mck):
     assert actual.count() == 2
     assert actual[0].num_activities == 9
     assert actual[1].num_activities == -8
+
+
+@time_machine.travel("2022-04-25")
+@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+def test_data_append_negative_moving_time(mck):
+    EntryFactory()
+    data=[
+        Activity(
+            strava_id=1,
+            moving_time=10,
+            distance=1,
+            num_activities=1,
+            ascent=1,
+        )
+    ]
+
+    Writer().new_activities(now(), data)
+
+    actual = Activities.objects.all()
+
+    assert actual.count() == 2
+    assert actual[0].moving_time == 30
+    assert actual[1].moving_time == -20
