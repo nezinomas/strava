@@ -52,7 +52,7 @@ class Writer:
             db_distance = db_activity.get("distance", 0)
             db_ascent = db_activity.get("ascent", 0)
 
-            if db_moving_time >= activity.moving_time or db_num_activity >= activity.num_activities:
+            if db_moving_time >= activity.moving_time:
                 continue
 
             athlete = Athletes.objects.get(strava_id=activity.strava_id)
