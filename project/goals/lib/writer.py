@@ -31,7 +31,7 @@ class Writer:
         return PageParser(last_week), PageParser(this_week)
 
     def new_athletes(self, athletes):
-        atheletes_db = Athletes.objects.all().values_list("strava_id", flat=True)
+        atheletes_db = set(Athletes.objects.all().values_list("strava_id", flat=True))
 
         if data := [
             Athletes(**asdict(athlete))
