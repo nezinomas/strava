@@ -192,3 +192,81 @@ def test_table_view_200(client):
     response =  client.get(url)
 
     assert response.status_code == 200
+
+
+def test_login_func():
+    view = resolve("/login/")
+
+    assert views.Login == view.func.view_class
+
+
+def test_successful_login(client, admin_user):
+    url = reverse("goals:login")
+    credentials = {"username": "admin", "password": "password"}
+
+    response = client.post(url, credentials, follow=True)
+
+    assert response.status_code == 200
+    assert response.context["user"].is_authenticated
+
+
+def test_login_view_form_fields(client):
+    url = reverse("goals:login")
+    response = client.get(url)
+
+    actual = response.context["form"].fields
+    assert "username" in actual
+    assert "password" in actual
+
+    actual = response.content.decode("utf-8")
+    assert "username" in actual
+    assert "password" in actual
+
+
+def test_login_view_form_errors_no_password(client):
+    url = reverse("goals:login")
+    response = client.post(url, {"username": "admin", "password": ""})
+
+    assert "Šis laukas yra privalomas." in response.content.decode("utf-8")
+    assert "password" in response.context["form"].errors
+
+
+def test_login_view_form_errors_no_username(client):
+    url = reverse("goals:login")
+    response = client.post(url, {"username": "", "password": ""})
+
+    assert "Šis laukas yra privalomas." in response.content.decode("utf-8")
+    assert "username" in response.context["form"].errors
+
+
+def test_login_view_wrong_credentials(client):
+    url = reverse("goals:login")
+    credentials = {"username": "aaaa", "password": "wrong"}
+
+    response = client.post(url, credentials)
+
+    assert not response.context["form"].is_valid()
+    assert "Įveskite teisingą vartotojo vardas ir slaptažodį." in response.content.decode("utf-8")
+
+
+def test_redirect_after_successful_login(client, admin_user):
+    url = reverse("goals:login")
+    credentials = {"username": "admin", "password": "password"}
+
+    response = client.post(url, credentials, follow=True)
+
+    assert response.resolver_match.url_name == "admin"
+
+
+def test_admin_view_must_be_logged_in(client):
+    url = reverse("goals:admin")
+    response = client.get(url, follow=True)
+
+    assert response.resolver_match.view_name == 'goals:login'
+
+
+def test_admin_view_200(admin_client):
+    url = reverse("goals:admin")
+    response = admin_client.get(url)
+
+    assert response.status_code == 200

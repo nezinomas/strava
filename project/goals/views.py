@@ -1,11 +1,12 @@
 import pendulum
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.mixins import LoginRequiredMixin
 from vanilla import ListView, TemplateView
 
 from .lib import utils
 from .mixins.views import rendered_content
 from .models import Activities
 from .services.index import load_index_context
-
 
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
 
@@ -51,3 +52,12 @@ class Table(ListView):
             "active_col": active_col,
         }
         return super().get_context_data(**kwargs) | context
+
+
+class Login(auth_views.LoginView):
+    template_name = "goals/login.html"
+    redirect_authenticated_user = True
+
+
+class Admin(LoginRequiredMixin, TemplateView):
+    template_name = "goals/admin.html"
