@@ -4,12 +4,14 @@
 
 {% block content %}
 
-<form method="post" class="login-form" novalidate>
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{{ next }}">
-    {% include 'goals/partials/form_errors.html' %}
-    {% for field in form %}{{ field|as_crispy_field }}{% endfor %}
-    <button type="submit" class="button-active">Login</button>
-</form>
+<div class="login">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {% include 'goals/partials/form_errors.html' %}
+        {% for field in form %}{{ field|as_crispy_field }}{% endfor %}
+        <button type="submit" class="btn-primary">Log in</button>
+    </form>
+</div>
 
 {% endblock %}
