@@ -270,3 +270,16 @@ def test_admin_view_200(admin_client):
     response = admin_client.get(url)
 
     assert response.status_code == 200
+
+
+def test_logout_func():
+    view = resolve("/logout/")
+
+    assert views.Logout is view.func.view_class
+
+
+def test_logout_view_redirect_to_index(admin_client):
+    url = reverse("goals:logout")
+    response = admin_client.get(url, follow=True)
+
+    assert response.resolver_match.view_name == "goals:index"

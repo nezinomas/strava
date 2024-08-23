@@ -1,6 +1,9 @@
 import pendulum
+from django.contrib.auth import logout
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.urls.base import reverse
 from vanilla import ListView, TemplateView
 
 from .lib import utils
@@ -57,6 +60,17 @@ class Table(ListView):
 class Login(auth_views.LoginView):
     template_name = "goals/login.html"
     redirect_authenticated_user = True
+
+
+class Logout(auth_views.LogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+
+        if request.user.is_authenticated:
+            logout(request)
+            return redirect(reverse("goals:index"))
+
+        return response
 
 
 class Admin(LoginRequiredMixin, TemplateView):
