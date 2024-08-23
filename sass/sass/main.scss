@@ -1,3 +1,27 @@
+$disabled: #E9ECEF;
+$active: rgb(250, 124, 145, 1);
+$transition: 280ms all var(--delay) ease-out;
+$gap: 0.75rem;
+$primary: #0d6efd;
+$black:   black;
+$modal-border-radius: 0.25rem;
+
+
+$success: #28a745;
+$success-text-clr: #0a3622;
+$success-bg: #d1e7dd;
+$success-border: #a3cfbb;
+
+$warning: #ffc107;
+$warning-text-clr: #664d03;
+$warning-bg: #fff3cd;
+$warning-border: #ffe69c;
+
+$danger: #dc3545;
+$danger-text-clr: #58151c;
+$danger-bg: #f8d7da;
+$danger-border: #f1aeb5;
+
 @import 'normalize';
 @import 'variables';
 @import 'grid';
