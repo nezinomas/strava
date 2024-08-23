@@ -1,0 +1,178 @@
+@mixin button {
+    color: var(--color);
+    background-color: var(--bg-color);
+    border-radius: var(--button-border-radius);
+    padding-left: var(--padding-horizontal);
+    padding-right: var(--padding-horizontal);
+    padding-bottom: var(--padding-vertical);
+    padding-top: var(--padding-vertical);
+
+    &::before,
+    &::after {
+        padding-bottom: var(--padding-vertical);
+        padding-top: var(--padding-vertical);
+        padding-right: .15rem;
+    }
+
+    --button-border-radius: 0;
+    --padding-horizontal: .5rem;
+    --padding-vertical: .15rem;
+    --bg-color: transparent;
+    --color: black;
+}
+
+
+.btn-primary {
+    @include button();
+
+    --bg-color: rgb(108, 117, 125);
+    color: #fff;
+    border-color: rgb(84, 90, 96);
+
+    &:hover {
+        background-color: #5c6e64;
+    }
+
+    &:focus,
+    &:focus-within,
+    &:active {
+        outline: 0;
+        box-shadow:
+            inset 0 1px 2px rgba(black, .075),
+            0 0 0 0.15rem rgba(black, 0.1);
+    }
+}
+
+
+
+.btn-secondary {
+    @include button();
+
+    border-color: #989898;
+
+    &:hover {
+        background-color: #e1e1e1;
+    }
+
+    &:focus,
+    &:focus-within,
+    &:active {
+        outline: 0;
+        box-shadow:
+            inset 0 1px 2px rgba(black, .075),
+            0 0 0 0.15rem rgba(black, 0.1);
+    }
+}
+
+
+.btn-outline-success {
+    @include button();
+
+    color: #198754;
+    background-color: #fff;
+    border-color: #198754;
+
+    &:hover {
+        color: #fff;
+        background-color: #198754;
+    }
+
+    &:focus,
+    &:focus-within,
+    &:active {
+        outline: 0;
+        box-shadow:
+            inset 0 1px 2px rgba(#198754, .075),
+            0 0 0 0.15rem rgba(#198754, 0.1);
+    }
+
+    &::before {
+        font-family: 'Glyphicons Halflings';
+        content: "\2b";
+        font-size: .5rem;
+    }
+}
+
+
+.btn-save {
+    @include button();
+
+    --padding-horizontal: .3rem;
+
+    color: #198754;
+    border-color: #198754;
+
+    &:hover {
+        color: #fff;
+        background-color: #198754;
+    }
+
+    &:focus,
+    &:focus-within,
+    &:active {
+        outline: 0;
+        box-shadow:
+            inset 0 1px 2px rgba(#198754, .075),
+            0 0 0 0.15rem rgba(#198754, 0.1);
+    }
+}
+
+
+.btn-danger {
+    @include button();
+
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+
+    &:hover {
+        background-color: #bb2d3b;
+        border-color: #b02a37;
+    }
+
+    &:focus,
+    &:focus-within,
+    &:active {
+        outline: 0;
+        box-shadow:
+            inset 0 1px 2px rgba(black, .075),
+            0 0 0 0.15rem rgba(#dc3545, 0.17) !important;
+    }
+}
+
+
+.btn-trash {
+    @include button();
+
+    --padding-horizontal: .25rem;
+
+    color: #dc3545;
+    border-color: #989898;
+
+    &:hover {
+        background-color: #bb2d3b;
+        border-color: #b02a37;
+        color: #fff;
+    }
+
+    &:focus,
+    &:focus-within,
+    &:active {
+        outline: 0;
+        box-shadow:
+            inset 0 1px 2px rgba(black, .075),
+            0 0 0 0.15rem rgba(#dc3545, 0.17) !important;
+    }
+}
+
+
+.btn-edit,
+.btn-close {
+    --padding-horizontal: .25rem;
+}
+
+
+.btn-filter {
+    --padding-vertical: .25rem;
+    --padding-horizontal: 1rem;
+}
