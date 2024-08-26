@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% block content %}
+
+
+<div class="container">
+    <div class="admin-grid">
+        {% for month in months %}
+        {% get_object goals forloop.counter 'hours' as goal %}
+        <div class="month-goal">
+            <div class="title">{{month}}</div>
+            <div class="goal">{% if goal %}{{goal}}{% else %}0{% endif %}</div>
+            <div class="buttons">
+                {% if goal %}
+                <button type="button" class="btn-secondary"><i class="bi bi-pencil"></i></button>
+                <button type="button" class="btn-trash"><i class="bi bi-trash"></i></button>
+
+                {% else %}
+
+                <button type="button" class="btn-save"><i class="bi bi-plus"></i></button>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -32,3 +32,14 @@
         grid-template-columns: 10px 1fr 10px;
     }
 }
+
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    grid-area: data-table;
+    width: 100%;
+    text-align: center;
+
+}
