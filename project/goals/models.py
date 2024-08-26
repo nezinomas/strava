@@ -1,5 +1,6 @@
 from django.db import models
 
+from .lib import utils
 from .managers import AthleteManager, EntryManager, GoalManager
 
 
@@ -10,11 +11,17 @@ class Logs(models.Model):
 
 
 class Goals(models.Model):
-    year = models.PositiveIntegerField()
-    month = models.PositiveIntegerField()
-    hours = models.PositiveIntegerField()
+    year = models.PositiveIntegerField(verbose_name='Metai')
+    month = models.PositiveIntegerField(verbose_name="Mėnuo", choices=utils.MONTH_LIST)
+    hours = models.PositiveIntegerField(verbose_name="Valandos")
 
     objects = GoalManager.as_manager()
+
+    class Meta:
+        unique_together = ('year', 'month')
+        verbose_name = 'Tikslas'
+        verbose_name_plural = "Tikslai"
+
     def __str__(self):
         return f"{self.year} / {self.month} / {self.hours}"
 
