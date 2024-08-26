@@ -86,33 +86,17 @@ def test_get_object_form_list():
     arr = [Dummy(1), Dummy(2), Dummy(3)]
 
     context = Context({"arr": arr})
-    template = Template("{% load filters %}{% get_object arr 2 'xxx' %}")
+    template = Template("{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}")
 
     actual = template.render(context)
-
     assert actual == '2'
-
-
-def test_get_object_form_list_no_attribute():
-    class Dummy:
-        def __init__(self, xxx):
-            self.xxx = xxx
-
-    arr = [Dummy(1), Dummy(2), Dummy(3)]
-
-    context = Context({"arr": arr})
-    template = Template("{% load filters %}{% get_object arr 2 'zzz' %}")
-
-    actual = template.render(context)
-
-    assert actual == ''
 
 
 def test_get_object_form_list_empty_list():
     arr = []
 
     context = Context({"arr": arr})
-    template = Template("{% load filters %}{% get_object arr 2 'xxx' %}")
+    template = Template("{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}")
 
     actual = template.render(context)
 

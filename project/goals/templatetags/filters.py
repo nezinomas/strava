@@ -37,14 +37,10 @@ def intcomma(number):
     return str(number).replace(",", ".")
 
 
-@register.simple_tag
-def get_object(arr, index, obj_var):
+# @register.simple_tag
+@register.filter(is_safe=True)
+def get_object(arr, index):
     try:
-        obj = arr[index - 1]
+        return arr[index - 1]
     except IndexError:
-        return ''
-
-    try:
-        return getattr(obj, str(obj_var))
-    except AttributeError:
         return ''
