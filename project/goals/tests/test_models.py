@@ -4,7 +4,7 @@ import pendulum
 import pytest
 import time_machine
 
-from ..models import Activities, Goals, Logs
+from ..models import Activities, Goal, Logs
 from .factories import (AthleteFactory, EntryFactory, GoalFactory,
                         LogFailFactory, LogSuccessFactory)
 
@@ -21,7 +21,7 @@ def test_goal_current():
     GoalFactory(year=2022, month=3, hours=30)
     GoalFactory(year=2022, month=4, hours=40)
 
-    actual = Goals.objects.get_goal(2022, 4)
+    actual = Goal.objects.get_goal(2022, 4)
 
     assert actual == 144_000  # 40 * 60 * 60
 
@@ -29,7 +29,7 @@ def test_goal_current():
 def test_goal_not_set():
     GoalFactory()
 
-    actual = Goals.objects.get_goal(1999, 4)
+    actual = Goal.objects.get_goal(1999, 4)
 
     assert actual == 0
 

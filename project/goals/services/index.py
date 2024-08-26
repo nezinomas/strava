@@ -5,7 +5,7 @@ import pendulum
 from django.urls import reverse
 
 from ..lib import utils
-from ..models import Activities, Goals, Logs
+from ..models import Activities, Goal, Logs
 
 
 @dataclass
@@ -22,7 +22,7 @@ class IndexServiceData:
         self.last_update = self.get_last_update()
 
     def get_goal(self):
-        return Goals.objects.get_goal(self.year, self.month)
+        return Goal.objects.get_goal(self.year, self.month)
 
     def get_collected(self):
         return Activities.objects.total_time(pendulum.Date(self.year, self.month, 1))

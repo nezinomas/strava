@@ -10,7 +10,7 @@ class Logs(models.Model):
     message = models.TextField(null=True, blank=True)
 
 
-class Goals(models.Model):
+class Goal(models.Model):
     year = models.PositiveIntegerField(verbose_name='Metai')
     month = models.PositiveIntegerField(verbose_name="Mėnuo", choices=utils.MONTH_LIST)
     hours = models.PositiveIntegerField(verbose_name="Valandos")

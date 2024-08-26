@@ -78,7 +78,7 @@ class Admin(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         year = pendulum.now().year
-        sql = Goals.objects.filter(year=year)
+        sql = Goal.objects.filter(year=year)
         goals = [None] * 13
 
         for goal in sql:
