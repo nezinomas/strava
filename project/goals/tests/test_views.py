@@ -258,11 +258,10 @@ def test_redirect_after_successful_login(client, admin_user):
     assert response.resolver_match.url_name == "admin"
 
 
-def test_admin_view_must_be_logged_in(client):
-    url = reverse("goals:admin")
-    response = client.get(url, follow=True)
+def test_admin_func():
+    view = resolve("/admin/")
 
-    assert response.resolver_match.view_name == 'goals:login'
+    assert views.Admin == view.func.view_class
 
 
 def test_admin_view_200(admin_client):
@@ -270,6 +269,13 @@ def test_admin_view_200(admin_client):
     response = admin_client.get(url)
 
     assert response.status_code == 200
+
+
+def test_admin_view_must_be_logged_in(client):
+    url = reverse("goals:admin")
+    response = client.get(url, follow=True)
+
+    assert response.resolver_match.view_name == 'goals:login'
 
 
 def test_logout_func():
