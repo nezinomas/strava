@@ -37,9 +37,9 @@
 .admin-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
+    row-gap: 2.5rem;
+    column-gap: 5rem;
     grid-area: data-table;
     width: 100%;
     text-align: center;
-
 }
