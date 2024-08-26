@@ -80,11 +80,10 @@ class Admin(LoginRequiredMixin, TemplateView):
         year = pendulum.now().year
         sql = Goals.objects.filter(year=year)
         goals = [None] * 13
-        print(f'--------------------------->\n{sql}\n')
+
         for goal in sql:
             goals[goal.month] = goal
 
-        print(f'--------------------------->\n{goals}\n')
         context = {
             "year": year,
             "months": utils.MONTH_LIST.values(),
