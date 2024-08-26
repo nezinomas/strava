@@ -8,7 +8,7 @@ from vanilla import ListView, TemplateView
 
 from .lib import utils
 from .mixins.views import rendered_content
-from .models import Activities
+from .models import Activities, Goals
 from .services.index import load_index_context
 
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
@@ -75,3 +75,20 @@ class Logout(auth_views.LogoutView):
 
 class Admin(LoginRequiredMixin, TemplateView):
     template_name = "goals/admin.html"
+
+    def get_context_data(self, **kwargs):
+        year = pendulum.now().year
+        sql = Goals.objects.filter(year=year)
+        goals = [None] * 13
+        print(f'--------------------------->\n{sql}\n')
+        for goal in sql:
+            goals[goal.month] = goal
+
+        print(f'--------------------------->\n{goals}\n')
+        context = {
+            "year": year,
+            "months": utils.MONTH_LIST.values(),
+            "goals": goals,
+        }
+
+        return super().get_context_data(**kwargs) | context

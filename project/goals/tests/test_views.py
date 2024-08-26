@@ -6,6 +6,7 @@ from django.urls import resolve, reverse
 from pendulum import date
 
 from .. import views
+from ..lib import utils
 from .factories import (EntryFactory, GoalFactory, LogFailFactory,
                         LogSuccessFactory)
 
@@ -276,6 +277,47 @@ def test_admin_view_must_be_logged_in(client):
     response = client.get(url, follow=True)
 
     assert response.resolver_match.view_name == 'goals:login'
+
+
+@time_machine.travel("2022-04-01")
+def test_admin_view_context(admin_client):
+    url = reverse("goals:admin")
+    response = admin_client.get(url)
+
+    assert "months" in response.context
+    assert len(response.context["months"]) == 12
+
+    assert "year" in response.context
+    assert response.context["year"] == 2022
+
+
+@time_machine.travel("2022-04-01")
+def test_admin_view_context_goal_list(admin_client):
+    obj = GoalFactory()
+
+    url = reverse("goals:admin")
+    response = admin_client.get(url)
+
+    assert "goals" in response.context
+
+    actual = response.context["goals"]
+
+    assert len(actual) == 13
+
+
+    assert actual[0] is None
+    assert actual[1] is None
+    assert actual[2] is None
+    assert actual[3] is None
+    assert actual[4] == obj
+    assert actual[5] is None
+    assert actual[6] is None
+    assert actual[7] is None
+    assert actual[8] is None
+    assert actual[9] is None
+    assert actual[10] is None
+    assert actual[11] is None
+    assert actual[12] is None
 
 
 def test_logout_func():
