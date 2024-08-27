@@ -96,6 +96,7 @@ class GoalList(LoginRequiredMixin, ListView):
         year = pendulum.now().year
         goals_dict = {item.month: item for item in Goal.objects.filter(year=year)}
         collected_dict = {item["month"]: item for item in  Activities.objects.year_stats(year)}
+        collected_dict = {key: {**value, 'hours': int(value['hours'] / 3600)} for key, value in collected_dict.items()}
 
         object_list = []
         for month_num, month in utils.MONTH_LIST.items():
@@ -104,12 +105,13 @@ class GoalList(LoginRequiredMixin, ListView):
 
             css_class = ""
             if month_num <= pendulum.now().month and (goal and collected):
-                css_class = "goal_success" if collected["hours"] / 3600 > goal.hours else "goal_fail"
+                css_class = "goal_success" if collected["hours"] > goal.hours else "goal_fail"
 
             object_list.append({
                 "month_num": month_num,
                 "month": month,
                 "goal": goal,
+                "collected": collected,
                 "css_class": css_class,
             })
 

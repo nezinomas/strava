@@ -6,7 +6,9 @@
 <div class="month-goal">
     <div class="title">{{object.month}}</div>
     <div class="goal {{object.css_class}}">
-        {% if object.goal %}{{object.goal.hours}}{% else %}0{% endif %}</div>
+        {% if object.goal %}{{object.goal.hours}}{% else %}0{% endif %}
+    </div>
+    <div class="collected">{% if object.collected %}Surinkta: <strong>{{object.collected.hours}}</strong>{% else %}&nbsp;{% endif %}</div>
     <div class="buttons">
         {% if object.goal %}
         <button type="button" class="btn-secondary" hx-get="{% url 'goals:goal_update' object.goal.pk %}" hx-target="#mainModal"><i class="bi bi-pencil"></i></button>
