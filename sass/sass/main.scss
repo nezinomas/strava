@@ -180,3 +180,11 @@ a, a:visited, a:hover, a:active {
         margin: 1.5rem 0;
     }
 }
+
+.goal_success {
+    color: $success;
+}
+
+.goal_fail {
+    color: $danger;
+}
