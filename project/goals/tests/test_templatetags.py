@@ -89,7 +89,7 @@ def test_get_object_form_list():
     template = Template("{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}")
 
     actual = template.render(context)
-    assert actual == '2'
+    assert actual == '3'
 
 
 def test_get_object_form_list_empty_list():

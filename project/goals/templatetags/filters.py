@@ -38,9 +38,9 @@ def intcomma(number):
 
 
 # @register.simple_tag
-@register.filter(is_safe=True)
+@register.filter()
 def get_object(arr, index):
     try:
-        return arr[index - 1]
+        return arr[index]
     except IndexError:
         return ''
