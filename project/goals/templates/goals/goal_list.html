@@ -16,7 +16,7 @@
 
         {% else %}
 
-        <button type="button" class="btn-save" hx-get="{% url 'goals:goal_add' forloop.counter %}" hx-target="#mainModal"><i class="bi bi-plus"></i></button>
+        <button type="button" class="btn-save" hx-get="{% url 'goals:goal_add' object.month_num %}" hx-target="#mainModal"><i class="bi bi-plus"></i></button>
         {% endif %}
     </div>
 </div>
