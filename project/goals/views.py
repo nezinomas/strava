@@ -1,18 +1,18 @@
-from django.urls import reverse_lazy
 import pendulum
 from django.contrib.auth import logout
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.urls.base import reverse
 from vanilla import ListView, TemplateView
 
+from .forms import GoalForm
 from .lib import utils
 from .mixins.views import (CreateViewMixin, DeleteViewMixin, UpdateViewMixin,
                            rendered_content)
 from .models import Activities, Goal
 from .services.index import load_index_context
-from .forms import GoalForm
 
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
 
@@ -78,6 +78,14 @@ class Logout(auth_views.LogoutView):
 
 class Admin(LoginRequiredMixin, TemplateView):
     template_name = "goals/admin.html"
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs) | {"goal_list": rendered_content(self.request, GoalList)}
+
+
+class GoalList(LoginRequiredMixin, ListView):
+    model = Goal
+    template_name = "goals/goal_list.html"
 
     def get_context_data(self, **kwargs):
         year = pendulum.now().year

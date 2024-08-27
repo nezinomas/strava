@@ -319,6 +319,26 @@ def test_admin_view_context_goal_list(admin_client):
     assert actual[12] is None
 
 
+def test_goals_list_func():
+    view = resolve("/admin/goal/list/")
+
+    assert views.GoalList is view.func.view_class
+
+
+def test_goals_list_view_must_be_logged_in(client):
+    url = reverse("goals:goal_list")
+    response = client.get(url, follow=True)
+
+    assert response.resolver_match.view_name == 'goals:login'
+
+
+def test_goals_list_view_200(admin_client):
+    url = reverse("goals:goal_list")
+    response = admin_client.get(url)
+
+    assert response.status_code == 200
+
+
 def test_goals_add_func():
     view = resolve("/admin/goal/add/1/")
 
