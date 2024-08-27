@@ -2,12 +2,12 @@ from datetime import date
 
 import factory
 
-from ..models import Athletes, Activities, Goals, Logs
+from ..models import Athletes, Activities, Goal, Logs
 
 
 class GoalFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Goals
+        model = Goal
 
     year = 2022
     month = 4

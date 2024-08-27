@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block extra_head%}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" media="all" rel="stylesheet">
+<script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="admin-grid" hx-get="{% url 'goals:goal_list' %}" hx-trigger="reload from:body">
+        {{goal_list}}
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="mainModalContainer" class="modal">
+    <div id="mainModal" class="modal-dialog" hx-target="this" hx-swap="this"></div>
+</div>
+{% endblock %}

@@ -1,5 +1,7 @@
 from django.db import models
+from django.urls import reverse_lazy
 
+from .lib import utils
 from .managers import AthleteManager, EntryManager, GoalManager
 
 
@@ -9,14 +11,26 @@ class Logs(models.Model):
     message = models.TextField(null=True, blank=True)
 
 
-class Goals(models.Model):
-    year = models.PositiveIntegerField()
-    month = models.PositiveIntegerField()
-    hours = models.PositiveIntegerField()
+class Goal(models.Model):
+    year = models.PositiveIntegerField(verbose_name='Metai')
+    month = models.PositiveIntegerField(verbose_name="Mėnuo", choices=utils.MONTH_LIST)
+    hours = models.PositiveIntegerField(verbose_name="Valandos")
 
     objects = GoalManager.as_manager()
+
+    class Meta:
+        unique_together = ('year', 'month')
+        verbose_name = 'Tikslas'
+        verbose_name_plural = "Tikslai"
+
     def __str__(self):
         return f"{self.year} / {self.month} / {self.hours}"
+
+    def get_absolute_url(self):
+        return reverse_lazy("goals:goal_update", kwargs={"pk": self.pk})
+
+    def get_delete_url(self):
+        return reverse_lazy("goals:goal_delete", kwargs={"pk": self.pk})
 
 
 class Athletes(models.Model):

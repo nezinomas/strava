@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 import pytest
 from django.template import Context, Template
 
@@ -74,3 +76,28 @@ def test_intcomma(value, expect):
     actual = template.render(context)
 
     assert actual == expect
+
+
+def test_get_object_form_list():
+    class Dummy:
+        def __init__(self, xxx):
+            self.xxx = xxx
+
+    arr = [Dummy(1), Dummy(2), Dummy(3)]
+
+    context = Context({"arr": arr})
+    template = Template("{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}")
+
+    actual = template.render(context)
+    assert actual == '3'
+
+
+def test_get_object_form_list_empty_list():
+    arr = []
+
+    context = Context({"arr": arr})
+    template = Template("{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}")
+
+    actual = template.render(context)
+
+    assert actual == ''

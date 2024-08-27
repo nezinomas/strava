@@ -35,3 +35,12 @@ def cut_name(name: str):
 @register.filter
 def intcomma(number):
     return str(number).replace(",", ".")
+
+
+# @register.simple_tag
+@register.filter()
+def get_object(arr, index):
+    try:
+        return arr[index]
+    except IndexError:
+        return ''
