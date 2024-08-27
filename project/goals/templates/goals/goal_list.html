@@ -9,7 +9,7 @@
     <div class="buttons">
         {% if goal %}
         <button type="button" class="btn-secondary" hx-get="{% url 'goals:goal_update' goal.pk %}" hx-target="#mainModal"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn-trash"><i class="bi bi-trash"></i></button>
+        <button type="button" class="btn-trash" hx-get="{% url 'goals:goal_delete' goal.pk %}" hx-target="#mainModal"><i class="bi bi-trash"></i></button>
 
         {% else %}
 

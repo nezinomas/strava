@@ -127,3 +127,11 @@ class GoalUpdate(LoginRequiredMixin, UpdateViewMixin):
 
     def url(self):
         return self.object.get_absolute_url() if self.object else None
+
+
+class GoalDelete(LoginRequiredMixin, DeleteViewMixin):
+    model = Goal
+    success_url = reverse_lazy("goals:goal_list")
+
+    def url(self):
+        return self.object.get_delete_url() if self.object else None

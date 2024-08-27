@@ -16,4 +16,5 @@ urlpatterns = [
     path('admin/goal/list/', views.GoalList.as_view(), name="goal_list"),
     path('admin/goal/add/<int:month>/', views.GoalAdd.as_view(), name="goal_add"),
     path('admin/goal/update/<int:pk>/', views.GoalUpdate.as_view(), name="goal_update"),
+    path('admin/goal/delete/<int:pk>/', views.GoalDelete.as_view(), name="goal_delete"),
 ]

@@ -458,6 +458,46 @@ def test_update_load_goals_form(admin_client):
     assert '<input type="number" name="hours" value="10"' in form
 
 
+def test_goals_delete_func():
+    view = resolve("/admin/goal/delete/1/")
+
+    assert views.GoalDelete is view.func.view_class
+
+
+def test_goals_delete_view_must_be_logged_in(client):
+    url = reverse("goals:goal_delete", kwargs={"pk": 1})
+    response = client.get(url, follow=True)
+
+    assert response.resolver_match.view_name == 'goals:login'
+
+
+def test_goals_delete_view_200(admin_client):
+    obj = GoalFactory()
+    url = reverse("goals:goal_delete", kwargs={"pk": obj.pk})
+    response = admin_client.get(url)
+
+    assert response.status_code == 200
+
+def test_goals_delete_load_form(admin_client):
+    obj = GoalFactory()
+    url = reverse("goals:goal_delete", kwargs={"pk": obj.pk})
+    response = admin_client.get(url)
+
+    form = response.content.decode("utf-8")
+
+    assert f' hx-post="{reverse("goals:goal_delete", kwargs={"pk": obj.pk})}"' in form
+    assert f'Ar tikrai nori ištrinti: <strong>{obj.year} / {obj.month} / {obj.hours}</strong>?' in form
+
+def test_goals_delete_object_deleted(admin_client):
+    obj = GoalFactory()
+    assert models.Goal.objects.count() == 1
+
+    url = reverse("goals:goal_delete", kwargs={"pk": obj.pk})
+    admin_client.post(url, follow=True)
+
+    assert models.Goal.objects.count() == 0
+
+
 def test_logout_func():
     view = resolve("/logout/")
 

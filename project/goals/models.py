@@ -29,6 +29,8 @@ class Goal(models.Model):
     def get_absolute_url(self):
         return reverse_lazy("goals:goal_update", kwargs={"pk": self.pk})
 
+    def get_delete_url(self):
+        return reverse_lazy("goals:goal_delete", kwargs={"pk": self.pk})
 
 
 class Athletes(models.Model):
