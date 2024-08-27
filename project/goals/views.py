@@ -9,8 +9,12 @@ from vanilla import ListView, TemplateView
 
 from .forms import GoalForm
 from .lib import utils
-from .mixins.views import (CreateViewMixin, DeleteViewMixin, UpdateViewMixin,
-                           rendered_content)
+from .mixins.views import (
+    CreateViewMixin,
+    DeleteViewMixin,
+    UpdateViewMixin,
+    rendered_content,
+)
 from .models import Activities, Goal
 from .services.index import load_index_context
 
@@ -80,7 +84,8 @@ class Admin(LoginRequiredMixin, TemplateView):
     template_name = "goals/admin.html"
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs) | {"goal_list": rendered_content(self.request, GoalList)}
+        context = {"goal_list": rendered_content(self.request, GoalList)}
+        return super().get_context_data(**kwargs) | context
 
 
 class GoalList(LoginRequiredMixin, ListView):
