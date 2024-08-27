@@ -113,6 +113,7 @@ class GoalAdd(LoginRequiredMixin, CreateViewMixin):
     model = Goal
     form_class = GoalForm
     success_url = reverse_lazy("goals:admin")
+    title = "Create Goal"
 
     def get_form(self, data=None, files=None, **kwargs):
         cls = self.get_form_class()
@@ -129,6 +130,7 @@ class GoalUpdate(LoginRequiredMixin, UpdateViewMixin):
     model = Goal
     form_class = GoalForm
     success_url = reverse_lazy("goals:admin")
+    title = "Update Goal"
 
     def url(self):
         return self.object.get_absolute_url() if self.object else None
