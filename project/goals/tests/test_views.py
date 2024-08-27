@@ -264,14 +264,14 @@ def test_admin_func():
     assert views.Admin == view.func.view_class
 
 
-def test_admin_view_200(admin_client):
+def test_admin_200(admin_client):
     url = reverse("goals:admin")
     response = admin_client.get(url)
 
     assert response.status_code == 200
 
 
-def test_admin_view_must_be_logged_in(client):
+def test_admin_must_be_logged_in(client):
     url = reverse("goals:admin")
     response = client.get(url, follow=True)
 
@@ -279,7 +279,7 @@ def test_admin_view_must_be_logged_in(client):
 
 
 @time_machine.travel("2022-04-01")
-def test_admin_view_context(admin_client):
+def test_admin_context(admin_client):
     url = reverse("goals:admin")
     response = admin_client.get(url)
 
@@ -291,7 +291,7 @@ def test_admin_view_context(admin_client):
 
 
 @time_machine.travel("2022-04-01")
-def test_admin_view_context_goal_list(admin_client):
+def test_admin_context_goal_list(admin_client):
     obj = GoalFactory()
 
     url = reverse("goals:admin")
@@ -319,53 +319,41 @@ def test_admin_view_context_goal_list(admin_client):
     assert actual[12] is None
 
 
-def test_goals_list_func():
+def test_list_func():
     view = resolve("/admin/goal/list/")
 
     assert views.GoalList is view.func.view_class
 
 
-def test_goals_list_view_must_be_logged_in(client):
+def test_list_must_be_logged_in(client):
     url = reverse("goals:goal_list")
     response = client.get(url, follow=True)
 
     assert response.resolver_match.view_name == 'goals:login'
 
 
-def test_goals_list_view_200(admin_client):
+def test_list_200(admin_client):
     url = reverse("goals:goal_list")
     response = admin_client.get(url)
 
     assert response.status_code == 200
 
 
-def test_goals_add_func():
+def test_add_func():
     view = resolve("/admin/goal/add/1/")
 
     assert views.GoalAdd is view.func.view_class
 
 
-def test_goals_add_view_must_be_logged_in(client):
+def test_add_must_be_logged_in(client):
     url = reverse("goals:goal_add", kwargs={"month": 1})
-    response = client.get(url, follow=True)
-
-    assert response.resolver_match.view_name == 'goals:login'
-
-def test_goals_update_func():
-    view = resolve("/admin/goal/update/1/")
-
-    assert views.GoalUpdate is view.func.view_class
-
-
-def test_goals_update_view_must_be_logged_in(client):
-    url = reverse("goals:goal_update", kwargs={"pk": 1})
     response = client.get(url, follow=True)
 
     assert response.resolver_match.view_name == 'goals:login'
 
 
 @time_machine.travel("2022-04-01")
-def test_load_goals_form(admin_client):
+def test_add_load_form(admin_client):
     url = reverse("goals:goal_add", kwargs={"month": 11})
     response = admin_client.get(url, {})
 
@@ -389,7 +377,7 @@ def test_load_goals_form(admin_client):
 
 
 @time_machine.travel("2022-04-01")
-def test_load_goals_form_wrong_month(admin_client):
+def test_add_load_form_wrong_month(admin_client):
     url = reverse("goals:goal_add", kwargs={"month": 111})
     response = admin_client.get(url, {})
 
@@ -398,8 +386,19 @@ def test_load_goals_form_wrong_month(admin_client):
     assert f'hx-post="{reverse("goals:goal_add", kwargs={"month": 1})}' in form
 
 
+def test_add_invalid_data(admin_client):
+    url = reverse("goals:goal_add", kwargs={"month": 11})
+    data = {}
+    form = admin_client.post(url, data).context["form"]
+
+    assert not form.is_valid()
+    assert "year" in form.errors
+    assert "month" in form.errors
+    assert "hours" in form.errors
+
+
 @time_machine.travel("2022-04-01")
-def test_save_goal(admin_client):
+def test_add_save_goal(admin_client):
     url = reverse("goals:goal_add", kwargs={"month": 11})
     data = {
         "year": 2022,
@@ -415,18 +414,21 @@ def test_save_goal(admin_client):
     assert obj.month == 11
     assert obj.hours == 222
 
-def test_save_goal_invalid_data(admin_client):
-    url = reverse("goals:goal_add", kwargs={"month": 11})
-    data = {}
-    form = admin_client.post(url, data).context["form"]
 
-    assert not form.is_valid()
-    assert "year" in form.errors
-    assert "month" in form.errors
-    assert "hours" in form.errors
+def test_update_func():
+    view = resolve("/admin/goal/update/1/")
+
+    assert views.GoalUpdate is view.func.view_class
 
 
-def test_update_goal(admin_client):
+def test_update_must_be_logged_in(client):
+    url = reverse("goals:goal_update", kwargs={"pk": 1})
+    response = client.get(url, follow=True)
+
+    assert response.resolver_match.view_name == 'goals:login'
+
+
+def test_update(admin_client):
     obj = GoalFactory(year=2022, month=11, hours=222)
 
     url = reverse("goals:goal_update", kwargs={"pk": obj.pk})
@@ -445,7 +447,7 @@ def test_update_goal(admin_client):
     assert obj.hours == 333
 
 
-def test_update_load_goals_form(admin_client):
+def test_update_load_form(admin_client):
     obj = GoalFactory()
     url = reverse("goals:goal_update", kwargs={"pk": obj.pk})
     response = admin_client.get(url)
@@ -458,27 +460,27 @@ def test_update_load_goals_form(admin_client):
     assert '<input type="number" name="hours" value="10"' in form
 
 
-def test_goals_delete_func():
+def test_delete_func():
     view = resolve("/admin/goal/delete/1/")
 
     assert views.GoalDelete is view.func.view_class
 
 
-def test_goals_delete_view_must_be_logged_in(client):
+def test_delete_must_be_logged_in(client):
     url = reverse("goals:goal_delete", kwargs={"pk": 1})
     response = client.get(url, follow=True)
 
     assert response.resolver_match.view_name == 'goals:login'
 
 
-def test_goals_delete_view_200(admin_client):
+def test_delete_view_200(admin_client):
     obj = GoalFactory()
     url = reverse("goals:goal_delete", kwargs={"pk": obj.pk})
     response = admin_client.get(url)
 
     assert response.status_code == 200
 
-def test_goals_delete_load_form(admin_client):
+def test_delete_load_form(admin_client):
     obj = GoalFactory()
     url = reverse("goals:goal_delete", kwargs={"pk": obj.pk})
     response = admin_client.get(url)
@@ -488,7 +490,8 @@ def test_goals_delete_load_form(admin_client):
     assert f' hx-post="{reverse("goals:goal_delete", kwargs={"pk": obj.pk})}"' in form
     assert f'Ar tikrai nori ištrinti: <strong>{obj.year} / {obj.month} / {obj.hours}</strong>?' in form
 
-def test_goals_delete_object_deleted(admin_client):
+
+def test_delete_object_deleted(admin_client):
     obj = GoalFactory()
     assert models.Goal.objects.count() == 1
 
@@ -504,7 +507,7 @@ def test_logout_func():
     assert views.Logout is view.func.view_class
 
 
-def test_logout_view_redirect_to_index(admin_client):
+def test_logout_redirect_to_index(admin_client):
     url = reverse("goals:logout")
     response = admin_client.get(url, follow=True)
 
