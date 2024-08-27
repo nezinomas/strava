@@ -4,7 +4,6 @@ import pytest
 import time_machine
 from django.urls import resolve, reverse
 from pendulum import date
-from webob import year
 
 from .. import views, models
 from .factories import (EntryFactory, GoalFactory, LogFailFactory,
@@ -284,11 +283,8 @@ def test_admin_context(admin_client):
     url = reverse("goals:admin")
     response = admin_client.get(url)
 
-    assert "months" in response.context
-    assert len(response.context["months"]) == 12
-
-    assert "year" in response.context
-    assert response.context["year"] == 2022
+    assert "object_list" in response.context
+    assert len(response.context["object_list"]) == 12
 
 
 def test_list_func():
@@ -312,32 +308,49 @@ def test_list_200(admin_client):
 
 
 @time_machine.travel("2022-04-01")
-def test_list_context(admin_client):
+def test_list_context_goal(admin_client):
     obj1 = GoalFactory(year=2022, month=1, hours=10)
     obj2 = GoalFactory(year=2022, month=12, hours=120)
 
     url = reverse("goals:admin")
     response = admin_client.get(url)
 
-    assert "goals" in response.context
+    actual = response.context["object_list"]
 
-    actual = response.context["goals"]
+    assert actual[0]["goal"] == obj1
+    assert actual[1]["goal"] is None
+    assert actual[2]["goal"] is None
+    assert actual[3]["goal"] is None
+    assert actual[4]["goal"] is None
+    assert actual[5]["goal"] is None
+    assert actual[6]["goal"] is None
+    assert actual[7]["goal"] is None
+    assert actual[8]["goal"] is None
+    assert actual[9]["goal"] is None
+    assert actual[10]["goal"] is None
+    assert actual[11]["goal"] == obj2
 
-    assert len(actual) == 13
 
-    assert actual[0] is None
-    assert actual[1] == obj1
-    assert actual[2] is None
-    assert actual[3] is None
-    assert actual[4] is None
-    assert actual[5] is None
-    assert actual[6] is None
-    assert actual[7] is None
-    assert actual[8] is None
-    assert actual[9] is None
-    assert actual[10] is None
-    assert actual[11] is None
-    assert actual[12] == obj2
+@time_machine.travel("2022-04-01")
+def test_list_context_css_class(admin_client):
+    GoalFactory(year=2022, month=1, hours=10)
+    GoalFactory(year=2022, month=2, hours=10)
+    GoalFactory(year=2022, month=3, hours=10)
+    GoalFactory(year=2022, month=4, hours=10)
+
+    EntryFactory(date=date(2022, 1, 1), moving_time=1 * 3600)
+    EntryFactory(date=date(2022, 2, 1), moving_time=100 * 3600)
+    EntryFactory(date=date(2022, 4, 1), moving_time=1 * 3600)
+
+    url = reverse("goals:admin")
+    response = admin_client.get(url)
+
+    actual = response.context["object_list"]
+
+    assert actual[0]["css_class"] == "goal_fail"
+    assert actual[1]["css_class"] == "goal_success"
+    assert actual[2]["css_class"] == ""
+    assert actual[3]["css_class"] == "goal_fail"
 
 
 def test_add_func():

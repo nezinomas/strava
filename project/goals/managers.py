@@ -2,6 +2,7 @@ import pendulum
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Count, F, Sum
+from django.db.models.functions import TruncMonth, ExtractMonth
 
 
 class GoalManager(models.QuerySet):
@@ -79,6 +80,18 @@ class EntryManager(models.QuerySet):
                 athlete_name=F("athlete__name"),
             )
             .order_by("-moving_time")
+        )
+
+    def year_stats(self, year: int):
+        return(
+            self.related()
+            .annotate(cnt=Count('id'))
+            .values("id")
+            .annotate(date_trunc=TruncMonth("date"))
+            .values("date_trunc")
+            .annotate(hours=Sum("moving_time"))
+            .order_by("date_trunc")
+            .values("hours", month=ExtractMonth("date_trunc"))
         )
 
     def total_time(self, date: pendulum.Date):

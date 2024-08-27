@@ -88,6 +88,21 @@ def test_entry_month_stats_ordering_by_moving_time():
     assert actual[1]["moving_time"] == 30
 
 
+def test_entry_year_stats():
+    EntryFactory(date=date(2022, 4, 25))
+    EntryFactory(date=date(2022, 4, 25))
+    EntryFactory(date=date(2022, 8, 25))
+    EntryFactory(date=date(2022, 8, 25))
+
+    actual = Activities.objects.year_stats(year=2022)
+
+    assert actual.count() == 2
+    assert actual[0]["hours"] == 60
+    assert actual[0]["month"] == 4
+    assert actual[1]["hours"] == 60
+    assert actual[1]["month"] == 8
+
+
 def test_entry_total_time():
     EntryFactory()
     EntryFactory()
