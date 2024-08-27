@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponse
 from django_htmx.http import HttpResponseClientRedirect, trigger_client_event
 from vanilla import CreateView, DeleteView, UpdateView
