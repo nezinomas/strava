@@ -11,7 +11,12 @@ input.text-center {
     padding: .35rem .25rem .35rem .75rem;
 }
 
-.form-control {
+.form-select {
+    padding: .35rem 2.25rem .35rem .75rem;
+}
+
+.form-control,
+.form-select {
     display: block;
     width: 100%;
     background-color: white !important;
@@ -47,6 +52,12 @@ input.text-center {
 .is-invalid {
     &.form-control {
         background-position: right .5rem center;
+    }
+
+    &.form-select {
+        background-position:
+            right 1.25rem center,
+            center right 2.25rem;
     }
 }
 
