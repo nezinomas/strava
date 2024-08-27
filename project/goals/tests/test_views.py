@@ -4,6 +4,7 @@ import pytest
 import time_machine
 from django.urls import resolve, reverse
 from pendulum import date
+from webob import year
 
 from .. import views, models
 from .factories import (EntryFactory, GoalFactory, LogFailFactory,
@@ -290,35 +291,6 @@ def test_admin_context(admin_client):
     assert response.context["year"] == 2022
 
 
-@time_machine.travel("2022-04-01")
-def test_admin_context_goal_list(admin_client):
-    obj = GoalFactory()
-
-    url = reverse("goals:admin")
-    response = admin_client.get(url)
-
-    assert "goals" in response.context
-
-    actual = response.context["goals"]
-
-    assert len(actual) == 13
-
-
-    assert actual[0] is None
-    assert actual[1] is None
-    assert actual[2] is None
-    assert actual[3] is None
-    assert actual[4] == obj
-    assert actual[5] is None
-    assert actual[6] is None
-    assert actual[7] is None
-    assert actual[8] is None
-    assert actual[9] is None
-    assert actual[10] is None
-    assert actual[11] is None
-    assert actual[12] is None
-
-
 def test_list_func():
     view = resolve("/admin/goal/list/")
 
@@ -337,6 +309,35 @@ def test_list_200(admin_client):
     response = admin_client.get(url)
 
     assert response.status_code == 200
+
+
+@time_machine.travel("2022-04-01")
+def test_list_context(admin_client):
+    obj1 = GoalFactory(year=2022, month=1, hours=10)
+    obj2 = GoalFactory(year=2022, month=12, hours=120)
+
+    url = reverse("goals:admin")
+    response = admin_client.get(url)
+
+    assert "goals" in response.context
+
+    actual = response.context["goals"]
+
+    assert len(actual) == 13
+
+    assert actual[0] is None
+    assert actual[1] == obj1
+    assert actual[2] is None
+    assert actual[3] is None
+    assert actual[4] is None
+    assert actual[5] is None
+    assert actual[6] is None
+    assert actual[7] is None
+    assert actual[8] is None
+    assert actual[9] is None
+    assert actual[10] is None
+    assert actual[11] is None
+    assert actual[12] == obj2
 
 
 def test_add_func():
