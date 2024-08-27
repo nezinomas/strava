@@ -5,8 +5,7 @@ import time_machine
 from django.urls import resolve, reverse
 from pendulum import date
 
-from .. import views
-from ..lib import utils
+from .. import views, models
 from .factories import (EntryFactory, GoalFactory, LogFailFactory,
                         LogSuccessFactory)
 
@@ -318,6 +317,125 @@ def test_admin_view_context_goal_list(admin_client):
     assert actual[10] is None
     assert actual[11] is None
     assert actual[12] is None
+
+
+def test_goals_add_func():
+    view = resolve("/admin/goal/add/1/")
+
+    assert views.GoalAdd is view.func.view_class
+
+
+def test_goals_add_view_must_be_logged_in(client):
+    url = reverse("goals:goal_add", kwargs={"month": 1})
+    response = client.get(url, follow=True)
+
+    assert response.resolver_match.view_name == 'goals:login'
+
+def test_goals_update_func():
+    view = resolve("/admin/goal/update/1/")
+
+    assert views.GoalUpdate is view.func.view_class
+
+
+def test_goals_update_view_must_be_logged_in(client):
+    url = reverse("goals:goal_update", kwargs={"pk": 1})
+    response = client.get(url, follow=True)
+
+    assert response.resolver_match.view_name == 'goals:login'
+
+
+@time_machine.travel("2022-04-01")
+def test_load_goals_form(admin_client):
+    url = reverse("goals:goal_add", kwargs={"month": 11})
+    response = admin_client.get(url, {})
+
+    form = response.content.decode("utf-8")
+
+    assert '<input type="number" name="year" value="2022"' in form
+    assert '<select name="month"' in form
+    assert '<option value="1">Sausis</option>' in form
+    assert '<option value="2">Vasaris</option>' in form
+    assert '<option value="3">Kovas</option>' in form
+    assert '<option value="4">Balandis</option>' in form
+    assert '<option value="5">Gegužė</option>' in form
+    assert '<option value="6">Birželis</option>' in form
+    assert '<option value="7">Liepa</option>' in form
+    assert '<option value="8">Rugpjūtis</option>' in form
+    assert '<option value="9">Rugsėjis</option>' in form
+    assert '<option value="10">Spalis</option>' in form
+    assert '<option value="11" selected>Lapkritis</option>' in form
+    assert '<option value="12">Gruodis</option>' in form
+    assert '<input type="number" name="hours"' in form
+
+
+@time_machine.travel("2022-04-01")
+def test_load_goals_form_wrong_month(admin_client):
+    url = reverse("goals:goal_add", kwargs={"month": 111})
+    response = admin_client.get(url, {})
+
+    form = response.content.decode("utf-8")
+
+    assert f'hx-post="{reverse("goals:goal_add", kwargs={"month": 1})}' in form
+
+
+@time_machine.travel("2022-04-01")
+def test_save_goal(admin_client):
+    url = reverse("goals:goal_add", kwargs={"month": 11})
+    data = {
+        "year": 2022,
+        "month": 11,
+        "hours": 222
+    }
+
+    admin_client.post(url, data, follow=True)
+
+    obj = models.Goal.objects.first()
+
+    assert obj.year == 2022
+    assert obj.month == 11
+    assert obj.hours == 222
+
+def test_save_goal_invalid_data(admin_client):
+    url = reverse("goals:goal_add", kwargs={"month": 11})
+    data = {}
+    form = admin_client.post(url, data).context["form"]
+
+    assert not form.is_valid()
+    assert "year" in form.errors
+    assert "month" in form.errors
+    assert "hours" in form.errors
+
+
+def test_update_goal(admin_client):
+    obj = GoalFactory(year=2022, month=11, hours=222)
+
+    url = reverse("goals:goal_update", kwargs={"pk": obj.pk})
+    data = {
+        "year": 2022,
+        "month": 11,
+        "hours": 333
+    }
+
+    admin_client.post(url, data, follow=True)
+
+    obj.refresh_from_db()
+
+    assert obj.year == 2022
+    assert obj.month == 11
+    assert obj.hours == 333
+
+
+def test_update_load_goals_form(admin_client):
+    obj = GoalFactory()
+    url = reverse("goals:goal_update", kwargs={"pk": obj.pk})
+    response = admin_client.get(url)
+
+    form = response.content.decode("utf-8")
+
+    assert f' hx-post="{reverse("goals:goal_update", kwargs={"pk": obj.pk})}"' in form
+    assert '<input type="number" name="year" value="2022"' in form
+    assert '<option value="4" selected>Balandis</option>' in form
+    assert '<input type="number" name="hours" value="10"' in form
 
 
 def test_logout_func():

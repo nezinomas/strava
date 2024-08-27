@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 
 from .lib import utils
 from .managers import AthleteManager, EntryManager, GoalManager
@@ -24,6 +25,10 @@ class Goal(models.Model):
 
     def __str__(self):
         return f"{self.year} / {self.month} / {self.hours}"
+
+    def get_absolute_url(self):
+        return reverse_lazy("goals:goal_update", kwargs={"pk": self.pk})
+
 
 
 class Athletes(models.Model):

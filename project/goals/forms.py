@@ -11,8 +11,12 @@ class GoalForm(forms.ModelForm):
         fields = ["year", "month", "hours"]
 
     def __init__(self, *args, **kwargs):
+        # get month from kwargs and remove it from kwargs
+        month = kwargs.pop("month", None)
+
         super().__init__(*args, **kwargs)
 
         self.fields["year"].initial = datetime.now().year
+        self.fields["month"].initial = month
 
         self.helper = FormHelper()

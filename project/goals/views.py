@@ -1,3 +1,4 @@
+from django.urls import reverse_lazy
 import pendulum
 from django.contrib.auth import logout
 from django.contrib.auth import views as auth_views
@@ -7,9 +8,11 @@ from django.urls.base import reverse
 from vanilla import ListView, TemplateView
 
 from .lib import utils
-from .mixins.views import rendered_content
-from .models import Activities, Goals
+from .mixins.views import (CreateViewMixin, DeleteViewMixin, UpdateViewMixin,
+                           rendered_content)
+from .models import Activities, Goal
 from .services.index import load_index_context
+from .forms import GoalForm
 
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
 
@@ -91,3 +94,28 @@ class Admin(LoginRequiredMixin, TemplateView):
         }
 
         return super().get_context_data(**kwargs) | context
+
+
+class GoalAdd(LoginRequiredMixin, CreateViewMixin):
+    model = Goal
+    form_class = GoalForm
+    success_url = reverse_lazy("goals:admin")
+
+    def get_form(self, data=None, files=None, **kwargs):
+        cls = self.get_form_class()
+        return cls(data=data, files=files, **kwargs | self.kwargs)
+
+    def url(self):
+        month = self.kwargs.get("month", 1)
+        month = month if month in range(1, 13) else 1
+
+        return reverse("goals:goal_add", kwargs={"month": month})
+
+
+class GoalUpdate(LoginRequiredMixin, UpdateViewMixin):
+    model = Goal
+    form_class = GoalForm
+    success_url = reverse_lazy("goals:admin")
+
+    def url(self):
+        return self.object.get_absolute_url() if self.object else None

@@ -5,7 +5,7 @@
 
 
 {% block extra_head%}
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" media="all" rel="stylesheet">
 <script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
@@ -18,21 +18,22 @@
 <div class="container">
     <div class="admin-grid">
         {% for month in months %}
-        {% get_object goals forloop.counter 'hours' as goal %}
+        {% with goals|get_object:forloop.counter as goal %}
         <div class="month-goal">
             <div class="title">{{month}}</div>
-            <div class="goal">{% if goal %}{{goal}}{% else %}0{% endif %}</div>
+            <div class="goal">{% if goal %}{{goal.hours}}{% else %}0{% endif %}</div>
             <div class="buttons">
                 {% if goal %}
-                <button type="button" class="btn-secondary"><i class="bi bi-pencil"></i></button>
+                <button type="button" class="btn-secondary" hx-get="{% url 'goals:goal_update' goal.pk %}" hx-target="#mainModal"><i class="bi bi-pencil"></i></button>
                 <button type="button" class="btn-trash"><i class="bi bi-trash"></i></button>
 
                 {% else %}
 
-                <button type="button" class="btn-save"><i class="bi bi-plus"></i></button>
+                <button type="button" class="btn-save" hx-get="{% url 'goals:goal_add' forloop.counter %}" hx-target="#mainModal"><i class="bi bi-plus"></i></button>
                 {% endif %}
             </div>
         </div>
+        {% endwith %}
         {% endfor %}
     </div>
 </div>

@@ -13,4 +13,6 @@ urlpatterns = [
     path('login/', views.Login.as_view(), name="login"),
     path('logout/', views.Logout.as_view(), name="logout"),
     path('admin/', views.Admin.as_view(), name="admin"),
+    path('admin/goal/add/<int:month>/', views.GoalAdd.as_view(), name="goal_add"),
+    path('admin/goal/update/<int:pk>/', views.GoalUpdate.as_view(), name="goal_update"),
 ]
