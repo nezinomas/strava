@@ -114,6 +114,20 @@ a, a:visited, a:hover, a:active {
     border-radius: var(--border-radius);
 }
 
+.alert {
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    padding: .5rem 0;
+    margin-bottom: $gap;
+    text-align: center;
+}
+
+.alert.alert-danger {
+    border-color: $danger-border;
+    background-color: $danger-bg;
+    color: $danger-text-clr;
+}
+
 .login {
     display: grid;
     grid-template-columns: 1fr;
