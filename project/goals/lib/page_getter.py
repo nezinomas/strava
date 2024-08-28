@@ -11,9 +11,9 @@ from selenium.webdriver.common.by import By
 
 def get_leaderboard():
     # get data from conf file
-    # conf_path = Path(__file__).absolute().parent.parent.parent.parent
-    # with open(conf_path / ".conf", "rb") as f:
-    #     conf = toml.load(f)["strava"]
+    conf_path = Path(__file__).absolute().parent.parent.parent.parent
+    with open(conf_path / ".conf", "rb") as f:
+        conf = toml.load(f)["strava"]
 
     options = Options()
     options.add_argument("--headless")
@@ -24,7 +24,7 @@ def get_leaderboard():
     # print(f'--------------------------->\n{conf["CHROMEDRIVER_PATH"]=}\n')
     # service = FirefoxService(conf["CHROMEDRIVER_PATH"])
 
-    service = FirefoxService(options=options, executable_path=GeckoDriverManager().install())
+    service = FirefoxService(options=options, executable_path=conf["CHROMEDRIVER_PATH"])
     browser = webdriver.Firefox(service=service)
 
     # browser = webdriver.Firefox(service=service, options=options)
