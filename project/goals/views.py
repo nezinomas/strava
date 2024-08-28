@@ -95,9 +95,12 @@ class GoalList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         year = pendulum.now().year
         goals_sql = Goal.objects.filter(year=year)
-        collected_sql = {item["month"]: item["hours"] / 3600 for item in Activities.objects.year_stats(year)}
-        object_list = []
+        collected_sql = {
+            item["month"]: item["hours"] / 3600
+            for item in Activities.objects.year_stats(year)
+        }
 
+        object_list = []
         for month_num, month in utils.MONTH_LIST.items():
             goal = goals_sql.filter(month=month_num).first()
             collected = collected_sql.get(month_num)
@@ -106,13 +109,15 @@ class GoalList(LoginRequiredMixin, ListView):
             if goal and collected and month_num <= pendulum.now().month:
                 css_class = "goal_success" if collected > goal.hours else "goal_fail"
 
-            object_list.append({
-                "month_num": month_num,
-                "month": month,
-                "goal": goal,
-                "collected": collected,
-                "css_class": css_class,
-            })
+            object_list.append(
+                {
+                    "month_num": month_num,
+                    "month": month,
+                    "goal": goal,
+                    "collected": collected,
+                    "css_class": css_class,
+                }
+            )
 
         context = {
             "object_list": object_list,
