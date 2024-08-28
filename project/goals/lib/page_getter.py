@@ -17,15 +17,15 @@ def get_leaderboard():
 
     options = Options()
     options.add_argument("--headless")
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
+    # options.add_argument('--no-sandbox')
+    # options.add_argument('--disable-dev-shm-usage')
     # options = Options()
     # options.add_argument('--headless')
     # print(f'--------------------------->\n{conf["CHROMEDRIVER_PATH"]=}\n')
     # service = FirefoxService(conf["CHROMEDRIVER_PATH"])
 
-    service = FirefoxService(options=options, executable_path=conf["CHROMEDRIVER_PATH"])
-    browser = webdriver.Firefox(service=service)
+    service = FirefoxService(executable_path=conf["CHROMEDRIVER_PATH"])
+    browser = webdriver.Firefox(options=options, service=service)
 
     # browser = webdriver.Firefox(service=service, options=options)
     browser.get('https://www.strava.com/login')
