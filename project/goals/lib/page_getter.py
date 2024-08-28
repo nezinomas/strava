@@ -16,9 +16,9 @@ def get_leaderboard():
     #     conf = toml.load(f)["strava"]
 
     options = Options()
-    # options.add_argument("--headless")
-    # options.add_argument('--no-sandbox')
-    # options.add_argument('--disable-dev-shm-usage')
+    options.add_argument("--headless")
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
     # options = Options()
     # options.add_argument('--headless')
     # print(f'--------------------------->\n{conf["CHROMEDRIVER_PATH"]=}\n')
