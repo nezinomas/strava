@@ -90,7 +90,6 @@ class Admin(LoginRequiredMixin, TemplateView):
 
 class GoalList(LoginRequiredMixin, ListView):
     model = Goal
-    template_name = "goals/goal_list.html"
 
     def get_context_data(self, **kwargs):
         year = pendulum.now().year
