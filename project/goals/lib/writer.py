@@ -18,10 +18,12 @@ class Writer:
         self.last_week, self.this_week = self._parse_data()
 
     def _get_data(self):
-        html = get_leaderboard()
+        browser = get_leaderboard()
 
-        this_week = get_leaderboard_html(html)
-        last_week = get_last_week_leaderboard_html(html)
+        this_week = get_leaderboard_html(browser)
+        last_week = get_last_week_leaderboard_html(browser)
+
+        browser.close()
 
         return last_week, this_week
 

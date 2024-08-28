@@ -3,26 +3,34 @@ from pathlib import Path
 from time import sleep
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 
 
 def get_leaderboard():
     # get data from conf file
-    conf_path = Path(__file__).absolute().parent.parent.parent.parent
-    with open(conf_path / ".conf", "rb") as f:
-        conf = toml.load(f)["strava"]
+    # conf_path = Path(__file__).absolute().parent.parent.parent.parent
+    # with open(conf_path / ".conf", "rb") as f:
+    #     conf = toml.load(f)["strava"]
 
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
+    options = Options()
+    # options.add_argument("--headless")
+    # options.add_argument('--no-sandbox')
+    # options.add_argument('--disable-dev-shm-usage')
+    # options = Options()
+    # options.add_argument('--headless')
+    # print(f'--------------------------->\n{conf["CHROMEDRIVER_PATH"]=}\n')
+    # service = FirefoxService(conf["CHROMEDRIVER_PATH"])
 
-    service = Service(conf["CHROMEDRIVER_PATH"])
+    service = FirefoxService(options=options, executable_path=GeckoDriverManager().install())
+    browser = webdriver.Firefox(service=service)
 
-    browser = webdriver.Chrome(service=service, options=options)
+    # browser = webdriver.Firefox(service=service, options=options)
     browser.get('https://www.strava.com/login')
 
     sleep(0.25)
-
 
     browser.find_element(By.XPATH, "//button[@class='btn-accept-cookie-banner']").click()
 
