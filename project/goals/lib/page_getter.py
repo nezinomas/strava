@@ -3,8 +3,7 @@ from pathlib import Path
 from time import sleep
 
 from selenium import webdriver
-from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 
@@ -17,17 +16,10 @@ def get_leaderboard():
 
     options = Options()
     options.add_argument("--headless")
-    # options.add_argument('--no-sandbox')
-    # options.add_argument('--disable-dev-shm-usage')
-    # options = Options()
-    # options.add_argument('--headless')
-    # print(f'--------------------------->\n{conf["CHROMEDRIVER_PATH"]=}\n')
-    # service = FirefoxService(conf["CHROMEDRIVER_PATH"])
 
-    service = FirefoxService(executable_path=conf["CHROMEDRIVER_PATH"])
+    service = Service(executable_path=conf["CHROMEDRIVER_PATH"])
+
     browser = webdriver.Firefox(options=options, service=service)
-
-    # browser = webdriver.Firefox(service=service, options=options)
     browser.get('https://www.strava.com/login')
 
     sleep(0.25)
