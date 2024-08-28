@@ -95,8 +95,10 @@ class GoalList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         year = pendulum.now().year
         goals_dict = {item.month: item for item in Goal.objects.filter(year=year)}
-        collected_dict = {item["month"]: item for item in  Activities.objects.year_stats(year)}
-        collected_dict = {key: {**value, 'hours': int(value['hours'] / 3600)} for key, value in collected_dict.items()}
+        collected_dict = {
+            item["month"]: {**item, 'hours': int(item['hours'] / 3600)}
+            for item in Activities.objects.year_stats(year)
+        }
 
         object_list = []
         for month_num, month in utils.MONTH_LIST.items():
