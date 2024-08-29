@@ -127,17 +127,15 @@ class GoalList(LoginRequiredMixin, ListView):
 
 class GoalAdd(LoginRequiredMixin, CreateViewMixin):
     model = Goal
-    form_class = GoalForm
     success_url = reverse_lazy("goals:admin")
     title = "Create Goal"
 
     def get_form(self, data=None, files=None, **kwargs):
-        cls = self.get_form_class()
-        return cls(data=data, files=files, **kwargs | self.kwargs)
+        return GoalForm(data, files, month=self.kwargs.get("month", 1), **kwargs)
 
     def url(self):
         month = self.kwargs.get("month", 1)
-        month = month if month in range(1, 13) else 1
+        month = month if 1 <= month <= 12 else 1
 
         return reverse("goals:goal_add", kwargs={"month": month})
 
