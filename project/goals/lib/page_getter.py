@@ -12,12 +12,11 @@ SLEEP_TIME = 0.25
 
 
 class StravaData():
-    _conf = {}
     _browser = None
 
     def __init__(self):
-        self._get_conf()
-        self._get_browser()
+        # self._conf = self._get_conf()
+        self._browser = self._get_browser()
 
         self._login()
         self._get_leaderboard_page()
@@ -30,7 +29,7 @@ class StravaData():
     def _get_conf(self):
         conf_path = Path(__file__).absolute().parent.parent.parent.parent
         with open(conf_path / ".conf", "rb") as f:
-            self._conf = toml.load(f)["strava"]
+            return toml.load(f)["strava"]
 
     def _get_browser(self):
         options = Options()
@@ -39,7 +38,7 @@ class StravaData():
         service = Service(executable_path=self._conf["DRIVER_PATH"])
         # service = Service(executable_path=GeckoDriverManager().install())
 
-        self._browser = webdriver.Firefox(options=options, service=service)
+        return webdriver.Firefox(options=options, service=service)
 
     def _login(self):
         sleep(SLEEP_TIME)
