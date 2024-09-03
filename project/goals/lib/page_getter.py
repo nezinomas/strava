@@ -11,11 +11,11 @@ from webdriver_manager.firefox import GeckoDriverManager
 SLEEP_TIME = 0.25
 
 
-class StravaData():
+class StravaData:
     _browser = None
 
     def __init__(self):
-        # self._conf = self._get_conf()
+        self._conf = self._get_conf()
         self._browser = self._get_browser()
 
         self._login()
@@ -33,6 +33,8 @@ class StravaData():
 
     def _get_browser(self):
         options = Options()
+
+        # Setting headless mode, orherwise the browser will not open in the background when server running without GUI
         options.add_argument("--headless")
 
         service = Service(executable_path=self._conf["DRIVER_PATH"])
@@ -42,25 +44,33 @@ class StravaData():
 
     def _login(self):
         sleep(SLEEP_TIME)
-        self._browser.get('https://www.strava.com/login')
+        self._browser.get("https://www.strava.com/login")
 
         sleep(SLEEP_TIME)
-        self._browser.find_element(By.XPATH, "//button[@class='btn-accept-cookie-banner']").click()
+        self._browser.find_element(
+            By.XPATH, "//button[@class='btn-accept-cookie-banner']"
+        ).click()
 
         sleep(SLEEP_TIME)
         self._browser.find_element(By.ID, "email").send_keys(self._conf["STRAVA_USER"])
-        self._browser.find_element(By.ID, "password").send_keys(self._conf["STRAVA_PASSWORD"])
+        self._browser.find_element(By.ID, "password").send_keys(
+            self._conf["STRAVA_PASSWORD"]
+        )
         self._browser.find_element(By.ID, "login-button").click()
 
     def _get_leaderboard_page(self):
         sleep(SLEEP_TIME)
-        self._browser.get('https://www.strava.com/clubs/1028542/leaderboard')
+        self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
 
     def _get_html(self):
-        return self._browser.find_element(By.XPATH, "//div[@class='leaderboard']").get_attribute('outerHTML')
+        return self._browser.find_element(
+            By.XPATH, "//div[@class='leaderboard']"
+        ).get_attribute("outerHTML")
 
     def _get_last_week_html(self):
-        self._browser.find_element(By.XPATH, "//span[@class='button last-week']").click()
+        self._browser.find_element(
+            By.XPATH, "//span[@class='button last-week']"
+        ).click()
 
         sleep(SLEEP_TIME)
 
