@@ -3,49 +3,75 @@ from pathlib import Path
 from time import sleep
 
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
+
+SLEEP_TIME = 0.25
 
 
-def get_leaderboard():
-    # get data from conf file
-    conf_path = Path(__file__).absolute().parent.parent.parent.parent
-    with open(conf_path / ".conf", "rb") as f:
-        conf = toml.load(f)["strava"]
+class StravaData:
+    _browser = None
 
-    options = Options()
-    options.add_argument("--headless")
+    def __init__(self):
+        self._conf = self._get_conf()
+        self._browser = self._get_browser()
 
-    service = Service(executable_path=conf["CHROMEDRIVER_PATH"])
+        self._login()
+        self._get_leaderboard_page()
 
-    browser = webdriver.Firefox(options=options, service=service)
-    browser.get('https://www.strava.com/login')
+        self.this_week = self._get_html()
+        self.last_week = self._get_last_week_html()
 
-    sleep(0.25)
+        self._browser.close()
 
-    browser.find_element(By.XPATH, "//button[@class='btn-accept-cookie-banner']").click()
+    def _get_conf(self):
+        conf_path = Path(__file__).absolute().parent.parent.parent.parent
+        with open(conf_path / ".conf", "rb") as f:
+            return toml.load(f)["strava"]
 
-    sleep(0.25)
+    def _get_browser(self):
+        options = Options()
 
-    browser.find_element(By.ID, "email").send_keys(conf["STRAVA_USER"])
-    browser.find_element(By.ID, "password").send_keys(conf["STRAVA_PASSWORD"])
-    browser.find_element(By.ID, "login-button").click()
+        # Setting headless mode, orherwise the browser will not open in the background when server running without GUI
+        options.add_argument("--headless")
 
-    browser.get('https://www.strava.com/clubs/1028542/leaderboard')
+        service = Service(executable_path=self._conf["DRIVER_PATH"])
+        # service = Service(executable_path=GeckoDriverManager().install())
 
-    sleep(0.25)
+        return webdriver.Firefox(options=options, service=service)
 
-    return browser
+    def _login(self):
+        sleep(SLEEP_TIME)
+        self._browser.get("https://www.strava.com/login")
 
+        sleep(SLEEP_TIME)
+        self._browser.find_element(
+            By.XPATH, "//button[@class='btn-accept-cookie-banner']"
+        ).click()
 
-def get_leaderboard_html(browser):
-    return browser.find_element(By.XPATH, "//div[@class='leaderboard']").get_attribute('outerHTML')
+        sleep(SLEEP_TIME)
+        self._browser.find_element(By.ID, "email").send_keys(self._conf["STRAVA_USER"])
+        self._browser.find_element(By.ID, "password").send_keys(
+            self._conf["STRAVA_PASSWORD"]
+        )
+        self._browser.find_element(By.ID, "login-button").click()
 
+    def _get_leaderboard_page(self):
+        sleep(SLEEP_TIME)
+        self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
 
-def get_last_week_leaderboard_html(browser):
-    browser.find_element(By.XPATH, "//span[@class='button last-week']").click()
+    def _get_html(self):
+        return self._browser.find_element(
+            By.XPATH, "//div[@class='leaderboard']"
+        ).get_attribute("outerHTML")
 
-    sleep(0.25)
+    def _get_last_week_html(self):
+        self._browser.find_element(
+            By.XPATH, "//span[@class='button last-week']"
+        ).click()
 
-    return get_leaderboard_html(browser)
+        sleep(SLEEP_TIME)
+
+        return self._get_html()

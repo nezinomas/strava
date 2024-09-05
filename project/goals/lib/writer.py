@@ -4,11 +4,7 @@ from datetime import timedelta
 import pendulum
 
 from ..models import Activities, Athletes
-from .page_getter import (
-    get_last_week_leaderboard_html,
-    get_leaderboard,
-    get_leaderboard_html,
-)
+from .page_getter import StravaData
 from .page_parser import PageParser
 
 
@@ -18,14 +14,9 @@ class Writer:
         self.last_week, self.this_week = self._parse_data()
 
     def _get_data(self):
-        browser = get_leaderboard()
+        data = StravaData()
 
-        this_week = get_leaderboard_html(browser)
-        last_week = get_last_week_leaderboard_html(browser)
-
-        browser.close()
-
-        return last_week, this_week
+        return data.last_week, data.this_week
 
     def _parse_data(self):
         last_week, this_week = self._get_data()
