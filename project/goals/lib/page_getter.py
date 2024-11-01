@@ -8,6 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 # from webdriver_manager.firefox import GeckoDriverManager
 
 SLEEP_TIME = 0.25
@@ -39,6 +40,11 @@ class StravaData:
         # Setting headless mode, orherwise the browser will not open in the background when server running without GUI
         options.add_argument("--headless")
 
+        # Setting the Firefox profile
+        firefox_profile = FirefoxProfile()
+        firefox_profile.set_preference("javascript.enabled", True)
+        options.profile = firefox_profile
+
         service = Service(executable_path=self._conf["DRIVER_PATH"])
         # service = Service(executable_path=GeckoDriverManager().install())
 
@@ -47,6 +53,7 @@ class StravaData:
     def _login(self):
         sleep(SLEEP_TIME)
         self._browser.get("https://www.strava.com/login")
+        print(self._browser.page_source)
 
         sleep(SLEEP_TIME)
         with contextlib.suppress(NoSuchElementException):
