@@ -10,7 +10,6 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from webdriver_manager.firefox import GeckoDriverManager
-from fake_useragent import UserAgent
 import undetected_chromedriver as uc
 
 SLEEP_TIME = 0.5
