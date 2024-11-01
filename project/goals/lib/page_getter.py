@@ -9,9 +9,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-# from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+from fake_useragent import UserAgent
+import undetected_chromedriver as uc
 
-SLEEP_TIME = 0.25
+SLEEP_TIME = 0.5
 
 
 class StravaData:
@@ -35,21 +37,30 @@ class StravaData:
             return toml.load(f)["strava"]
 
     def _get_browser(self):
-        options = Options()
+        # options = Options()
 
-        # Setting headless mode, orherwise the browser will not open in the background when server running without GUI
-        options.add_argument("--headless")
-        options.add_argument("--enable-javascript")
+        # # Setting headless mode, orherwise the browser will not open in the background when server running without GUI
+        # # options.add_argument("--headless")
+        # options.add_argument("--enable-javascript")
 
-        # Setting the Firefox profile
-        firefox_profile = FirefoxProfile()
-        firefox_profile.set_preference("javascript.enabled", False)
-        options.profile = firefox_profile
+        # # Setting the user agent
+        # ua = UserAgent()
+        # user_agent = ua.random
+        # options.add_argument(f'--user-agent={user_agent}')
 
-        service = Service(executable_path=self._conf["DRIVER_PATH"])
+        # options.add_argument("--width=1200")
+        # options.add_argument("--height=800")
+
+        # # Setting the Firefox profile
+        # firefox_profile = FirefoxProfile()
+        # firefox_profile.set_preference("javascript.enabled", True)
+        # options.profile = firefox_profile
+
+        # # service = Service(executable_path=self._conf["DRIVER_PATH"])
         # service = Service(executable_path=GeckoDriverManager().install())
 
-        return webdriver.Firefox(options=options, service=service)
+        # return webdriver.Firefox(options=options, service=service)
+        return uc.Chrome(headless=False,use_subprocess=False)
 
     def _login(self):
         sleep(SLEEP_TIME)
