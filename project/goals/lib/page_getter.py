@@ -1,12 +1,14 @@
+import contextlib
 import tomllib as toml
 from pathlib import Path
 from time import sleep
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
-from webdriver_manager.firefox import GeckoDriverManager
+# from webdriver_manager.firefox import GeckoDriverManager
 
 SLEEP_TIME = 0.25
 
@@ -47,9 +49,10 @@ class StravaData:
         self._browser.get("https://www.strava.com/login")
 
         sleep(SLEEP_TIME)
-        self._browser.find_element(
-            By.XPATH, "//button[@class='btn-accept-cookie-banner']"
-        ).click()
+        with contextlib.suppress(NoSuchElementException):
+            self._browser.find_element(
+                By.XPATH, "//button[@class='btn-accept-cookie-banner']"
+            ).click()
 
         sleep(SLEEP_TIME)
         self._browser.find_element(By.ID, "email").send_keys(self._conf["STRAVA_USER"])
