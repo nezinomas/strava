@@ -39,6 +39,7 @@ class StravaData:
 
         # Setting headless mode, orherwise the browser will not open in the background when server running without GUI
         options.add_argument("--headless")
+        options.add_argument("--enable-javascript")
 
         # Setting the Firefox profile
         firefox_profile = FirefoxProfile()
