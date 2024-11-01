@@ -43,7 +43,7 @@ class StravaData:
 
         # Setting the Firefox profile
         firefox_profile = FirefoxProfile()
-        firefox_profile.set_preference("javascript.enabled", True)
+        firefox_profile.set_preference("javascript.enabled", False)
         options.profile = firefox_profile
 
         service = Service(executable_path=self._conf["DRIVER_PATH"])
