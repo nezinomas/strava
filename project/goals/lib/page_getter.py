@@ -1,18 +1,21 @@
 import contextlib
+import random
+from tkinter.tix import MAX
 import tomllib as toml
 from pathlib import Path
 from time import sleep
 
+import undetected_chromedriver as uc
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from webdriver_manager.firefox import GeckoDriverManager
-import undetected_chromedriver as uc
 
-SLEEP_TIME = 0.5
+MIN_TIME   = 0.5
+MAX_TIME   = 3.5
 
 
 class StravaData:
@@ -59,21 +62,21 @@ class StravaData:
         # service = Service(executable_path=GeckoDriverManager().install())
 
         # return webdriver.Firefox(options=options, service=service)
-        return uc.Chrome(headless=False,use_subprocess=False, driver_executable_path=self._conf["DRIVER_PATH"])
+        return uc.Chrome(headless=True,use_subprocess=False, driver_executable_path=self._conf["DRIVER_PATH"])
 
     def _login(self):
-        sleep(SLEEP_TIME)
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
         self._browser.get("https://www.strava.com/login")
 
         # print(self._browser.page_source)
 
-        sleep(SLEEP_TIME)
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
         with contextlib.suppress(NoSuchElementException):
             self._browser.find_element(
                 By.XPATH, "//button[@class='btn-accept-cookie-banner']"
             ).click()
 
-        sleep(SLEEP_TIME)
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
         self._browser.find_element(By.ID, "email").send_keys(self._conf["STRAVA_USER"])
         self._browser.find_element(By.ID, "password").send_keys(
             self._conf["STRAVA_PASSWORD"]
@@ -81,7 +84,7 @@ class StravaData:
         self._browser.find_element(By.ID, "login-button").click()
 
     def _get_leaderboard_page(self):
-        sleep(SLEEP_TIME)
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
 
     def _get_html(self):
@@ -94,6 +97,6 @@ class StravaData:
             By.XPATH, "//span[@class='button last-week']"
         ).click()
 
-        sleep(SLEEP_TIME)
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
 
         return self._get_html()
