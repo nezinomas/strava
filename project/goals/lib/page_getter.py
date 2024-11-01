@@ -64,11 +64,8 @@ class StravaData:
     def _login(self):
         sleep(SLEEP_TIME)
         self._browser.get("https://www.strava.com/login")
-        title = self._browser.execute_script("return document.title;")
 
-        # Print the result.
-        print("The title of the page is:", title)
-        print(self._browser.page_source)
+        # print(self._browser.page_source)
 
         sleep(SLEEP_TIME)
         with contextlib.suppress(NoSuchElementException):
