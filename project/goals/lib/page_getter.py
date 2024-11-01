@@ -59,7 +59,7 @@ class StravaData:
         # service = Service(executable_path=GeckoDriverManager().install())
 
         # return webdriver.Firefox(options=options, service=service)
-        return uc.Chrome(headless=True,use_subprocess=False)
+        return uc.Chrome(headless=True,use_subprocess=False, driver_executable_path="/home/pi/.local/share/undetected_chromedriver/chromedriver")
 
     def _login(self):
         sleep(SLEEP_TIME)
