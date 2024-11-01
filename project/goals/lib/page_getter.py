@@ -54,6 +54,7 @@ class StravaData:
     def _login(self):
         sleep(SLEEP_TIME)
         self._browser.get("https://www.strava.com/login")
+        self._browser.execute_script("return navigator.userAgent")
         print(self._browser.page_source)
 
         sleep(SLEEP_TIME)
