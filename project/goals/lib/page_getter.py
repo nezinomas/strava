@@ -85,11 +85,11 @@ class StravaData:
             ).click()
 
         sleep(random.uniform(MIN_TIME, MAX_TIME))
-        self._browser.find_element(By.ID, "email").send_keys(self._conf["STRAVA_USER"])
-        self._browser.find_element(By.ID, "password").send_keys(
+        self._browser.find_element(By.ID, "desktop-email").send_keys(self._conf["STRAVA_USER"])
+        self._browser.find_element(By.ID, "desktop-current-password").send_keys(
             self._conf["STRAVA_PASSWORD"]
         )
-        self._browser.find_element(By.ID, "login-button").click()
+        self._browser.find_element(By.ID, "desktop-login-button").click()
 
     def _get_leaderboard_page(self):
         sleep(random.uniform(MIN_TIME, MAX_TIME))
