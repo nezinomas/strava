@@ -86,11 +86,23 @@ class StravaData:
             ).click()
 
         sleep(random.uniform(MIN_TIME, MAX_TIME))
-        self._browser.find_element(By.ID, "desktop-email").send_keys(self._conf["STRAVA_USER"])
-        self._browser.find_element(By.ID, "desktop-current-password").send_keys(
+
+        with contextlib.suppress(NoSuchElementException):
+            self._fill_login_fields("email", "current-password", "login-button")
+        try:
+            self._fill_login_fields(
+                "desktop-email", "desktop-current-password", "desktop-login-button"
+            )
+        except NoSuchElementException as e:
+            raise NoSuchElementException from e
+
+    # TODO Rename this here and in `_login`
+    def _fill_login_fields(self, arg0, arg1, arg2):
+        self._browser.find_element(By.ID, arg0).send_keys(self._conf["STRAVA_USER"])
+        self._browser.find_element(By.ID, arg1).send_keys(
             self._conf["STRAVA_PASSWORD"]
         )
-        self._browser.find_element(By.ID, "desktop-login-button").click()
+        self._browser.find_element(By.ID, arg2).click()
 
     def _get_leaderboard_page(self):
         sleep(random.uniform(MIN_TIME, MAX_TIME))
