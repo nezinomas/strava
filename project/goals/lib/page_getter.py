@@ -75,11 +75,11 @@ class StravaData:
 
     def _login(self):
         sleep(random.uniform(MIN_TIME, MAX_TIME))
+
         self._browser.get("https://www.strava.com/login")
 
-        # print(self._browser.page_source)
-
         sleep(random.uniform(MIN_TIME, MAX_TIME))
+
         with contextlib.suppress(NoSuchElementException):
             self._browser.find_element(
                 By.XPATH, "//button[@class='btn-accept-cookie-banner']"
