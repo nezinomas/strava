@@ -88,10 +88,10 @@ class StravaData:
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
         with contextlib.suppress(NoSuchElementException):
-            self._fill_login_fields("email", "current-password", "login-button")
+            self._fill_login_fields("email", "password", "login-button")
         try:
             self._fill_login_fields(
-                "desktop-email", "desktop-current-password", "desktop-login-button"
+                "desktop-email", "desktop-password", "desktop-login-button"
             )
         except NoSuchElementException as e:
             raise NoSuchElementException from e
