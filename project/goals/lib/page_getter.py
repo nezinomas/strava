@@ -99,7 +99,6 @@ class StravaData:
             except NoSuchElementException:
                 continue
 
-    # TODO Rename this here and in `_login`
     def _fill_login_fields(self, email, password, login_button):
         self._browser.find_element(By.ID, email).send_keys(self._conf["STRAVA_USER"])
         self._browser.find_element(By.ID, password).send_keys(
