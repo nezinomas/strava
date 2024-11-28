@@ -1,18 +1,19 @@
 import contextlib
 import random
-from tkinter.tix import MAX
-import tomllib as toml
 from pathlib import Path
 from time import sleep
 
+import tomllib as toml
 import undetected_chromedriver as uc
-from selenium import webdriver
+
+# from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.firefox.service import Service
-from webdriver_manager.firefox import GeckoDriverManager
+
+# from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+# from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver.firefox.service import Service
+# from webdriver_manager.firefox import GeckoDriverManager
 
 MIN_TIME   = 0.5
 MAX_TIME   = 3.5
