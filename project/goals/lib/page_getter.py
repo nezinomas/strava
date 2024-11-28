@@ -97,12 +97,12 @@ class StravaData:
             raise NoSuchElementException from e
 
     # TODO Rename this here and in `_login`
-    def _fill_login_fields(self, arg0, arg1, arg2):
-        self._browser.find_element(By.ID, arg0).send_keys(self._conf["STRAVA_USER"])
-        self._browser.find_element(By.ID, arg1).send_keys(
+    def _fill_login_fields(self, email, password, login_button):
+        self._browser.find_element(By.ID, email).send_keys(self._conf["STRAVA_USER"])
+        self._browser.find_element(By.ID, password).send_keys(
             self._conf["STRAVA_PASSWORD"]
         )
-        self._browser.find_element(By.ID, arg2).click()
+        self._browser.find_element(By.ID, login_button).click()
 
     def _get_leaderboard_page(self):
         sleep(random.uniform(MIN_TIME, MAX_TIME))
