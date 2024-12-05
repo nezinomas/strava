@@ -101,10 +101,14 @@ class StravaData:
                 continue
 
     def _fill_login_fields(self, email, password, login_button):
-        self._browser.find_element(By.ID, email).send_keys(self._conf["STRAVA_USER"])
-        self._browser.find_element(By.ID, password).send_keys(
-            self._conf["STRAVA_PASSWORD"]
-        )
+        def _inputs(field, value):
+            elem = self._browser.find_element(By.ID, field)
+            elem.clear()
+            elem.send_keys(value)
+
+        _inputs(email, self._conf["STRAVA_USER"])
+        _inputs(password, self._conf["STRAVA_PASSWORD"])
+
         self._browser.find_element(By.ID, login_button).click()
 
     def _get_leaderboard_page(self):
