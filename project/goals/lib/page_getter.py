@@ -118,22 +118,18 @@ class StravaData:
             ],
         }
 
+        exceptions = {
+            "email": NoEmailFieldException,
+            "password": NoPasswordFieldException,
+            "login-button": NoLoginButtonException,
+        }
+
         fields = {"email": None, "password": None, "login-button": None,}
-
-        try:
-            fields["email"] = self._find_field(fields_id["email"])
-        except NoEmailFieldException as e:
-            raise NoEmailFieldException from e
-
-        try:
-            fields["password"] = self._find_field(fields_id["password"])
-        except NoPasswordFieldException as e:
-            raise NoPasswordFieldException from e
-
-        try:
-            fields["login_button"] = self._find_field(fields_id["login-button"])
-        except NoLoginButtonException as e:
-            raise NoLoginButtonException from e
+        for name in ["email", "password", "login-button"]:
+            try:
+                fields[name] = self._find_field(fields_id[name])
+            except NoSuchElementException as e:
+                raise exceptions[name] from e
 
         fields["email"].send_keys(self._conf["STRAVA_USER"])
         sleep(random.uniform(MIN_TIME, MAX_TIME))
