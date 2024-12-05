@@ -104,6 +104,7 @@ class StravaData:
         email = [
             "email",
             "desktop-email",
+            "desktop-current-email",
         ]
 
         password = [
