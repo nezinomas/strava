@@ -103,13 +103,17 @@ class StravaData:
             },
         ]
 
-        for field in fields:
+        for i, field in enumerate(fields, 1):
             try:
                 self._fill_login_fields(
                     field["email"], field["password"], field["login-button"]
                 )
                 break
-            except NoSuchElementException:
+            except NoSuchElementException as e:
+                # if last field variation is not found raise error
+                if i == len(fields):
+                    raise NoSuchElementException from e
+
                 continue
 
     def _fill_login_fields(self, email, password, login_button):
