@@ -13,9 +13,10 @@ MONTH_LIST = {
     12: "Gruodis",
 }
 
+
 def convert_seconds(seconds: int) -> tuple[int, int, int]:
-    hours = seconds // (60*60)
-    seconds %= (60*60)
+    hours = seconds // (60 * 60)
+    seconds %= 60 * 60
     minutes = seconds // 60
     seconds %= 60
 
@@ -28,5 +29,4 @@ def convert_seconds_to_hours(seconds):
 
 
 def get_month(month: int):
-
-    return MONTH_LIST.get(month, 'Sausis')
+    return MONTH_LIST.get(month, "Sausis")

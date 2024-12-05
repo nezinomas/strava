@@ -98,10 +98,12 @@ def load_index_context(year, month):
         "chart_data": {
             "categories": ["Tikslas"],
             "target": [obj.goal_hours],
-            "fact": [{
-                "y": utils.convert_seconds_to_hours(obj.collected),
-                "target": obj.goal_hours,
-            }],
+            "fact": [
+                {
+                    "y": utils.convert_seconds_to_hours(obj.collected),
+                    "target": obj.goal_hours,
+                }
+            ],
             "factTitle": "Faktas",
             "targetTitle": "Planas",
             "percent": obj.percent,

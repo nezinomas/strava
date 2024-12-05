@@ -83,9 +83,9 @@ class EntryManager(models.QuerySet):
         )
 
     def year_stats(self, year: int):
-        return(
+        return (
             self.related()
-            .annotate(cnt=Count('id'))
+            .annotate(cnt=Count("id"))
             .values("id")
             .annotate(date_trunc=TruncMonth("date"))
             .values("date_trunc")
@@ -102,5 +102,6 @@ class EntryManager(models.QuerySet):
             self.related()
             .filter(date__range=[start, end])
             .aggregate(Sum("moving_time"))
-            .get("moving_time__sum") or 0
+            .get("moving_time__sum")
+            or 0
         )

@@ -16,7 +16,7 @@ def httpHtmxResponse(hx_trigger_name=None, status_code=204):
     headers = {}
     if hx_trigger_name:
         headers = {
-            'HX-Trigger': json.dumps({hx_trigger_name: None}),
+            "HX-Trigger": json.dumps({hx_trigger_name: None}),
         }
 
     return HttpResponse(
@@ -24,8 +24,9 @@ def httpHtmxResponse(hx_trigger_name=None, status_code=204):
         headers=headers,
     )
 
+
 class CreateUpdateMixin:
-    hx_trigger_django = 'reload'
+    hx_trigger_django = "reload"
 
     def get_hx_trigger_django(self):
         return self.hx_trigger_django
@@ -41,7 +42,7 @@ class CreateUpdateMixin:
 
 
 class DeleteMixin:
-    hx_trigger_django = 'reload'
+    hx_trigger_django = "reload"
     hx_redirect = None
 
     def get_hx_trigger_django(self):

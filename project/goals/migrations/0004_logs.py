@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("goals", "0003_rename_entrymodel_activities_and_more"),
     ]

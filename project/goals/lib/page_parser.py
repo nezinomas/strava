@@ -21,7 +21,6 @@ class Activity:
 
 
 class PageParser:
-
     def __init__(self, page_html: str):
         self.create_objects(page_html)
 
@@ -46,7 +45,9 @@ class PageParser:
                 continue
 
             self.athletes.append(Athlete(strava_id, name))
-            self.data.append(Activity(strava_id, moving_time, distance, num_activities, ascent))
+            self.data.append(
+                Activity(strava_id, moving_time, distance, num_activities, ascent)
+            )
 
     def get_items(self, page: str) -> ResultSet:
         """
@@ -96,7 +97,6 @@ class PageParser:
         num_str = item.find("td", {"class": "num_activities"}).text
 
         return int(num_str)
-
 
     def get_distance(self, item: ResultSet) -> int:
         """

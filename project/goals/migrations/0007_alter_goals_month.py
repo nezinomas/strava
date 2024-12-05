@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('goals', '0006_alter_goals_month'),
+        ("goals", "0006_alter_goals_month"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='goals',
-            name='month',
+            model_name="goals",
+            name="month",
             field=models.PositiveIntegerField(),
         ),
     ]

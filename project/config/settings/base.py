@@ -4,9 +4,7 @@ from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
 
-PROJECT_APPS = [
-    'goals'
-]
+PROJECT_APPS = ["goals"]
 
 
 # AUTH_USER_MODEL = "users.User"
@@ -132,5 +130,5 @@ AUTH_PASSWORD_VALIDATORS = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-LOGIN_URL = 'goals:login'
-LOGIN_REDIRECT_URL = 'goals:admin'
+LOGIN_URL = "goals:login"
+LOGIN_REDIRECT_URL = "goals:admin"

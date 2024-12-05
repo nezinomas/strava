@@ -33,6 +33,7 @@ def fixture_table_html():
     </div>
     """
 
+
 def test_get_items():
     page = """
     <div class="leaderboard">
@@ -170,8 +171,5 @@ def test_data_list(table_html):
 
     assert len(obj.data) == 1
     assert obj.data[0] == Activity(
-                            strava_id=123456789,
-                            moving_time=60,
-                            distance=1000,
-                            num_activities=1,
-                            ascent=100)
+        strava_id=123456789, moving_time=60, distance=1000, num_activities=1, ascent=100
+    )

@@ -5,8 +5,13 @@ import pytest
 import time_machine
 
 from ..models import Activities, Goal, Logs
-from .factories import (AthleteFactory, EntryFactory, GoalFactory,
-                        LogFailFactory, LogSuccessFactory)
+from .factories import (
+    AthleteFactory,
+    EntryFactory,
+    GoalFactory,
+    LogFailFactory,
+    LogSuccessFactory,
+)
 
 pytestmark = pytest.mark.django_db
 

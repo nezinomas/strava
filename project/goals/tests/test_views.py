@@ -6,8 +6,7 @@ from django.urls import resolve, reverse
 from pendulum import date
 
 from .. import views, models
-from .factories import (EntryFactory, GoalFactory, LogFailFactory,
-                        LogSuccessFactory)
+from .factories import EntryFactory, GoalFactory, LogFailFactory, LogSuccessFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -168,7 +167,9 @@ def test_index_log_success(client, time_machine):
     url = reverse("goals:index")
     actual = client.get(url).context["last_update"]
 
-    assert actual == datetime.datetime(1974, 1, 1, 3, 4, 3, tzinfo=datetime.timezone.utc)
+    assert actual == datetime.datetime(
+        1974, 1, 1, 3, 4, 3, tzinfo=datetime.timezone.utc
+    )
 
 
 def test_index_log_failed(client, time_machine):
@@ -189,7 +190,7 @@ def test_table_view_fuction():
 
 def test_table_view_200(client):
     url = reverse("goals:table", kwargs={"year": 1974, "month": 1})
-    response =  client.get(url)
+    response = client.get(url)
 
     assert response.status_code == 200
 
@@ -246,7 +247,10 @@ def test_login_view_wrong_credentials(client):
     response = client.post(url, credentials)
 
     assert not response.context["form"].is_valid()
-    assert "Įveskite teisingą vartotojo vardas ir slaptažodį." in response.content.decode("utf-8")
+    assert (
+        "Įveskite teisingą vartotojo vardas ir slaptažodį."
+        in response.content.decode("utf-8")
+    )
 
 
 def test_redirect_after_successful_login(client, admin_user):
@@ -275,7 +279,7 @@ def test_admin_must_be_logged_in(client):
     url = reverse("goals:admin")
     response = client.get(url, follow=True)
 
-    assert response.resolver_match.view_name == 'goals:login'
+    assert response.resolver_match.view_name == "goals:login"
 
 
 @time_machine.travel("2022-04-01")
@@ -297,7 +301,7 @@ def test_list_must_be_logged_in(client):
     url = reverse("goals:goal_list")
     response = client.get(url, follow=True)
 
-    assert response.resolver_match.view_name == 'goals:login'
+    assert response.resolver_match.view_name == "goals:login"
 
 
 def test_list_200(admin_client):
@@ -363,7 +367,7 @@ def test_add_must_be_logged_in(client):
     url = reverse("goals:goal_add", kwargs={"month": 1})
     response = client.get(url, follow=True)
 
-    assert response.resolver_match.view_name == 'goals:login'
+    assert response.resolver_match.view_name == "goals:login"
 
 
 @time_machine.travel("2022-04-01")
@@ -414,11 +418,7 @@ def test_add_invalid_data(admin_client):
 @time_machine.travel("2022-04-01")
 def test_add_save_goal(admin_client):
     url = reverse("goals:goal_add", kwargs={"month": 11})
-    data = {
-        "year": 2022,
-        "month": 11,
-        "hours": 222
-    }
+    data = {"year": 2022, "month": 11, "hours": 222}
 
     admin_client.post(url, data, follow=True)
 
@@ -439,18 +439,14 @@ def test_update_must_be_logged_in(client):
     url = reverse("goals:goal_update", kwargs={"pk": 1})
     response = client.get(url, follow=True)
 
-    assert response.resolver_match.view_name == 'goals:login'
+    assert response.resolver_match.view_name == "goals:login"
 
 
 def test_update(admin_client):
     obj = GoalFactory(year=2022, month=11, hours=222)
 
     url = reverse("goals:goal_update", kwargs={"pk": obj.pk})
-    data = {
-        "year": 2022,
-        "month": 11,
-        "hours": 333
-    }
+    data = {"year": 2022, "month": 11, "hours": 333}
 
     admin_client.post(url, data, follow=True)
 
@@ -484,7 +480,7 @@ def test_delete_must_be_logged_in(client):
     url = reverse("goals:goal_delete", kwargs={"pk": 1})
     response = client.get(url, follow=True)
 
-    assert response.resolver_match.view_name == 'goals:login'
+    assert response.resolver_match.view_name == "goals:login"
 
 
 def test_delete_view_200(admin_client):
@@ -494,6 +490,7 @@ def test_delete_view_200(admin_client):
 
     assert response.status_code == 200
 
+
 def test_delete_load_form(admin_client):
     obj = GoalFactory()
     url = reverse("goals:goal_delete", kwargs={"pk": obj.pk})
@@ -502,7 +499,10 @@ def test_delete_load_form(admin_client):
     form = response.content.decode("utf-8")
 
     assert f' hx-post="{reverse("goals:goal_delete", kwargs={"pk": obj.pk})}"' in form
-    assert f'Ar tikrai nori ištrinti: <strong>{obj.year} / {obj.month} / {obj.hours}</strong>?' in form
+    assert (
+        f"Ar tikrai nori ištrinti: <strong>{obj.year} / {obj.month} / {obj.hours}</strong>?"
+        in form
+    )
 
 
 def test_delete_object_deleted(admin_client):

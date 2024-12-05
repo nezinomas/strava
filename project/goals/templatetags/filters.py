@@ -19,8 +19,7 @@ def convert_seconds(seconds):
 def convert_meters(meters):
     tmp_placeholder = "#"
     return (
-        f"{(meters / 1000):,.1f}km"
-        .replace(".", tmp_placeholder)
+        f"{(meters / 1000):,.1f}km".replace(".", tmp_placeholder)
         .replace(",", ".")
         .replace(tmp_placeholder, ",")
     )
@@ -43,4 +42,4 @@ def get_object(arr, index):
     try:
         return arr[index]
     except IndexError:
-        return ''
+        return ""

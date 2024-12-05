@@ -9,7 +9,6 @@ from .page_parser import PageParser
 
 
 class Writer:
-
     def __init__(self):
         self.last_week, self.this_week = self._parse_data()
 
@@ -40,7 +39,9 @@ class Writer:
         for activity in activities:
             db_activity = week_data.get(activity.strava_id, {})
 
-            dif_num_activity = activity.num_activities - db_activity.get("num_activities", 0)
+            dif_num_activity = activity.num_activities - db_activity.get(
+                "num_activities", 0
+            )
             dif_moving_time = activity.moving_time - db_activity.get("moving_time", 0)
             dif_distance = activity.distance - db_activity.get("distance", 0)
             dif_ascent = activity.ascent - db_activity.get("ascent", 0)

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("goals", "0009_alter_activities_moving_time_and_more"),
     ]

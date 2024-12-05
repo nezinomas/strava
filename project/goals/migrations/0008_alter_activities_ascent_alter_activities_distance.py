@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('goals', '0007_alter_goals_month'),
+        ("goals", "0007_alter_goals_month"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='activities',
-            name='ascent',
+            model_name="activities",
+            name="ascent",
             field=models.IntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='activities',
-            name='distance',
+            model_name="activities",
+            name="distance",
             field=models.IntegerField(default=0),
         ),
     ]

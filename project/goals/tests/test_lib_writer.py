@@ -20,9 +20,9 @@ def test_get_data(mck):
     assert this_week == "this_week"
 
 
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_new_athletes(mck):
-    athletes=[Athlete(1, "AAA")]
+    athletes = [Athlete(1, "AAA")]
 
     assert Athletes.objects.count() == 0
 
@@ -35,17 +35,17 @@ def test_new_athletes(mck):
     assert actual[0].strava_id == 1
 
 
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_new_athletes_querries(mck, django_assert_max_num_queries):
-    athletes=[Athlete(1, "AAA")]
+    athletes = [Athlete(1, "AAA")]
 
     with django_assert_max_num_queries(2):
         Writer().new_athletes(athletes)
 
 
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_new_athletes_one_exists(mck):
-    athletes=[Athlete(2, "AAA")]
+    athletes = [Athlete(2, "AAA")]
     a = AthleteFactory()
 
     assert Athletes.objects.count() == 1
@@ -63,10 +63,10 @@ def test_new_athletes_one_exists(mck):
     assert actual[1].strava_id == 1
 
 
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_new_athletes_not_insert(mck):
     AthleteFactory(name="AAA", strava_id=1)
-    athletes=[Athlete(1, "AAA")]
+    athletes = [Athlete(1, "AAA")]
 
     assert Athletes.objects.count() == 1
 
@@ -78,10 +78,10 @@ def test_new_athletes_not_insert(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_new(mck):
     AthleteFactory()
-    data=[
+    data = [
         Activity(
             strava_id=1,
             moving_time=30,
@@ -101,10 +101,10 @@ def test_data_new(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_moving_time_and_num_activities_exists(mck):
     EntryFactory()
-    data=[
+    data = [
         Activity(
             strava_id=1,
             moving_time=30,
@@ -124,10 +124,10 @@ def test_data_moving_time_and_num_activities_exists(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_new_entry(mck):
     EntryFactory()
-    data=[
+    data = [
         Activity(
             strava_id=1,
             moving_time=60,
@@ -152,10 +152,10 @@ def test_data_append_new_entry(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_new_entry_num_queries(mck, django_assert_max_num_queries):
     EntryFactory()
-    data=[
+    data = [
         Activity(
             strava_id=1,
             moving_time=30,
@@ -170,10 +170,10 @@ def test_data_append_new_entry_num_queries(mck, django_assert_max_num_queries):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_negative_distance(mck):
     EntryFactory(distance=9)
-    data=[
+    data = [
         Activity(
             strava_id=1,
             moving_time=60,
@@ -193,10 +193,10 @@ def test_data_append_negative_distance(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_negative_ascent(mck):
     EntryFactory(ascent=9)
-    data=[
+    data = [
         Activity(
             strava_id=1,
             moving_time=60,
@@ -216,10 +216,10 @@ def test_data_append_negative_ascent(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_negative_num_activities(mck):
     EntryFactory(num_activities=9)
-    data=[
+    data = [
         Activity(
             strava_id=1,
             moving_time=60,
@@ -239,10 +239,10 @@ def test_data_append_negative_num_activities(mck):
 
 
 @time_machine.travel("2022-04-25")
-@patch("project.goals.lib.writer.Writer._parse_data", return_value = ([], []))
+@patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_negative_moving_time(mck):
     EntryFactory()
-    data=[
+    data = [
         Activity(
             strava_id=1,
             moving_time=10,

@@ -25,7 +25,7 @@ def fixture_meters_template():
 def test_convert_seconds(value, expect, seconds_template):
     context = Context({"val": value})
 
-    actual =  seconds_template.render(context)
+    actual = seconds_template.render(context)
 
     assert actual == expect
 
@@ -34,14 +34,14 @@ def test_convert_seconds(value, expect, seconds_template):
     "value, expect",
     [
         (1100, "1,1km"),
-        (100, '0,1km'),
-        (1234567.89, '1.234,6km'),
+        (100, "0,1km"),
+        (1234567.89, "1.234,6km"),
     ],
 )
 def test_convert_meters(value, expect, meters_template):
     context = Context({"val": value})
 
-    actual =  meters_template.render(context)
+    actual = meters_template.render(context)
 
     assert actual == expect
 
@@ -86,18 +86,22 @@ def test_get_object_form_list():
     arr = [Dummy(1), Dummy(2), Dummy(3)]
 
     context = Context({"arr": arr})
-    template = Template("{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}")
+    template = Template(
+        "{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}"
+    )
 
     actual = template.render(context)
-    assert actual == '3'
+    assert actual == "3"
 
 
 def test_get_object_form_list_empty_list():
     arr = []
 
     context = Context({"arr": arr})
-    template = Template("{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}")
+    template = Template(
+        "{% load filters %}{% with arr|get_object:2 as obj %}{{ obj.xxx }}{% endwith %}"
+    )
 
     actual = template.render(context)
 
-    assert actual == ''
+    assert actual == ""

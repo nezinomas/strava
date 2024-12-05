@@ -12,15 +12,15 @@ class Logs(models.Model):
 
 
 class Goal(models.Model):
-    year = models.PositiveIntegerField(verbose_name='Metai')
+    year = models.PositiveIntegerField(verbose_name="Metai")
     month = models.PositiveIntegerField(verbose_name="Mėnuo", choices=utils.MONTH_LIST)
     hours = models.PositiveIntegerField(verbose_name="Valandos")
 
     objects = GoalManager.as_manager()
 
     class Meta:
-        unique_together = ('year', 'month')
-        verbose_name = 'Tikslas'
+        unique_together = ("year", "month")
+        verbose_name = "Tikslas"
         verbose_name_plural = "Tikslai"
 
     def __str__(self):

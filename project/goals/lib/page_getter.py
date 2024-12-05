@@ -15,8 +15,8 @@ from selenium.webdriver.common.by import By
 # from selenium.webdriver.firefox.service import Service
 # from webdriver_manager.firefox import GeckoDriverManager
 
-MIN_TIME   = 0.5
-MAX_TIME   = 3.5
+MIN_TIME = 0.5
+MAX_TIME = 3.5
 
 
 class StravaData:
@@ -64,13 +64,15 @@ class StravaData:
 
         # return webdriver.Firefox(options=options, service=service)
         options = uc.ChromeOptions()
-        options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
+        options.add_argument(
+            "--no-first-run --no-service-autorun --password-store=basic"
+        )
 
         return uc.Chrome(
             headless=False,
             use_subprocess=False,
             options=options,
-            driver_executable_path=self._conf["DRIVER_PATH"]
+            driver_executable_path=self._conf["DRIVER_PATH"],
         )
 
     def _login(self):
@@ -89,13 +91,23 @@ class StravaData:
 
         fields = [
             {"email": "email", "password": "password", "login-button": "login-button"},
-            {"email": "desktop-email", "password": "desktop-password", "login-button": "desktop-login-button"},
-            {"email": "desktop-email", "password": "desktop-current-password", "login-button": "desktop-login-button"},
+            {
+                "email": "desktop-email",
+                "password": "desktop-password",
+                "login-button": "desktop-login-button",
+            },
+            {
+                "email": "desktop-email",
+                "password": "desktop-current-password",
+                "login-button": "desktop-login-button",
+            },
         ]
 
         for field in fields:
             try:
-                self._fill_login_fields(field["email"], field["password"], field["login-button"])
+                self._fill_login_fields(
+                    field["email"], field["password"], field["login-button"]
+                )
                 break
             except NoSuchElementException:
                 continue
