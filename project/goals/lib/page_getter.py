@@ -89,7 +89,8 @@ class StravaData:
 
         fields = [
             {"email": "email", "password": "password", "login-button": "login-button"},
-            {"email": "desktop-email", "password": "desktop-password", "login-button": "desktop-login-button"}
+            {"email": "desktop-email", "password": "desktop-password", "login-button": "desktop-login-button"},
+            {"email": "desktop-email", "password": "desktop-current-password", "login-button": "desktop-login-button"},
         ]
 
         for field in fields:
