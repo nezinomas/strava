@@ -109,7 +109,7 @@ class StravaData:
     def _accept_cookies(self):
         with contextlib.suppress(NoSuchElementException):
             cookie_button = self._browser.find_element(
-                By.XPATH, "//button[@class='btn-accept-cookie-banner']"
+                By.XPATH, "//button[@data-cy='accept-cookies']"
             )
             cookie_button.click()
 
