@@ -107,7 +107,10 @@ class StravaData:
             elem.send_keys(value)
 
         _inputs(email, self._conf["STRAVA_USER"])
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
+
         _inputs(password, self._conf["STRAVA_PASSWORD"])
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
 
         self._browser.find_element(By.ID, login_button).click()
 
