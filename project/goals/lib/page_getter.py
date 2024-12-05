@@ -94,14 +94,27 @@ class StravaData:
 
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
-        with contextlib.suppress(NoSuchElementException):
-            self._browser.find_element(
-                By.XPATH, "//button[@class='btn-accept-cookie-banner']"
-            ).click()
+        self._accept_cookies()
 
+        fields = self._locate_login_fields()
+
+        fields["email"].send_keys(self._conf["STRAVA_USER"])
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
-        fields_id = {
+        fields["password"].send_keys(self._conf["STRAVA_PASSWORD"])
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
+
+        fields["login_button"].click()
+
+    def _accept_cookies(self):
+        with contextlib.suppress(NoSuchElementException):
+            cookie_button = self._browser.find_element(
+                By.XPATH, "//button[@class='btn-accept-cookie-banner']"
+            )
+            cookie_button.click()
+
+    def _locate_login_fields(self):
+        field_ids = {
             "email": [
                 "email",
                 "desktop-email",
@@ -112,7 +125,7 @@ class StravaData:
                 "desktop-password",
                 "desktop-current-password",
             ],
-            "login-button": [
+            "login_button": [
                 "login-button",
                 "desktop-login-button",
             ],
@@ -121,38 +134,24 @@ class StravaData:
         exceptions = {
             "email": NoEmailFieldException,
             "password": NoPasswordFieldException,
-            "login-button": NoLoginButtonException,
+            "login_button": NoLoginButtonException,
         }
 
-        fields = {"email": None, "password": None, "login-button": None,}
-        for name in ["email", "password", "login-button"]:
+        fields = {}
+        for field_name, ids in field_ids.items():
             try:
-                fields[name] = self._find_field(fields_id[name])
+                fields[field_name] = self._find_field(ids)
             except NoSuchElementException as e:
-                raise exceptions[name] from e
+                raise exceptions[field_name](f"{field_name} field not found.") from e
+        return fields
 
-        fields["email"].send_keys(self._conf["STRAVA_USER"])
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
-
-        fields["password"].send_keys(self._conf["STRAVA_PASSWORD"])
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
-
-        fields["login_button"].click()
-
-    def _find_field(self, arr):
-        element = None
-        for i, field_id in enumerate(arr, 1):
+    def _find_field(self, ids):
+        for field_id in ids:
             try:
-                element = self._browser.find_element(By.ID, field_id)
-                break
-            except NoSuchElementException as e:
-                # if last field variation is not found raise error
-                if i == len(arr):
-                    raise NoSuchElementException from e
-
+                return self._browser.find_element(By.ID, field_id)
+            except NoSuchElementException:
                 continue
-
-        return element
+        raise NoSuchElementException(f"Field IDs {ids} not found.")
 
     def _get_leaderboard_page(self):
         sleep(random.uniform(MIN_TIME, MAX_TIME))
