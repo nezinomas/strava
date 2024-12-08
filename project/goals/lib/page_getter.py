@@ -76,9 +76,11 @@ class StravaData:
 
         # return webdriver.Firefox(options=options, service=service)
         options = uc.ChromeOptions()
-        options.add_argument(
-            "--no-first-run --no-service-autorun --password-store=basic"
-        )
+        options.add_argument("--no-first-run")
+        options.add_argument("--no-service-autorun")
+        options.add_argument("--password-store=basic")
+        options.add_argument("--start-maximized")
+        options.add_argument("--kiosk")
 
         return uc.Chrome(
             headless=False,
@@ -91,8 +93,6 @@ class StravaData:
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
         self._browser.get("https://www.strava.com/login")
-
-        self._browser.maximize_window()
 
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
