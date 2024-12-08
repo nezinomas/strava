@@ -92,6 +92,8 @@ class StravaData:
 
         self._browser.get("https://www.strava.com/login")
 
+        self._browser.maximize_window()
+
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
         self._accept_cookies()
