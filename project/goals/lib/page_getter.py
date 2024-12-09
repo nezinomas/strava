@@ -85,7 +85,7 @@ class StravaData:
         options.add_argument("--kiosk")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("window-size=1600,900")
+        options.add_argument("--window-size=1600,900")
 
         return uc.Chrome(
             headless=False,
