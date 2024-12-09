@@ -38,7 +38,7 @@ class StravaData:
         self._conf = self._get_conf()
         self._browser = self._get_browser()
 
-        # self._browser.set_window_size(1024, 800)
+        self._browser.set_window_size(1600, 900)
 
         self._login()
         self._get_leaderboard_page()
@@ -85,7 +85,6 @@ class StravaData:
         options.add_argument("--kiosk")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--window-size=1600,900")
 
         return uc.Chrome(
             headless=False,
