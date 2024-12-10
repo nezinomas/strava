@@ -169,6 +169,7 @@ class StravaData:
 
     def _get_html(self):
         def get_leaderboard():
+            sleep(random.uniform(MIN_TIME, MAX_TIME))
             return self._browser.find_element(
                 By.XPATH, "//div[@class='leaderboard']"
             )
@@ -176,9 +177,7 @@ class StravaData:
         try:
             leaderbord = get_leaderboard()
         except NoSuchElementException:
-            sleep(random.uniform(MIN_TIME, MAX_TIME))
             self._browser.refresh()
-
             leaderbord = get_leaderboard()
 
         if leaderbord is None:
