@@ -31,6 +31,10 @@ class NoLoginButtonException(Exception):
     """Exception raised when login button is not found."""
 
 
+class NoLeaderboardException(Exception):
+    """Exception raised when leaderboard is not found."""
+
+
 class StravaData:
     _browser = None
 
@@ -164,9 +168,23 @@ class StravaData:
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
 
     def _get_html(self):
-        return self._browser.find_element(
-            By.XPATH, "//div[@class='leaderboard']"
-        ).get_attribute("outerHTML")
+        def get_leaderboard():
+            return self._browser.find_element(
+                By.XPATH, "//div[@class='leaderboard']"
+            )
+        leaderbord = None
+        try:
+            leaderbord = get_leaderboard()
+        except NoSuchElementException:
+            sleep(random.uniform(MIN_TIME, MAX_TIME))
+            self._browser.refresh()
+
+            leaderbord = get_leaderboard()
+
+        if leaderbord is None:
+            raise NoLeaderboardException
+
+        return leaderbord.get_attribute("outerHTML")
 
     def _get_last_week_html(self):
         self._browser.find_element(
