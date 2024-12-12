@@ -47,7 +47,7 @@ class StravaData:
         self._login()
         self._get_leaderboard_page()
 
-        self.this_week = self._get_leaderboard()
+        self.this_week = self._get_leaderboard("For current week.")
         self.last_week = self._get_leaderboard_for_last_week()
 
         self._browser.close()
