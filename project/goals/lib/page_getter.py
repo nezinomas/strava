@@ -47,8 +47,8 @@ class StravaData:
         self._login()
         self._get_leaderboard_page()
 
-        self.this_week = self._get_html()
-        self.last_week = self._get_last_week_html()
+        self.this_week = self._get_leaderboard()
+        self.last_week = self._get_leaderboard_for_last_week()
 
         self._browser.close()
 
@@ -167,7 +167,7 @@ class StravaData:
         sleep(random.uniform(MIN_TIME, MAX_TIME))
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
 
-    def _get_html(self):
+    def _get_leaderboard(self):
         def get_leaderboard():
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             return self._browser.find_element(
@@ -187,9 +187,9 @@ class StravaData:
 
         return leaderbord.get_attribute("outerHTML")
 
-    def _get_last_week_html(self):
+    def _get_leaderboard_for_last_week(self):
         self._browser.find_element(
             By.XPATH, "//span[@class='button last-week']"
         ).click()
 
-        return self._get_html()
+        return self._get_leaderboard()
