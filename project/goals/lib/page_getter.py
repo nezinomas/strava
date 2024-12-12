@@ -167,7 +167,7 @@ class StravaData:
         sleep(random.uniform(MIN_TIME, MAX_TIME))
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
 
-    def _get_leaderboard(self):
+    def _get_leaderboard(self, msg = None):
         def get_leaderboard():
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             return self._browser.find_element(
@@ -183,7 +183,10 @@ class StravaData:
                 leaderbord = get_leaderboard()
 
         if leaderbord is None:
-            raise NoLeaderboardException("Leaderboard not found.")
+            txt = "Leaderboard not found."
+            if msg:
+                txt += " msg"
+            raise NoLeaderboardException(txt)
 
         return leaderbord.get_attribute("outerHTML")
 
@@ -195,4 +198,4 @@ class StravaData:
         except NoSuchElementException as e:
             raise NoLeaderboardException("Last week leaderboard button not found.") from e
 
-        return self._get_leaderboard()
+        return self._get_leaderboard("For last week.")
