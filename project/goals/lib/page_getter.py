@@ -173,12 +173,14 @@ class StravaData:
             return self._browser.find_element(
                 By.XPATH, "//div[@class='leaderboard']"
             )
+
         leaderbord = None
         try:
             leaderbord = get_leaderboard()
         except NoSuchElementException:
             self._browser.refresh()
-            leaderbord = get_leaderboard()
+            with contextlib.suppress(NoSuchElementException):
+                leaderbord = get_leaderboard()
 
         if leaderbord is None:
             raise NoLeaderboardException
