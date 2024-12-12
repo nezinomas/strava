@@ -188,8 +188,11 @@ class StravaData:
         return leaderbord.get_attribute("outerHTML")
 
     def _get_leaderboard_for_last_week(self):
-        self._browser.find_element(
-            By.XPATH, "//span[@class='button last-week']"
-        ).click()
+        try:
+            self._browser.find_element(
+                By.XPATH, "//span[@class='button last-week']"
+            ).click()
+        except NoSuchElementException as e:
+            raise NoLeaderboardException("Last week leaderboard button not found.") from e
 
         return self._get_leaderboard()
