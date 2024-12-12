@@ -185,7 +185,7 @@ class StravaData:
         if leaderbord is None:
             txt = "Leaderboard not found."
             if msg:
-                txt += " msg"
+                txt += f" {msg}"
             raise NoLeaderboardException(txt)
 
         return leaderbord.get_attribute("outerHTML")
