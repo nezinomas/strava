@@ -192,6 +192,4 @@ class StravaData:
             By.XPATH, "//span[@class='button last-week']"
         ).click()
 
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
-
         return self._get_html()
