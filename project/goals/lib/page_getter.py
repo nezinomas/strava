@@ -183,7 +183,7 @@ class StravaData:
                 leaderbord = get_leaderboard()
 
         if leaderbord is None:
-            raise NoLeaderboardException
+            raise NoLeaderboardException("Leaderboard not found.")
 
         return leaderbord.get_attribute("outerHTML")
 
