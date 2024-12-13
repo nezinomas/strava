@@ -16,7 +16,7 @@ from selenium.webdriver.common.by import By
 # from webdriver_manager.firefox import GeckoDriverManager
 
 MIN_TIME = 0.5
-MAX_TIME = 3.5
+MAX_TIME = 5.0
 
 
 class NoEmailFieldException(Exception):
