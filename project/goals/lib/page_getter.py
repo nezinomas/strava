@@ -6,14 +6,9 @@ from time import sleep
 import tomllib as toml
 import undetected_chromedriver as uc
 
-# from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
-# from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-# from selenium.webdriver.firefox.options import Options
-# from selenium.webdriver.firefox.service import Service
-# from webdriver_manager.firefox import GeckoDriverManager
 
 MIN_TIME = 0.5
 MAX_TIME = 5.0
@@ -58,29 +53,6 @@ class StravaData:
             return toml.load(f)["strava"]
 
     def _get_browser(self):
-        # options = Options()
-
-        # # Setting headless mode, orherwise the browser will not open in the background when server running without GUI
-        # # options.add_argument("--headless")
-        # options.add_argument("--enable-javascript")
-
-        # # Setting the user agent
-        # ua = UserAgent()
-        # user_agent = ua.random
-        # options.add_argument(f'--user-agent={user_agent}')
-
-        # options.add_argument("--width=1200")
-        # options.add_argument("--height=800")
-
-        # # Setting the Firefox profile
-        # firefox_profile = FirefoxProfile()
-        # firefox_profile.set_preference("javascript.enabled", True)
-        # options.profile = firefox_profile
-
-        # # service = Service(executable_path=self._conf["DRIVER_PATH"])
-        # service = Service(executable_path=GeckoDriverManager().install())
-
-        # return webdriver.Firefox(options=options, service=service)
         options = uc.ChromeOptions()
         options.add_argument("--no-first-run")
         options.add_argument("--no-service-autorun")
