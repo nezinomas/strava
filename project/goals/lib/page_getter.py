@@ -170,7 +170,7 @@ class StravaData:
 
     def _get_leaderboard(self, msg = None):
         def get_leaderboard():
-            sleep(random.uniform(MIN_TIME, MAX_TIME))
+            sleep(MAX_TIME)
             return self._browser.find_element(
                 By.XPATH, "//div[@class='leaderboard']"
             )
