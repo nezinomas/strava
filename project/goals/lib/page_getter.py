@@ -137,7 +137,7 @@ class StravaData:
 
     def _get_leaderboard_page(self):
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
-        sleep(MAX_TIME)
+        sleep(MAX_TIME * 2)
 
     def _get_leaderboard(self, msg = None):
         def get_data():
