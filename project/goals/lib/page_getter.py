@@ -107,9 +107,11 @@ class StravaData:
         fields = self._locate_login_fields()
 
         fields["email"].send_keys(self._conf["STRAVA_USER"])
+
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
         fields["password"].send_keys(self._conf["STRAVA_PASSWORD"])
+
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
         fields["login_button"].click()
