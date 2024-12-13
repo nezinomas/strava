@@ -168,19 +168,19 @@ class StravaData:
         sleep(MAX_TIME)
 
     def _get_leaderboard(self, msg = None):
-        def get_leaderboard():
+        def get_data():
             return self._browser.find_element(
                 By.XPATH, "//div[@class='leaderboard']"
             )
 
         leaderbord = None
         try:
-            leaderbord = get_leaderboard()
+            leaderbord = get_data()
         except NoSuchElementException:
             self._browser.refresh()
             sleep(MAX_TIME)
             with contextlib.suppress(NoSuchElementException):
-                leaderbord = get_leaderboard()
+                leaderbord = get_data()
 
         if leaderbord is None:
             txt = "Leaderboard not found."
