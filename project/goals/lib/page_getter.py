@@ -98,8 +98,6 @@ class StravaData:
         )
 
     def _login(self):
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
-
         self._browser.get("https://www.strava.com/login")
 
         sleep(random.uniform(MIN_TIME, MAX_TIME))
@@ -164,13 +162,11 @@ class StravaData:
         raise NoSuchElementException(f"Field IDs {ids} not found.")
 
     def _get_leaderboard_page(self):
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
+        sleep(MAX_TIME)
 
     def _get_leaderboard(self, msg = None):
         def get_leaderboard():
-            sleep(MAX_TIME)
             return self._browser.find_element(
                 By.XPATH, "//div[@class='leaderboard']"
             )
@@ -180,6 +176,7 @@ class StravaData:
             leaderbord = get_leaderboard()
         except NoSuchElementException:
             self._browser.refresh()
+            sleep(MAX_TIME)
             with contextlib.suppress(NoSuchElementException):
                 leaderbord = get_leaderboard()
 
@@ -196,6 +193,7 @@ class StravaData:
             self._browser.find_element(
                 By.XPATH, "//span[@class='button last-week']"
             ).click()
+            sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
             raise NoLeaderboardException("Last week leaderboard button not found.") from e
 
