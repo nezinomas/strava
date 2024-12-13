@@ -136,7 +136,7 @@ class StravaData:
         raise NoSuchElementException(f"Field IDs {ids} not found.")
 
     def _get_leaderboard_page(self):
-        self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
+        self._browser.get("https://www.strava.com/clubs/ekspla")
         sleep(MAX_TIME * 2)
 
     def _get_leaderboard(self, msg = None):
