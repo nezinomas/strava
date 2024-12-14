@@ -37,7 +37,7 @@ class StravaData:
         self._conf = self._get_conf()
         self._browser = self._get_browser()
 
-        self._browser.set_window_size(1600, 800)
+        self._browser.set_window_size(1600, 1000)
 
         self._login()
         self._get_leaderboard_page()
