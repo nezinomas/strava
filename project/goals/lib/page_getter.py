@@ -139,22 +139,8 @@ class StravaData:
         raise NoSuchElementException(f"Field IDs {ids} not found.")
 
     def _get_leaderboard_page(self):
-        page = "https://www.strava.com/clubs/1028542/leaderboard"
-        self._browser.get(page)
-        sleep(MAX_TIME * 2)
-
-        # sometimes strava sends you to the signup page???
-        signup = None
-        with contextlib.suppress(NoSuchElementException):
-            signup = self._browser.find_element(
-                By.ID, "sign-up-modal-signup-button"
-            )
-
-        if signup:
-            self._login()
-
-        self._browser.get(page)
-        sleep(MAX_TIME * 2)
+        self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
+        sleep(MAX_TIME)
 
     def _get_leaderboard(self, msg = None):
         def get_data():
