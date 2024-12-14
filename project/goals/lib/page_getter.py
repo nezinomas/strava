@@ -136,6 +136,8 @@ class StravaData:
         raise NoSuchElementException(f"Field IDs {ids} not found.")
 
     def _get_leaderboard_page(self):
+        page = "https://www.strava.com/clubs/1028542/leaderboard"
+        self._browser.get(page)
         sleep(MAX_TIME * 2)
 
         # sometimes strava sends you to the signup page???
@@ -148,9 +150,7 @@ class StravaData:
         if signup:
             self._login()
 
-        self._browser.get("https://www.strava.com/clubs/ekspla")
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
-
+        self._browser.get(page)
         sleep(MAX_TIME * 2)
 
     def _get_leaderboard(self, msg = None):
