@@ -39,8 +39,8 @@ class StravaData:
 
         self._browser.set_window_size(1600, 1000)
 
-        self._login()
-        sleep(MAX_TIME * 2)
+        # self._login()
+        # sleep(MAX_TIME * 2)
 
         self._get_leaderboard_page()
 
@@ -63,7 +63,7 @@ class StravaData:
         options.add_argument("--kiosk")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        # options.add_argument("--user-data-dir=chromium")
+        options.add_argument("--user-data-dir=chromium")
 
         return uc.Chrome(
             headless=False,
@@ -152,7 +152,10 @@ class StravaData:
         try:
             leaderbord = get_data()
         except NoSuchElementException:
-            self._browser.refresh()
+            # self._browser.refresh()
+            self._login()
+            sleep(MAX_TIME)
+            self._get_leaderboard_page()
             sleep(MAX_TIME)
             with contextlib.suppress(NoSuchElementException):
                 leaderbord = get_data()
