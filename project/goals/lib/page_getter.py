@@ -136,15 +136,8 @@ class StravaData:
         raise NoSuchElementException(f"Field IDs {ids} not found.")
 
     def _get_leaderboard_page(self):
+        self._browser.get("https://www.strava.com/clubs/ekspla")
         sleep(MAX_TIME * 2)
-        try:
-            club_link = self._browser.find_element(
-                By.XPATH, "//a[@data-club-id='1028542']"
-            )
-            club_link.click()
-        except NoSuchElementException as e:
-            raise NoLeaderboardException("Ekspla club link not found.") from e
-
 
     def _get_leaderboard(self, msg = None):
         def get_data():
