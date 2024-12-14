@@ -40,6 +40,7 @@ class StravaData:
         self._browser.set_window_size(1600, 1000)
 
         self._login()
+        sleep(MAX_TIME * 2)
         self._get_leaderboard_page()
 
         self.this_week = self._get_leaderboard("For current week.")
