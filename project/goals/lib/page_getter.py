@@ -117,9 +117,9 @@ class StravaData:
         }
 
         exceptions = {
-            "email": NoEmailFieldException("Email field not found."),
-            "password": NoPasswordFieldException("Password field not found."),
-            "login_button": NoLoginButtonException("Login button not found."),
+            "email": NoEmailFieldException,
+            "password": NoPasswordFieldException,
+            "login_button": NoLoginButtonException,
         }
 
         fields = {}
