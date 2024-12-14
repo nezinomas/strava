@@ -76,9 +76,6 @@ class StravaData:
 
         self._accept_cookies()
 
-        self.login_credentials()
-
-    def login_credentials(self):
         fields = self._locate_login_fields()
 
         fields["email"].send_keys(self._conf["STRAVA_USER"])
@@ -104,18 +101,15 @@ class StravaData:
                 "email",
                 "desktop-email",
                 "desktop-current-email",
-                "sign-up-modal-email",
             ],
             "password": [
                 "password",
                 "desktop-password",
                 "desktop-current-password",
-                "sign-up-modal-new-password",
             ],
             "login_button": [
                 "login-button",
                 "desktop-login-button",
-                "sign-up-modal-sign-up-button",
             ],
         }
 
@@ -142,17 +136,20 @@ class StravaData:
         raise NoSuchElementException(f"Field IDs {ids} not found.")
 
     def _get_leaderboard_page(self):
-        self._browser.get("https://www.strava.com/clubs/ekspla")
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
+        sleep(MAX_TIME * 2)
 
-        login = None
+        # sometimes strava sends you to the signup page???
+        signup = None
         with contextlib.suppress(NoSuchElementException):
-            login = self._browser.find_element(
-                By.ID, "sign-up-modal-sign-up-button"
+            signup = self._browser.find_element(
+                By.ID, "sign-up-modal-signup-button"
             )
 
-        if login:
-            self.login_credentials()
+        if signup:
+            self._login()
+
+        self._browser.get("https://www.strava.com/clubs/ekspla")
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
 
         sleep(MAX_TIME * 2)
 
