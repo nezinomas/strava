@@ -139,7 +139,7 @@ class StravaData:
         sleep(MAX_TIME * 2)
         try:
             club_link = self._browser.find_element(
-                By.XPATH, "//href[@data-club-id='1028542']"
+                By.XPATH, "//a[@data-club-id='1028542']"
             )
             club_link.click()
         except NoSuchElementException as e:
