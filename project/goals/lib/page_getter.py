@@ -63,7 +63,7 @@ class StravaData:
         options.add_argument("--kiosk")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--user-data-dir=chromium")
+        # options.add_argument("--user-data-dir=chromium")
 
         return uc.Chrome(
             headless=False,
