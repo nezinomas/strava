@@ -10,8 +10,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 
-MIN_TIME = 0.5
-MAX_TIME = 5.0
+MIN_TIME = 0.62
+MAX_TIME = 5.13
 
 
 class NoEmailFieldException(Exception):
@@ -41,6 +41,7 @@ class StravaData:
 
         self._login()
         sleep(MAX_TIME * 2)
+
         self._get_leaderboard_page()
 
         self.this_week = self._get_leaderboard("For current week.")
