@@ -17,7 +17,7 @@ class AthleteManager(models.QuerySet):
     pass
 
 
-class EntryManager(models.QuerySet):
+class ActivityManager(models.QuerySet):
     def related(self):
         return self.select_related("athlete")
 
