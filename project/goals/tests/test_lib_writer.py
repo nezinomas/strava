@@ -6,7 +6,7 @@ from pendulum import now
 from ..lib.page_parser import Activity, Athlete
 from ..lib.writer import Writer
 from ..models import Activities, Athletes
-from .factories import AthleteFactory, EntryFactory
+from .factories import AthleteFactory, ActivityFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -103,7 +103,7 @@ def test_data_new(mck):
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_moving_time_and_num_activities_exists(mck):
-    EntryFactory()
+    ActivityFactory()
     data = [
         Activity(
             strava_id=1,
@@ -126,7 +126,7 @@ def test_data_moving_time_and_num_activities_exists(mck):
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_new_entry(mck):
-    EntryFactory()
+    ActivityFactory()
     data = [
         Activity(
             strava_id=1,
@@ -154,7 +154,7 @@ def test_data_append_new_entry(mck):
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_new_entry_num_queries(mck, django_assert_max_num_queries):
-    EntryFactory()
+    ActivityFactory()
     data = [
         Activity(
             strava_id=1,
@@ -172,7 +172,7 @@ def test_data_append_new_entry_num_queries(mck, django_assert_max_num_queries):
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_negative_distance(mck):
-    EntryFactory(distance=9)
+    ActivityFactory(distance=9)
     data = [
         Activity(
             strava_id=1,
@@ -195,7 +195,7 @@ def test_data_append_negative_distance(mck):
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_negative_ascent(mck):
-    EntryFactory(ascent=9)
+    ActivityFactory(ascent=9)
     data = [
         Activity(
             strava_id=1,
@@ -218,7 +218,7 @@ def test_data_append_negative_ascent(mck):
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_negative_num_activities(mck):
-    EntryFactory(num_activities=9)
+    ActivityFactory(num_activities=9)
     data = [
         Activity(
             strava_id=1,
@@ -241,7 +241,7 @@ def test_data_append_negative_num_activities(mck):
 @time_machine.travel("2022-04-25")
 @patch("project.goals.lib.writer.Writer._parse_data", return_value=([], []))
 def test_data_append_negative_moving_time(mck):
-    EntryFactory()
+    ActivityFactory()
     data = [
         Activity(
             strava_id=1,

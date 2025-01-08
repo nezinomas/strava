@@ -7,7 +7,7 @@ import time_machine
 from ..models import Activities, Goal, Logs
 from .factories import (
     AthleteFactory,
-    EntryFactory,
+    ActivityFactory,
     GoalFactory,
     LogFailFactory,
     LogSuccessFactory,
@@ -45,15 +45,15 @@ def test_athlete_str():
 
 
 def test_entry_str():
-    entry = EntryFactory()
+    entry = ActivityFactory()
     assert str(entry) == f"{entry.date}: {entry.athlete}"
 
 
 def test_entry_week_stats():
-    EntryFactory()
-    EntryFactory()
-    EntryFactory(date=date(2022, 4, 24))
-    EntryFactory(date=date(2022, 4, 24), athlete=AthleteFactory(strava_id=2))
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory(date=date(2022, 4, 24))
+    ActivityFactory(date=date(2022, 4, 24), athlete=AthleteFactory(strava_id=2))
 
     actual = Activities.objects.week_stats(pendulum.date(2022, 4, 25))
 
@@ -63,9 +63,9 @@ def test_entry_week_stats():
 
 
 def test_entry_month_stats():
-    EntryFactory()
-    EntryFactory()
-    EntryFactory(date=date(2022, 5, 1))
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory(date=date(2022, 5, 1))
 
     actual = Activities.objects.month_stats(pendulum.date(2022, 4, 25))
 
@@ -79,9 +79,9 @@ def test_entry_month_stats():
 def test_entry_month_stats_ordering_by_moving_time():
     a2 = AthleteFactory(strava_id=2)
     a1 = AthleteFactory(strava_id=1)
-    EntryFactory(athlete=a2)
-    EntryFactory(athlete=a1)
-    EntryFactory(athlete=a1)
+    ActivityFactory(athlete=a2)
+    ActivityFactory(athlete=a1)
+    ActivityFactory(athlete=a1)
 
     actual = Activities.objects.month_stats(pendulum.date(2022, 4, 25))
 
@@ -94,10 +94,10 @@ def test_entry_month_stats_ordering_by_moving_time():
 
 
 def test_entry_year_stats():
-    EntryFactory(date=date(2022, 4, 25))
-    EntryFactory(date=date(2022, 4, 25))
-    EntryFactory(date=date(2022, 8, 25))
-    EntryFactory(date=date(2022, 8, 25))
+    ActivityFactory(date=date(2022, 4, 25))
+    ActivityFactory(date=date(2022, 4, 25))
+    ActivityFactory(date=date(2022, 8, 25))
+    ActivityFactory(date=date(2022, 8, 25))
 
     actual = Activities.objects.year_stats(year=2022)
 
@@ -109,9 +109,9 @@ def test_entry_year_stats():
 
 
 def test_entry_total_time():
-    EntryFactory()
-    EntryFactory()
-    EntryFactory(date=date(2022, 5, 1))
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory(date=date(2022, 5, 1))
 
     actual = Activities.objects.total_time(pendulum.date(2022, 4, 25))
 

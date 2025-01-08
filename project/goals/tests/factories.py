@@ -23,7 +23,7 @@ class AthleteFactory(factory.django.DjangoModelFactory):
     strava_id = 1
 
 
-class EntryFactory(factory.django.DjangoModelFactory):
+class ActivityFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Activities
 

@@ -6,7 +6,7 @@ from django.urls import resolve, reverse
 from pendulum import date
 
 from .. import views, models
-from .factories import EntryFactory, GoalFactory, LogFailFactory, LogSuccessFactory
+from .factories import ActivityFactory, GoalFactory, LogFailFactory, LogSuccessFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -38,9 +38,9 @@ def test_index_year_month_200(client):
 
 
 def test_index_year_month_records(client):
-    EntryFactory()
-    EntryFactory(date=date(2022, 5, 1))
-    EntryFactory(date=date(2022, 3, 31))
+    ActivityFactory()
+    ActivityFactory(date=date(2022, 5, 1))
+    ActivityFactory(date=date(2022, 3, 31))
 
     url = reverse("goals:index_month", kwargs={"year": 2022, "month": 4})
     response = client.get(url)
@@ -99,9 +99,9 @@ def test_index_goal_hours(client):
 def test_index_chart_data(client):
     GoalFactory()
 
-    EntryFactory()
-    EntryFactory()
-    EntryFactory()
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory()
 
     url = reverse("goals:index")
     actual = client.get(url).context["chart_data"]
@@ -117,9 +117,9 @@ def test_index_chart_data(client):
 
 @time_machine.travel("2022-04-01")
 def test_index_collected(client):
-    EntryFactory()
-    EntryFactory()
-    EntryFactory()
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory()
 
     url = reverse("goals:index")
     actual = client.get(url).context["goal_collected"]
@@ -131,9 +131,9 @@ def test_index_collected(client):
 def test_index_left_to_collect(client):
     GoalFactory(hours=1)
 
-    EntryFactory()
-    EntryFactory()
-    EntryFactory()
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory()
 
     url = reverse("goals:index")
     actual = client.get(url).context["goal_left"]
@@ -342,9 +342,9 @@ def test_list_context_css_class(admin_client):
     GoalFactory(year=2022, month=3, hours=10)
     GoalFactory(year=2022, month=4, hours=10)
 
-    EntryFactory(date=date(2022, 1, 1), moving_time=1 * 3600)
-    EntryFactory(date=date(2022, 2, 1), moving_time=100 * 3600)
-    EntryFactory(date=date(2022, 4, 1), moving_time=1 * 3600)
+    ActivityFactory(date=date(2022, 1, 1), moving_time=1 * 3600)
+    ActivityFactory(date=date(2022, 2, 1), moving_time=100 * 3600)
+    ActivityFactory(date=date(2022, 4, 1), moving_time=1 * 3600)
 
     url = reverse("goals:admin")
     response = admin_client.get(url)
