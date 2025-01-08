@@ -98,6 +98,7 @@ def test_activity_year_stats():
     ActivityFactory(date=date(2022, 4, 25))
     ActivityFactory(date=date(2022, 8, 25))
     ActivityFactory(date=date(2022, 8, 25))
+    ActivityFactory(date=date(2023, 12, 25))
 
     actual = Activities.objects.year_stats(year=2022)
 
