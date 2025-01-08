@@ -6,7 +6,7 @@ from pendulum import now
 from ..lib.page_parser import Activity, Athlete
 from ..lib.writer import Writer
 from ..models import Activities, Athletes
-from .factories import AthleteFactory, ActivityFactory
+from .factories import ActivityFactory, AthleteFactory
 
 pytestmark = pytest.mark.django_db
 

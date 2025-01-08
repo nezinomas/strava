@@ -1,7 +1,7 @@
 import pytest
 from bs4 import BeautifulSoup
 
-from ..lib.page_parser import PageParser, Athlete, Activity
+from ..lib.page_parser import Activity, Athlete, PageParser
 
 
 @pytest.fixture(name="table_html")

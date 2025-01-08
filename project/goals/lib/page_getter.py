@@ -1,14 +1,12 @@
 import contextlib
 import random
+import tomllib as toml
 from pathlib import Path
 from time import sleep
 
-import tomllib as toml
 import undetected_chromedriver as uc
-
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-
 
 MIN_TIME = 0.62
 MAX_TIME = 5.13
@@ -142,11 +140,9 @@ class StravaData:
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
         sleep(MAX_TIME)
 
-    def _get_leaderboard(self, msg = None):
+    def _get_leaderboard(self, msg=None):
         def get_data():
-            return self._browser.find_element(
-                By.XPATH, "//div[@class='leaderboard']"
-            )
+            return self._browser.find_element(By.XPATH, "//div[@class='leaderboard']")
 
         leaderbord = None
         try:
@@ -175,6 +171,8 @@ class StravaData:
             ).click()
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
-            raise NoLeaderboardException("Last week leaderboard button not found.") from e
+            raise NoLeaderboardException(
+                "Last week leaderboard button not found."
+            ) from e
 
         return self._get_leaderboard("For last week.")

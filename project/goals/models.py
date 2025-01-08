@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse_lazy
 
 from .lib import utils
-from .managers import AthleteManager, ActivityManager, GoalManager
+from .managers import ActivityManager, AthleteManager, GoalManager
 
 
 class Logs(models.Model):

@@ -5,7 +5,7 @@ import time_machine
 from django.urls import resolve, reverse
 from pendulum import date
 
-from .. import views, models
+from .. import models, views
 from .factories import ActivityFactory, GoalFactory, LogFailFactory, LogSuccessFactory
 
 pytestmark = pytest.mark.django_db

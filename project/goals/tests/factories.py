@@ -2,7 +2,7 @@ from datetime import date
 
 import factory
 
-from ..models import Athletes, Activities, Goal, Logs
+from ..models import Activities, Athletes, Goal, Logs
 
 
 class GoalFactory(factory.django.DjangoModelFactory):

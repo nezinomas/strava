@@ -6,8 +6,8 @@ import time_machine
 
 from ..models import Activities, Goal, Logs
 from .factories import (
-    AthleteFactory,
     ActivityFactory,
+    AthleteFactory,
     GoalFactory,
     LogFailFactory,
     LogSuccessFactory,

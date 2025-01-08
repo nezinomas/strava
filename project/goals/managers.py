@@ -2,7 +2,7 @@ import pendulum
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Count, F, Sum
-from django.db.models.functions import TruncMonth, ExtractMonth
+from django.db.models.functions import ExtractMonth, TruncMonth
 
 
 class GoalManager(models.QuerySet):
