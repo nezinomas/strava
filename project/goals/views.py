@@ -58,7 +58,8 @@ class Table(ListView):
         active_col = active_col if active_col in SORT_BY else "moving_time"
 
         context = {
-            "date": f"{self.kwargs['year']} {utils.get_month(self.kwargs['month']).lower()}",
+            "date": f"{self.kwargs['year']} "
+                    f"{utils.get_month(self.kwargs['month']).lower()}",
             "active_col": active_col,
         }
         return super().get_context_data(**kwargs) | context

@@ -12,19 +12,19 @@ MIN_TIME = 0.62
 MAX_TIME = 5.13
 
 
-class NoEmailFieldException(Exception):
+class NoEmailFieldError(Exception):
     """Exception raised when email field is not found."""
 
 
-class NoPasswordFieldException(Exception):
+class NoPasswordFieldError(Exception):
     """Exception raised when password field is not found."""
 
 
-class NoLoginButtonException(Exception):
+class NoLoginButtonError(Exception):
     """Exception raised when login button is not found."""
 
 
-class NoLeaderboardException(Exception):
+class NoLeaderboardError(Exception):
     """Exception raised when leaderboard is not found."""
 
 
@@ -115,9 +115,9 @@ class StravaData:
         }
 
         exceptions = {
-            "email": NoEmailFieldException,
-            "password": NoPasswordFieldException,
-            "login_button": NoLoginButtonException,
+            "email": NoEmailFieldError,
+            "password": NoPasswordFieldError,
+            "login_button": NoLoginButtonError,
         }
 
         fields = {}
@@ -160,7 +160,7 @@ class StravaData:
             txt = "Leaderboard not found."
             if msg:
                 txt += f" {msg}"
-            raise NoLeaderboardException(txt)
+            raise NoLeaderboardError(txt)
 
         return leaderbord.get_attribute("outerHTML")
 
@@ -171,7 +171,7 @@ class StravaData:
             ).click()
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
-            raise NoLeaderboardException(
+            raise NoLeaderboardError(
                 "Last week leaderboard button not found."
             ) from e
 

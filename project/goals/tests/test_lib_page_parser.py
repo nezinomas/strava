@@ -31,7 +31,7 @@ def fixture_table_html():
             </tbody>
         </table>
     </div>
-    """
+    """  # noqa: E501
 
 
 def test_get_items():
@@ -63,7 +63,8 @@ def test_get_items():
 )
 def test_get_distance(value, expect):
     item = BeautifulSoup(
-        f'<td class="distance">{value} <abbr class="unit short" title="kilometers">km</abbr></td>',
+        f'<td class="distance">{value} '
+        f'<abbr class="unit short" title="kilometers">km</abbr></td>',
         "html.parser",
     )
 
@@ -93,7 +94,9 @@ def test_get_distance_empty():
 
 def test_get_time_minutes():
     item = BeautifulSoup(
-        '<td class="moving_time highlighted-column">1<abbr class="unit" title="minute">m</abbr></td>',
+        '<td class="moving_time highlighted-column">'
+        '1<abbr class="unit" title="minute">m</abbr>'
+        '</td>',
         "html.parser",
     )
 
@@ -103,7 +106,10 @@ def test_get_time_minutes():
 
 def test_get_time_hours_minutes():
     item = BeautifulSoup(
-        '<td class="moving_time highlighted-column">1<abbr class="unit" title="hour">h</abbr> 2<abbr class="unit" title="minute">m</abbr></td>',
+        '<td class="moving_time highlighted-column">'
+        '1<abbr class="unit" title="hour">h</abbr> '
+        '2<abbr class="unit" title="minute">m</abbr>'
+        '</td>',
         "html.parser",
     )
 
@@ -121,7 +127,8 @@ def test_get_time_hours_minutes():
 )
 def test_get_ascent(value, expect):
     item = BeautifulSoup(
-        f'<td class="elev_gain">{value} <abbr class="unit short" title="meters">m</abbr></td>',
+        f'<td class="elev_gain">{value} '
+        f'<abbr class="unit short" title="meters">m</abbr></td>',
         "html.parser",
     )
 

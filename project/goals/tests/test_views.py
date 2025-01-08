@@ -500,7 +500,8 @@ def test_delete_load_form(admin_client):
 
     assert f' hx-post="{reverse("goals:goal_delete", kwargs={"pk": obj.pk})}"' in form
     assert (
-        f"Ar tikrai nori ištrinti: <strong>{obj.year} / {obj.month} / {obj.hours}</strong>?"
+        f"Ar tikrai nori ištrinti: <strong>{obj.year} / {obj.month} / "
+        f"{obj.hours}</strong>?"
         in form
     )
 
