@@ -44,12 +44,12 @@ def test_athlete_str():
     assert str(athlete) == athlete.name
 
 
-def test_entry_str():
-    entry = ActivityFactory()
-    assert str(entry) == f"{entry.date}: {entry.athlete}"
+def test_activity_str():
+    activity = ActivityFactory()
+    assert str(activity) == f"{activity.date}: {activity.athlete}"
 
 
-def test_entry_week_stats():
+def test_activity_week_stats():
     ActivityFactory()
     ActivityFactory()
     ActivityFactory(date=date(2022, 4, 24))
@@ -62,7 +62,7 @@ def test_entry_week_stats():
     }
 
 
-def test_entry_month_stats():
+def test_activity_month_stats():
     ActivityFactory()
     ActivityFactory()
     ActivityFactory(date=date(2022, 5, 1))
@@ -76,7 +76,7 @@ def test_entry_month_stats():
     assert actual[0]["ascent"] == 20
 
 
-def test_entry_month_stats_ordering_by_moving_time():
+def test_activity_month_stats_ordering_by_moving_time():
     a2 = AthleteFactory(strava_id=2)
     a1 = AthleteFactory(strava_id=1)
     ActivityFactory(athlete=a2)
@@ -93,7 +93,7 @@ def test_entry_month_stats_ordering_by_moving_time():
     assert actual[1]["moving_time"] == 30
 
 
-def test_entry_year_stats():
+def test_activity_year_stats():
     ActivityFactory(date=date(2022, 4, 25))
     ActivityFactory(date=date(2022, 4, 25))
     ActivityFactory(date=date(2022, 8, 25))
@@ -108,7 +108,7 @@ def test_entry_year_stats():
     assert actual[1]["month"] == 8
 
 
-def test_entry_total_time():
+def test_activity_total_time():
     ActivityFactory()
     ActivityFactory()
     ActivityFactory(date=date(2022, 5, 1))
@@ -118,7 +118,7 @@ def test_entry_total_time():
     assert actual == 60
 
 
-def test_entry_total_time_no_records():
+def test_activity_total_time_no_records():
     actual = Activities.objects.total_time(pendulum.date(2022, 4, 25))
 
     assert actual == 0
