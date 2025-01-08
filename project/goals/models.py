@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse_lazy
 
 from .lib import utils
-from .managers import AthleteManager, EntryManager, GoalManager
+from .managers import AthleteManager, ActivityManager, GoalManager
 
 
 class Logs(models.Model):
@@ -54,7 +54,7 @@ class Activities(models.Model):
     distance = models.IntegerField(default=0)
     ascent = models.IntegerField(default=0)
 
-    objects = EntryManager.as_manager()
+    objects = ActivityManager.as_manager()
 
     def __str__(self):
         return f"{self.date}: {self.athlete}"

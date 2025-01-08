@@ -17,7 +17,7 @@ class AthleteManager(models.QuerySet):
     pass
 
 
-class EntryManager(models.QuerySet):
+class ActivityManager(models.QuerySet):
     def related(self):
         return self.select_related("athlete")
 
@@ -85,6 +85,7 @@ class EntryManager(models.QuerySet):
     def year_stats(self, year: int):
         return (
             self.related()
+            .filter(date__year=year)
             .annotate(cnt=Count("id"))
             .values("id")
             .annotate(date_trunc=TruncMonth("date"))
