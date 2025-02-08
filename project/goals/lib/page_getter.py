@@ -83,10 +83,12 @@ class StravaData:
 
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
+        fields = self._locate_login_fields()
         fields["password"].send_keys(self._conf["STRAVA_PASSWORD"])
 
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
+        fields = self._locate_login_fields()
         fields["login_button"].click()
 
     def _accept_cookies(self):
