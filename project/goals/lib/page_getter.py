@@ -75,12 +75,11 @@ class StravaData:
 
         sleep(random.uniform(MIN_TIME, MAX_TIME))
 
-        self._accept_cookies()
+        # self._accept_cookies()
 
         # first stage: find email field and clid login button
-        # By.XPATH, "//button[@data-cy='accept-cookies']"
         try:
-            email = self._browser.find_element(By.XPATH("//input[@data-cy=''email']"))
+            email = self._browser.find_element(By.XPATH("//input[@data-cy='email']"))
             email.send_keys(self._conf["STRAVA_USER"])
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
