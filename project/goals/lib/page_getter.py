@@ -38,7 +38,7 @@ class StravaData:
         self._browser.set_window_size(600, 1000)
 
         # self._login()
-        # sleep(MAX_TIME * 2)
+        sleep(MAX_TIME * 2)
 
         self._get_leaderboard_page()
 
@@ -73,43 +73,51 @@ class StravaData:
     def _login(self):
         self._browser.get("https://www.strava.com/login")
 
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
+        sleep(MAX_TIME)
 
-        # self._accept_cookies()
+        self._accept_cookies()
 
         # first stage: find email field and clid login button
+
+        # email field
         try:
-            email = self._browser.find_element(By.XPATH("//input[@data-cy='email']"))
+            email = self._browser.find_element(
+                By.CSS_SELECTOR, "input[data-cy='email']"
+            )
             email.send_keys(self._conf["STRAVA_USER"])
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
             raise NoEmailFieldError("Email field not found.") from e
 
+        # login button
         try:
             login_button = self._browser.find_element(
-                By.XPATH("//button[@data-cy='login-button']")
+                By.CSS_SELECTOR, "button[type='submit']"
             )
-            sleep(random.uniform(MIN_TIME, MAX_TIME))
-            login_button.click()
+            self._browser.execute_script("arguments[0].click();", login_button)
+
         except NoSuchElementException as e:
             raise NoLoginButtonError("Login button not found.") from e
 
         # second stage: find password field and click login button
+
+        # password field
         try:
+            sleep(MAX_TIME)
             password_field = self._browser.find_element(
-                By.XPATH("//input[@data-cy='password']")
+                By.CSS_SELECTOR, "input[data-cy='password']"
             )
             password_field.send_keys(self._conf["STRAVA_PASSWORD"])
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
             raise NoPasswordFieldError("Password field not found.") from e
 
+        # login button
         try:
-            login_button = self._browser.findElement(
-                By.XPATH("//input[@type='submit']")
+            login_button = self._browser.find_element(
+                By.CSS_SELECTOR, "button[type='submit']"
             )
-            sleep(random.uniform(MIN_TIME, MAX_TIME))
-            login_button.click()
+            self._browser.execute_script("arguments[0].click();", login_button)
         except NoSuchElementException as e:
             raise NoLoginButtonError("Login button not found.") from e
 
