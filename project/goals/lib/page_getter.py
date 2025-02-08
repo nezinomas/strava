@@ -78,8 +78,9 @@ class StravaData:
         self._accept_cookies()
 
         # first stage: find email field and clid login button
+        # By.XPATH, "//button[@data-cy='accept-cookies']"
         try:
-            email = self._browser.find_element(By.CSS_SELECTOR('[data-cy="email"]'))
+            email = self._browser.find_element(By.XPATH("//input[@data-cy=''email']"))
             email.send_keys(self._conf["STRAVA_USER"])
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
@@ -87,7 +88,7 @@ class StravaData:
 
         try:
             login_button = self._browser.find_element(
-                By.CSS_SELECTOR('[data-cy="login-button"]')
+                By.XPATH("//button[@data-cy='login-button']")
             )
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             login_button.click()
@@ -97,7 +98,7 @@ class StravaData:
         # second stage: find password field and click login button
         try:
             password_field = self._browser.find_element(
-                By.CSS_SELECTOR('[data-cy="password"]')
+                By.XPATH("//input[@data-cy='password']")
             )
             password_field.send_keys(self._conf["STRAVA_PASSWORD"])
             sleep(random.uniform(MIN_TIME, MAX_TIME))
@@ -106,7 +107,7 @@ class StravaData:
 
         try:
             login_button = self._browser.findElement(
-                By.CSS_SELECTOR('button[type="submit"]')
+                By.XPATH("//input[@type='submit']")
             )
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             login_button.click()
