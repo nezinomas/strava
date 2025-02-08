@@ -86,7 +86,9 @@ class StravaData:
             raise NoEmailFieldError("Email field not found.") from e
 
         try:
-            login_button = self._browser.find_element(By.CSS_SELECTOR('[data-cy="login-button"]'))
+            login_button = self._browser.find_element(
+                By.CSS_SELECTOR('[data-cy="login-button"]')
+            )
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             login_button.click()
         except NoSuchElementException as e:
@@ -94,14 +96,18 @@ class StravaData:
 
         # second stage: find password field and click login button
         try:
-            password_field = self._browser.find_element(By.CSS_SELECTOR('[data-cy="password"]'))
+            password_field = self._browser.find_element(
+                By.CSS_SELECTOR('[data-cy="password"]')
+            )
             password_field.send_keys(self._conf["STRAVA_PASSWORD"])
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
             raise NoPasswordFieldError("Password field not found.") from e
 
         try:
-            login_button = self._browser.findElement(By.CSS_SELECTOR('button[type="submit"]'))
+            login_button = self._browser.findElement(
+                By.CSS_SELECTOR('button[type="submit"]')
+            )
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             login_button.click()
         except NoSuchElementException as e:
@@ -149,8 +155,6 @@ class StravaData:
             ).click()
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
-            raise NoLeaderboardError(
-                "Last week leaderboard button not found."
-            ) from e
+            raise NoLeaderboardError("Last week leaderboard button not found.") from e
 
         return self._get_leaderboard("For last week.")
