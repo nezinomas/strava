@@ -85,14 +85,14 @@ class StravaData:
 
 
         try:
-            password_field = self._browser.find_element(By.cssSelector("[data-cy='password']"))
+            password_field = self._browser.find_element(By.CSS_SELECTOR("[data-cy='password']"))
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             password_field.send_keys(self._conf["STRAVA_PASSWORD"])
         except NoSuchElementException as e:
             raise NoPasswordFieldError("Password field not found.") from e
 
         try:
-            login_button = self._browser.findElement(By.css("[type='submit']"))
+            login_button = self._browser.findElement(By.CSS_SELECTOR("[type='submit']"))
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             login_button.click()
         except NoSuchElementException as e:
