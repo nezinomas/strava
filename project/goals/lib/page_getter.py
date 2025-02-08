@@ -80,16 +80,23 @@ class StravaData:
         fields = self._locate_login_fields()
 
         fields["email"].send_keys(self._conf["STRAVA_USER"])
-
         sleep(random.uniform(MIN_TIME, MAX_TIME))
-
-        fields = self._locate_login_fields()
-        fields["password"].send_keys(self._conf["STRAVA_PASSWORD"])
-
-        sleep(random.uniform(MIN_TIME, MAX_TIME))
-
-        fields = self._locate_login_fields()
         fields["login_button"].click()
+
+
+        try:
+            password_field = self._browser.find_element(By.cssSelector("[data-cy='password']"))
+            sleep(random.uniform(MIN_TIME, MAX_TIME))
+            password_field.send_keys(self._conf["STRAVA_PASSWORD"])
+        except NoSuchElementException as e:
+            raise NoPasswordFieldError("Password field not found.") from e
+
+        try:
+            login_button = self._browser.findElement(By.css("[type='submit']"))
+            sleep(random.uniform(MIN_TIME, MAX_TIME))
+            login_button.click()
+        except NoSuchElementException as e:
+            raise NoLoginButtonError("Login button not found.") from e
 
     def _accept_cookies(self):
         with contextlib.suppress(NoSuchElementException):
@@ -105,11 +112,11 @@ class StravaData:
                 "desktop-email",
                 "desktop-current-email",
             ],
-            "password": [
-                "password",
-                "desktop-password",
-                "desktop-current-password",
-            ],
+            # "password": [
+            #     "password",
+            #     "desktop-password",
+            #     "desktop-current-password",
+            # ],
             "login_button": [
                 "login-button",
                 "desktop-login-button",
@@ -118,7 +125,7 @@ class StravaData:
 
         exceptions = {
             "email": NoEmailFieldError,
-            "password": NoPasswordFieldError,
+            # "password": NoPasswordFieldError,
             "login_button": NoLoginButtonError,
         }
 
