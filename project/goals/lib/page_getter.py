@@ -114,46 +114,6 @@ class StravaData:
             )
             cookie_button.click()
 
-    def _locate_login_fields(self):
-        field_ids = {
-            "email": [
-                "email",
-                "desktop-email",
-                "desktop-current-email",
-            ],
-            # "password": [
-            #     "password",
-            #     "desktop-password",
-            #     "desktop-current-password",
-            # ],
-            "login_button": [
-                "login-button",
-                "desktop-login-button",
-            ],
-        }
-
-        exceptions = {
-            "email": NoEmailFieldError,
-            # "password": NoPasswordFieldError,
-            "login_button": NoLoginButtonError,
-        }
-
-        fields = {}
-        for field_name, ids in field_ids.items():
-            try:
-                fields[field_name] = self._find_field(ids)
-            except NoSuchElementException as e:
-                raise exceptions[field_name](f"{field_name} field not found.") from e
-        return fields
-
-    def _find_field(self, ids):
-        for field_id in ids:
-            try:
-                return self._browser.find_element(By.ID, field_id)
-            except NoSuchElementException:
-                continue
-        raise NoSuchElementException(f"Field IDs {ids} not found.")
-
     def _get_leaderboard_page(self):
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
         sleep(MAX_TIME)
