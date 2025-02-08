@@ -35,7 +35,7 @@ class StravaData:
         self._conf = self._get_conf()
         self._browser = self._get_browser()
 
-        self._browser.set_window_size(1600, 1000)
+        self._browser.set_window_size(600, 1000)
 
         # self._login()
         # sleep(MAX_TIME * 2)
