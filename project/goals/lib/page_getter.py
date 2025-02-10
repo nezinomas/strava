@@ -78,8 +78,6 @@ class StravaData:
         self._accept_cookies()
 
         # first stage: find email field and clid login button
-
-        # email field
         try:
             email = self._browser.find_element(
                 By.CSS_SELECTOR, "input[data-cy='email']"
@@ -89,19 +87,9 @@ class StravaData:
         except NoSuchElementException as e:
             raise NoEmailFieldError("Email field not found.") from e
 
-        # login button
-        try:
-            login_button = self._browser.find_element(
-                By.CSS_SELECTOR, "button[type='submit']"
-            )
-            self._browser.execute_script("arguments[0].click();", login_button)
-
-        except NoSuchElementException as e:
-            raise NoLoginButtonError("Login button not found.") from e
+        self._press_login_button()
 
         # second stage: find password field and click login button
-
-        # password field
         try:
             sleep(MAX_TIME)
             password_field = self._browser.find_element(
@@ -112,14 +100,7 @@ class StravaData:
         except NoSuchElementException as e:
             raise NoPasswordFieldError("Password field not found.") from e
 
-        # login button
-        try:
-            login_button = self._browser.find_element(
-                By.CSS_SELECTOR, "button[type='submit']"
-            )
-            self._browser.execute_script("arguments[0].click();", login_button)
-        except NoSuchElementException as e:
-            raise NoLoginButtonError("Login button not found.") from e
+        self._press_login_button()
 
     def _accept_cookies(self):
         with contextlib.suppress(NoSuchElementException):
@@ -127,6 +108,15 @@ class StravaData:
                 By.XPATH, "//button[@data-cy='accept-cookies']"
             )
             cookie_button.click()
+
+    def _press_login_button(self):
+        try:
+            login_button = self._browser.find_element(
+                By.CSS_SELECTOR, "button[type='submit']"
+            )
+            self._browser.execute_script("arguments[0].click();", login_button)
+        except NoSuchElementException as e:
+            raise NoLoginButtonError("Login button not found.") from e
 
     def _get_leaderboard_page(self):
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
