@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.urls.base import reverse
 from vanilla import ListView, TemplateView
+from webob import month
 
 from .forms import GoalForm
 from .lib import utils
@@ -79,9 +80,12 @@ class Table(ListView):
         active_col = self.request.GET.get("order", "moving_time")
         active_col = active_col if active_col in SORT_BY else "moving_time"
 
+        date = str(self.kwargs.get("year"))
+        if month := self.kwargs.get("month"):
+            date += f" {utils.get_month(month).lower()}"
+
         context = {
-            "date": f"{self.kwargs['year']} "
-                    f"{utils.get_month(self.kwargs.get('month', 1)).lower()}",
+            "date": date,
             "active_col": active_col,
         }
         return super().get_context_data(**kwargs) | context
