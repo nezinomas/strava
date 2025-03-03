@@ -58,18 +58,15 @@ class Table(ListView):
     template_name = "goals/table.html"
 
     def get_queryset(self):
-        order = self.request.GET.get("order")
-
         year = self.kwargs.get("year")
         month = self.kwargs.get("month")
-
-        period = "month"
-        if not month:
-            period = "year"
+        order = self.request.GET.get("order")
+        period = "month" if month else "year"
 
         sql = Activities.objects.activities_stats(
-            pendulum.Date(year, month or 1, 1), period
+            date=pendulum.Date(year, month or 1, 1), period=period
         )
+
         if order and order in SORT_BY:
             sort = order if order == "athlete" else f"-{order}"
             sql = sql.order_by(sort)
