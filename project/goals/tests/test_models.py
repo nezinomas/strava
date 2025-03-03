@@ -62,12 +62,40 @@ def test_activity_week_stats():
     }
 
 
-def test_activity_activities_stats():
+def test_activity_activities_stats_for_month():
     ActivityFactory()
     ActivityFactory()
     ActivityFactory(date=date(2022, 5, 1))
 
     actual = Activities.objects.activities_stats(pendulum.date(2022, 4, 25))
+
+    assert actual.count() == 1
+    assert actual[0]["moving_time"] == 60
+    assert actual[0]["num_activities"] == 2
+    assert actual[0]["distance"] == 2
+    assert actual[0]["ascent"] == 20
+
+
+def test_activity_activities_stats_for_month_wrong_period():
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory(date=date(2022, 5, 1))
+
+    actual = Activities.objects.activities_stats(pendulum.date(2022, 4, 25), period="hack")
+
+    assert actual.count() == 1
+    assert actual[0]["moving_time"] == 60
+    assert actual[0]["num_activities"] == 2
+    assert actual[0]["distance"] == 2
+    assert actual[0]["ascent"] == 20
+
+
+def test_activity_activities_stats_for_year():
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory(date=date(2023, 5, 1))
+
+    actual = Activities.objects.activities_stats(pendulum.date(2022, 1, 25), period="year")
 
     assert actual.count() == 1
     assert actual[0]["moving_time"] == 60

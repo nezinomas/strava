@@ -57,6 +57,9 @@ class ActivityManager(models.QuerySet):
         }
 
     def activities_stats(self, date: pendulum.Date, period: str = "month"):
+        if period not in ["month", "year"]:
+            period = "month"
+
         start = date.start_of(period)
         end = date.end_of(period)
 
