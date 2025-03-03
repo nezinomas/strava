@@ -66,9 +66,10 @@ class Table(ListView):
         period = "month"
         if not month:
             period = "year"
-            month = 1
 
-        sql = Activities.objects.activities_stats(pendulum.Date(year, month, 1), period)
+        sql = Activities.objects.activities_stats(
+            pendulum.Date(year, month or 1, 1), period
+        )
         if order and order in SORT_BY:
             sort = order if order == "athlete" else f"-{order}"
             sql = sql.order_by(sort)
