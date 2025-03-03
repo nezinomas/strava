@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.urls.base import reverse
 from vanilla import ListView, TemplateView
-from webob import month
 
 from .forms import GoalForm
 from .lib import utils
