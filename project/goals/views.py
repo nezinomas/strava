@@ -80,12 +80,12 @@ class Table(ListView):
         active_col = self.request.GET.get("order", "moving_time")
         active_col = active_col if active_col in SORT_BY else "moving_time"
 
-        date = str(self.kwargs.get("year"))
+        msg = str(self.kwargs.get("year"))
         if month := self.kwargs.get("month"):
-            date += f" {utils.get_month(month).lower()}"
+            msg += f" {utils.get_month(month).lower()}"
 
         context = {
-            "date": date,
+            "msg": msg,
             "active_col": active_col,
         }
         return super().get_context_data(**kwargs) | context
