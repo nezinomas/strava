@@ -43,10 +43,15 @@ class Table(ListView):
     def get_queryset(self):
         order = self.request.GET.get("order")
 
-        year = self.kwargs.get("year", pendulum.now().year)
-        month = self.kwargs.get("month", pendulum.now().month)
+        year = self.kwargs.get("year")
+        month = self.kwargs.get("month")
 
-        sql = Activities.objects.activities_stats(pendulum.Date(year, month, 1))
+        period = "month"
+        if not month:
+            period = "year"
+            month = 1
+
+        sql = Activities.objects.activities_stats(pendulum.Date(year, month, 1), period)
         if order and order in SORT_BY:
             sort = order if order == "athlete" else f"-{order}"
             sql = sql.order_by(sort)
@@ -59,7 +64,7 @@ class Table(ListView):
 
         context = {
             "date": f"{self.kwargs['year']} "
-                    f"{utils.get_month(self.kwargs['month']).lower()}",
+                    f"{utils.get_month(self.kwargs.get('month', 1)).lower()}",
             "active_col": active_col,
         }
         return super().get_context_data(**kwargs) | context

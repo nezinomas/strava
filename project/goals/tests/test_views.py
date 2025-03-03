@@ -188,8 +188,15 @@ def test_table_view_fuction():
     assert views.Table == view.func.view_class
 
 
-def test_table_view_200(client):
-    url = reverse("goals:table", kwargs={"year": 1974, "month": 1})
+def test_table_view_for_month_200(client):
+    url = reverse("goals:month_table", kwargs={"year": 1974, "month": 1})
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_table_view_for_year_200(client):
+    url = reverse("goals:year_table", kwargs={"year": 1974})
     response = client.get(url)
 
     assert response.status_code == 200
