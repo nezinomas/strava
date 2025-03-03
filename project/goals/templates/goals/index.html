@@ -8,7 +8,7 @@
 
     <div id="nav-header">
         <a href="{{previous.url}}">&laquo; {{previous.title}}</a>
-        <div>{{month_str}}, {{ year }}</div>
+        <div>{{month_str}}, <a href="{% url 'goals:year' year %}">{{ year }}</div>
         <a href="{{next.url}}">{{next.title}} &raquo;</a>
     </div>
 

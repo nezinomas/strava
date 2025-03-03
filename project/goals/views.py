@@ -37,6 +37,23 @@ class Index(TemplateView):
         return super().get_context_data(**kwargs) | context
 
 
+class Year(TemplateView):
+    template_name = "goals/year.html"
+
+    def get_context_data(self, **kwargs):
+        year = self.kwargs.get("year", pendulum.now().year)
+
+        table_view_kwargs = self.kwargs | {"year": year}
+
+        context = {
+            "table": rendered_content(self.request, Table, **table_view_kwargs),
+            "year": year,
+            "next_year": year + 1,
+            "prev_year": year - 1,
+        }
+        return super().get_context_data(**kwargs) | context
+
+
 class Table(ListView):
     template_name = "goals/table.html"
 

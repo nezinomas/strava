@@ -1,4 +1,5 @@
 import datetime
+from multiprocessing import context
 
 import pytest
 import time_machine
@@ -21,6 +22,43 @@ def test_index_year_month_func():
     view = resolve("/1974/1/")
 
     assert views.Index == view.func.view_class
+
+
+def test_year_func():
+    view = resolve("/year/")
+
+    assert views.Year == view.func.view_class
+
+
+def test_index_year_func():
+    view = resolve("/year/1974/")
+
+    assert views.Year == view.func.view_class
+
+
+def test_year_200(client):
+    url = reverse("goals:year", kwargs={"year": 1974})
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_index_year_200(client):
+    url = reverse("goals:index_year")
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_year_context(client):
+    url = reverse("goals:year", kwargs={"year": 1974})
+    response = client.get(url)
+    context = response.context
+
+    assert context["year"] == 1974
+    assert context["next_year"] == 1975
+    assert context["prev_year"] == 1973
+    assert 'table' in context
 
 
 def test_index_200(client):

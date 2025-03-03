@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+
+
+{% block content %}
+<div class="container">
+
+    <div id="nav-header">
+        <a href="{% url 'goals:year' prev_year %}">&laquo; {{prev_year}}</a>
+        <div><a href="{% url 'goals:year' year %}">{{ year }}</a></div>
+        <a href="{% url 'goals:year' next_year %}">{{next_year}} &raquo;</a>
+    </div>
+
+    <div id="data-table">{{table}}</div>
+</div>
+
+
+{% endblock %}
