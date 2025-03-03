@@ -46,7 +46,7 @@ class Table(ListView):
         year = self.kwargs.get("year", pendulum.now().year)
         month = self.kwargs.get("month", pendulum.now().month)
 
-        sql = Activities.objects.month_stats(pendulum.Date(year, month, 1))
+        sql = Activities.objects.activities_stats(pendulum.Date(year, month, 1))
         if order and order in SORT_BY:
             sort = order if order == "athlete" else f"-{order}"
             sql = sql.order_by(sort)

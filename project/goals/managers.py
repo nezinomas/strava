@@ -56,7 +56,7 @@ class ActivityManager(models.QuerySet):
             for entry in qs
         }
 
-    def month_stats(self, date: pendulum.Date):
+    def activities_stats(self, date: pendulum.Date):
         start = date.start_of("month")
         end = date.end_of("month")
 

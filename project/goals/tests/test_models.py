@@ -62,12 +62,12 @@ def test_activity_week_stats():
     }
 
 
-def test_activity_month_stats():
+def test_activity_activities_stats():
     ActivityFactory()
     ActivityFactory()
     ActivityFactory(date=date(2022, 5, 1))
 
-    actual = Activities.objects.month_stats(pendulum.date(2022, 4, 25))
+    actual = Activities.objects.activities_stats(pendulum.date(2022, 4, 25))
 
     assert actual.count() == 1
     assert actual[0]["moving_time"] == 60
@@ -76,14 +76,14 @@ def test_activity_month_stats():
     assert actual[0]["ascent"] == 20
 
 
-def test_activity_month_stats_ordering_by_moving_time():
+def test_activity_activities_stats_ordering_by_moving_time():
     a2 = AthleteFactory(strava_id=2)
     a1 = AthleteFactory(strava_id=1)
     ActivityFactory(athlete=a2)
     ActivityFactory(athlete=a1)
     ActivityFactory(athlete=a1)
 
-    actual = Activities.objects.month_stats(pendulum.date(2022, 4, 25))
+    actual = Activities.objects.activities_stats(pendulum.date(2022, 4, 25))
 
     assert actual.count() == 2
     assert actual[0]["athlete_name"] == a1.name
