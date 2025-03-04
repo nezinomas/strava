@@ -17,6 +17,7 @@ from .mixins.views import (
 )
 from .models import Activities, Goal
 from .services.index import load_index_context
+from .services.year import load_year_service
 
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
 
@@ -44,6 +45,8 @@ class Year(TemplateView):
         year = self.kwargs.get("year", pendulum.now().year)
 
         table_view_kwargs = self.kwargs | {"year": year}
+
+        load_year_service(year)
 
         context = {
             "table": rendered_content(self.request, Table, **table_view_kwargs),
