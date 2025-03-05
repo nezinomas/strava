@@ -36,6 +36,10 @@ class YearService:
         return self._df["target"].to_list()
 
     @property
+    def collected(self):
+        return self._df["y"].to_list()
+
+    @property
     def fact(self):
         return self._df[["target", "y"]].to_dicts()
 

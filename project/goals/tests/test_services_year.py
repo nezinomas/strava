@@ -68,6 +68,26 @@ def test_fact(data):
     ]
 
 
+def test_collected(data):
+    actual = YearService(data).collected
+
+    assert len(actual) == 12
+    assert actual == [
+        1.0,
+        200.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ]
+
+
 def test_percent(data):
     actual = YearService(data).percent
 
