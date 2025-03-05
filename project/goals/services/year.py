@@ -73,6 +73,13 @@ class YearService:
                     .otherwise(pl.lit("red"))
                 )
             )
+            .with_columns(
+                color=(
+                    pl.when(pl.col("target") == 0)
+                    .then(pl.lit("neutral"))
+                    .otherwise(pl.col("color"))
+                )
+            )
             .fill_nan(0)
             .sort("month")
         ).collect()
