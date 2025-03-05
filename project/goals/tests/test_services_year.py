@@ -8,9 +8,9 @@ from ..services.year import YearService
 @pytest.fixture(name="data")
 def fixture_data():
     goals = [
-        {"month": 1, "hours": 10},
-        {"month": 2, "hours": 20},
-        {"month": 12, "hours": 120},
+        {"month": 1, "hours": 10, "pk": 1},
+        {"month": 2, "hours": 20, "pk": 2},
+        {"month": 12, "hours": 120, "pk": 3},
     ]
 
     collected = [
@@ -111,3 +111,9 @@ def test_color(data):
         "",
         "goal_fail",
     ]
+
+
+def test_goal_pk(data):
+    actual = YearService(data).goal_pk
+
+    assert actual == [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]

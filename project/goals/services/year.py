@@ -17,7 +17,7 @@ class YearServiceData:
         self.collected = self.get_collected()
 
     def get_goals(self):
-        return [*Goal.objects.filter(year=self.year).values("month", "hours")]
+        return [*Goal.objects.filter(year=self.year).values("month", "hours", "pk")]
 
     def get_collected(self):
         return [*Activities.objects.year_stats(self.year)]
@@ -30,6 +30,10 @@ class YearService:
     @property
     def categories(self):
         return [*utils.MONTH_LIST.values()]
+
+    @property
+    def goal_pk(self):
+        return self._df["pk"].to_list()
 
     @property
     def targets(self):
@@ -84,7 +88,9 @@ class YearService:
         if goals:
             return pl.DataFrame(goals).lazy().rename({"hours": "target"})
 
-        return pl.DataFrame({"month": list(range(1, 13)), "target": [0] * 12}).lazy()
+        return pl.DataFrame(
+            {"month": list(range(1, 13)), "target": [0] * 12, "pk": [0] * 12}
+        ).lazy()
 
     def _create_collected_df(self, collected):
         if collected:
