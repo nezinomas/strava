@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from turtle import color
 
 import polars as pl
 
@@ -49,19 +48,12 @@ class YearService:
         return self._df["color"].to_list()
 
     def _create_table(self, goals, collected):
-        df = pl.DataFrame({"month": list(range(1, 13))}).lazy()
-
-        df_goals = pl.DataFrame(goals).lazy().rename({"hours": "target"})
-
-        df_collected = (
-            pl.DataFrame(collected)
-            .lazy()
-            .rename({"hours": "y"})
-            .with_columns(pl.col("y") / 3600)
-        )
+        df_goals = self._create_goals_df(goals)
+        df_collected = self._create_collected_df(collected)
 
         return (
-            df.lazy()
+            pl.DataFrame({"month": list(range(1, 13))})
+            .lazy()
             .join(df_goals, on="month", how="left")
             .join(df_collected, on="month", how="left")
             .fill_null(0)
@@ -83,6 +75,23 @@ class YearService:
             .fill_nan(0)
             .sort("month")
         ).collect()
+
+    def _create_goals_df(self, goals):
+        if goals:
+            return pl.DataFrame(goals).lazy().rename({"hours": "target"})
+
+        return pl.DataFrame({"month": list(range(1, 13)), "target": [0] * 12}).lazy()
+
+    def _create_collected_df(self, collected):
+        if collected:
+            return (
+                pl.DataFrame(collected)
+                .lazy()
+                .rename({"hours": "y"})
+                .with_columns(pl.col("y") / 3600)
+            )
+
+        return pl.DataFrame({"month": list(range(1, 13)), "y": [0] * 12}).lazy()
 
 
 def load_year_service(year: int):
