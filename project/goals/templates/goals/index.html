@@ -2,6 +2,10 @@
 {% load static %}
 {% load filters %}
 
+{% block extra_head %}
+    <script src="{% static 'js/chart_goals.js' %}"></script>
+{% endblock extra_head %}
+
 
 {% block content %}
 <div class="container">
