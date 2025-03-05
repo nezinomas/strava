@@ -1,22 +1,21 @@
 {% load filters %}
 
-
-{% for object in object_list %}
+{% for month, goal_pk, goal, collected, css_class in objects %}
 
 <div class="month-goal">
-    <div class="title">{{object.month}}</div>
-    <div class="goal {{object.css_class}}">
-        {% if object.goal %}{{object.goal.hours}}{% else %}0{% endif %}
+    <div class="title">{{month}}</div>
+    <div class="goal {% if collected %}{{css_class}}{% endif %}">
+        {{goal}}
     </div>
-    <div class="collected">{% if object.collected %}Surinkta: <strong>{{object.collected|floatformat:0}}</strong>{% else %}&nbsp;{% endif %}</div>
+    <div class="collected">{% if collected %}Surinkta: <strong>{{collected|floatformat:0}}</strong>{% else %}&nbsp;{% endif %}</div>
     <div class="buttons">
-        {% if object.goal %}
-        <button type="button" class="btn-secondary" hx-get="{% url 'goals:goal_update' object.goal.pk %}" hx-target="#mainModal"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn-trash" hx-get="{% url 'goals:goal_delete' object.goal.pk %}" hx-target="#mainModal"><i class="bi bi-trash"></i></button>
+        {% if goal %}
+        <button type="button" class="btn-secondary" hx-get="{% url 'goals:goal_update' goal_pk %}" hx-target="#mainModal"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn-trash" hx-get="{% url 'goals:goal_delete' goal_pk %}" hx-target="#mainModal"><i class="bi bi-trash"></i></button>
 
         {% else %}
 
-        <button type="button" class="btn-save" hx-get="{% url 'goals:goal_add' object.month_num %}" hx-target="#mainModal"><i class="bi bi-plus"></i></button>
+        <button type="button" class="btn-save" hx-get="{% url 'goals:goal_add' forloop.counter %}" hx-target="#mainModal"><i class="bi bi-plus"></i></button>
         {% endif %}
     </div>
 </div>
