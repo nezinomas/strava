@@ -75,19 +75,19 @@ def test_percent(data):
 
 
 def test_color(data):
-    actual = YearService(data).color
+    actual = YearService(data).css_class
 
     assert actual == [
-        "red",
-        "green",
-        "neutral",
-        "neutral",
-        "neutral",
-        "neutral",
-        "neutral",
-        "neutral",
-        "neutral",
-        "neutral",
-        "neutral",
-        "red",
+        "goal_fail",
+        "goal_success",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "goal_fail",
     ]

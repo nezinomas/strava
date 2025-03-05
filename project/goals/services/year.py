@@ -44,7 +44,7 @@ class YearService:
         return self._df["percent"].to_list()
 
     @property
-    def color(self):
+    def css_class(self):
         return self._df["color"].to_list()
 
     def _create_table(self, goals, collected):
@@ -61,14 +61,14 @@ class YearService:
             .with_columns(
                 color=(
                     pl.when(pl.col("percent") >= 100)
-                    .then(pl.lit("green"))
-                    .otherwise(pl.lit("red"))
+                    .then(pl.lit("goal_success"))
+                    .otherwise(pl.lit("goal_fail"))
                 )
             )
             .with_columns(
                 color=(
                     pl.when(pl.col("target") == 0)
-                    .then(pl.lit("neutral"))
+                    .then(pl.lit(""))
                     .otherwise(pl.col("color"))
                 )
             )
