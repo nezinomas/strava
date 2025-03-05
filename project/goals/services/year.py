@@ -17,10 +17,10 @@ class YearServiceData:
         self.collected = self.get_collected()
 
     def get_goals(self):
-        return Goal.objects.filter(year=self.year).values("month", "hours")
+        return [*Goal.objects.filter(year=self.year).values("month", "hours")]
 
     def get_collected(self):
-        return Activities.objects.year_stats(self.year)
+        return [*Activities.objects.year_stats(self.year)]
 
 
 class YearService:
