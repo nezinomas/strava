@@ -4,7 +4,7 @@
 
 
 {% block content %}
-<div class="container">
+<div class="year-container">
 
     <div id="nav-header">
         <a href="{% url 'goals:year' prev_year %}">&laquo; {{prev_year}}</a>
@@ -12,11 +12,14 @@
         <a href="{% url 'goals:year' next_year %}">{{next_year}} &raquo;</a>
     </div>
 
+    <div id="chart-year-container"></div>
+
     <div id="data-table">{{table}}</div>
 </div>
 
 
-{{ chart_data|json_script:"chart-data" }}
+{{ chart_data|json_script:"chart-year-data" }}
+<script src="{% static 'js/chart_year.js' %}"></script>
 
 
 {% endblock %}
