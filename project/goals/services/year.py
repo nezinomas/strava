@@ -96,4 +96,4 @@ class YearService:
 
 def load_year_service(year: int):
     data = YearServiceData(year)
-    obj = YearService(data)
+    return YearService(data)
