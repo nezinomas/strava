@@ -43,6 +43,7 @@ class Year(TemplateView):
 
     def get_context_data(self, **kwargs):
         year = self.kwargs.get("year", pendulum.now().year)
+        o = load_year_service(year)
 
         table_view_kwargs = self.kwargs | {"year": year}
 
@@ -53,6 +54,13 @@ class Year(TemplateView):
             "year": year,
             "next_year": year + 1,
             "prev_year": year - 1,
+            "chart_data": {
+                "categories": o.categories,
+                "targets": o.targets,
+                "fact": o.fact,
+                "percent": o.percent,
+                "css_class": o.css_class,
+            }
         }
         return super().get_context_data(**kwargs) | context
 
