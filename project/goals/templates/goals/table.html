@@ -6,7 +6,11 @@
     <thead>
         <tr>
             {% with request.resolver_match.kwargs as kwargs %}
-            {% url 'goals:table' year=kwargs.year month=kwargs.month as url %}
+            {% if kwargs.month%}
+            {% url 'goals:month_table' year=kwargs.year month=kwargs.month as url %}
+            {% else %}
+            {% url 'goals:year_table' year=kwargs.year as url %}
+            {% endif %}
             <th class="w-rank">Vieta</th>
             <th class="w-athlete order {% if active_col == 'athlete' %}active-col{% endif %}" hx-get="{{url}}?order=athlete" hx-target="#data-table">
                 Eksplėnas
@@ -47,6 +51,6 @@
 
 {% else %}
 
-<div id="data-table" class="alert alert-warning">{{date}} neturi įrašų.</div>
+<div id="data-table" class="alert alert-warning">{{msg}} neturi įrašų.</div>
 
 {% endif %}

@@ -17,6 +17,7 @@ from .mixins.views import (
 )
 from .models import Activities, Goal
 from .services.index import load_index_context
+from .services.year import load_year_service
 
 SORT_BY = ["athlete", "num_activities", "moving_time", "distance", "ascent"]
 
@@ -37,16 +38,47 @@ class Index(TemplateView):
         return super().get_context_data(**kwargs) | context
 
 
+class Year(TemplateView):
+    template_name = "goals/year.html"
+
+    def get_context_data(self, **kwargs):
+        year = self.kwargs.get("year", pendulum.now().year)
+        o = load_year_service(year)
+
+        table_view_kwargs = self.kwargs | {"year": year}
+
+        load_year_service(year)
+
+        context = {
+            "table": rendered_content(self.request, Table, **table_view_kwargs),
+            "year": year,
+            "next_year": year + 1,
+            "prev_year": year - 1,
+            "chart_data": {
+                "categories": o.categories,
+                "targets": o.targets,
+                "fact": o.fact,
+                "percent": o.percent,
+                "css_class": o.css_class,
+                "collected": o.collected,
+            }
+        }
+        return super().get_context_data(**kwargs) | context
+
+
 class Table(ListView):
     template_name = "goals/table.html"
 
     def get_queryset(self):
+        year = self.kwargs.get("year")
+        month = self.kwargs.get("month")
         order = self.request.GET.get("order")
+        period = "month" if month else "year"
 
-        year = self.kwargs.get("year", pendulum.now().year)
-        month = self.kwargs.get("month", pendulum.now().month)
+        sql = Activities.objects.activities_stats(
+            date=pendulum.Date(year, month or 1, 1), period=period
+        )
 
-        sql = Activities.objects.month_stats(pendulum.Date(year, month, 1))
         if order and order in SORT_BY:
             sort = order if order == "athlete" else f"-{order}"
             sql = sql.order_by(sort)
@@ -57,9 +89,12 @@ class Table(ListView):
         active_col = self.request.GET.get("order", "moving_time")
         active_col = active_col if active_col in SORT_BY else "moving_time"
 
+        msg = str(self.kwargs.get("year"))
+        if month := self.kwargs.get("month"):
+            msg += f" {utils.get_month(month).lower()}"
+
         context = {
-            "date": f"{self.kwargs['year']} "
-                    f"{utils.get_month(self.kwargs['month']).lower()}",
+            "msg": msg,
             "active_col": active_col,
         }
         return super().get_context_data(**kwargs) | context
@@ -94,33 +129,12 @@ class GoalList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         year = pendulum.now().year
-        goals_sql = Goal.objects.filter(year=year)
-        collected_sql = {
-            item["month"]: item["hours"] / 3600
-            for item in Activities.objects.year_stats(year)
-        }
-
-        object_list = []
-        for month_num, month in utils.MONTH_LIST.items():
-            goal = goals_sql.filter(month=month_num).first()
-            collected = collected_sql.get(month_num)
-
-            css_class = ""
-            if goal and collected and month_num <= pendulum.now().month:
-                css_class = "goal_success" if collected > goal.hours else "goal_fail"
-
-            object_list.append(
-                {
-                    "month_num": month_num,
-                    "month": month,
-                    "goal": goal,
-                    "collected": collected,
-                    "css_class": css_class,
-                }
-            )
+        obj = load_year_service(year)
 
         context = {
-            "object_list": object_list,
+            "objects": zip(
+                obj.categories, obj.goal_pk, obj.targets, obj.collected, obj.css_class
+            )
         }
 
         return super().get_context_data(**kwargs) | context

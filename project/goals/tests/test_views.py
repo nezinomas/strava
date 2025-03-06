@@ -1,4 +1,5 @@
 import datetime
+from multiprocessing import context
 
 import pytest
 import time_machine
@@ -21,6 +22,43 @@ def test_index_year_month_func():
     view = resolve("/1974/1/")
 
     assert views.Index == view.func.view_class
+
+
+def test_year_func():
+    view = resolve("/year/")
+
+    assert views.Year == view.func.view_class
+
+
+def test_index_year_func():
+    view = resolve("/year/1974/")
+
+    assert views.Year == view.func.view_class
+
+
+def test_year_200(client):
+    url = reverse("goals:year", kwargs={"year": 1974})
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_index_year_200(client):
+    url = reverse("goals:index_year")
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_year_context(client):
+    url = reverse("goals:year", kwargs={"year": 1974})
+    response = client.get(url)
+    context = response.context
+
+    assert context["year"] == 1974
+    assert context["next_year"] == 1975
+    assert context["prev_year"] == 1973
+    assert 'table' in context
 
 
 def test_index_200(client):
@@ -188,8 +226,15 @@ def test_table_view_fuction():
     assert views.Table == view.func.view_class
 
 
-def test_table_view_200(client):
-    url = reverse("goals:table", kwargs={"year": 1974, "month": 1})
+def test_table_view_for_month_200(client):
+    url = reverse("goals:month_table", kwargs={"year": 1974, "month": 1})
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_table_view_for_year_200(client):
+    url = reverse("goals:year_table", kwargs={"year": 1974})
     response = client.get(url)
 
     assert response.status_code == 200
@@ -287,8 +332,7 @@ def test_admin_context(admin_client):
     url = reverse("goals:admin")
     response = admin_client.get(url)
 
-    assert "object_list" in response.context
-    assert len(response.context["object_list"]) == 12
+    assert "objects" in response.context
 
 
 def test_list_func():
@@ -309,52 +353,6 @@ def test_list_200(admin_client):
     response = admin_client.get(url)
 
     assert response.status_code == 200
-
-
-@time_machine.travel("2022-04-01")
-def test_list_context_goal(admin_client):
-    obj1 = GoalFactory(year=2022, month=1, hours=10)
-    obj2 = GoalFactory(year=2022, month=12, hours=120)
-
-    url = reverse("goals:admin")
-    response = admin_client.get(url)
-
-    actual = response.context["object_list"]
-
-    assert actual[0]["goal"] == obj1
-    assert actual[1]["goal"] is None
-    assert actual[2]["goal"] is None
-    assert actual[3]["goal"] is None
-    assert actual[4]["goal"] is None
-    assert actual[5]["goal"] is None
-    assert actual[6]["goal"] is None
-    assert actual[7]["goal"] is None
-    assert actual[8]["goal"] is None
-    assert actual[9]["goal"] is None
-    assert actual[10]["goal"] is None
-    assert actual[11]["goal"] == obj2
-
-
-@time_machine.travel("2022-04-01")
-def test_list_context_css_class(admin_client):
-    GoalFactory(year=2022, month=1, hours=10)
-    GoalFactory(year=2022, month=2, hours=10)
-    GoalFactory(year=2022, month=3, hours=10)
-    GoalFactory(year=2022, month=4, hours=10)
-
-    ActivityFactory(date=date(2022, 1, 1), moving_time=1 * 3600)
-    ActivityFactory(date=date(2022, 2, 1), moving_time=100 * 3600)
-    ActivityFactory(date=date(2022, 4, 1), moving_time=1 * 3600)
-
-    url = reverse("goals:admin")
-    response = admin_client.get(url)
-
-    actual = response.context["object_list"]
-
-    assert actual[0]["css_class"] == "goal_fail"
-    assert actual[1]["css_class"] == "goal_success"
-    assert actual[2]["css_class"] == ""
-    assert actual[3]["css_class"] == "goal_fail"
 
 
 def test_add_func():

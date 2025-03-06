@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+
+
+{% block content %}
+<div class="container">
+
+    <div id="navbar-container">
+        <div>&laquo; <a href="{% url 'goals:year' prev_year %}">{{prev_year}}</a></div>
+        <div>{{ year }}</div>
+        <div><a href="{% url 'goals:year' next_year %}">{{next_year}}</a> &raquo;</div>
+    </div>
+
+    <div id="chart-container">
+        <div id="chart-year-container"></div>
+    </div>
+
+    <div id="table-container">{{table}}</div>
+</div>
+
+
+{{ chart_data|json_script:"chart-year-data" }}
+<script src="{% static 'js/chart_year.js' %}"></script>
+
+
+{% endblock %}
