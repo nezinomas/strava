@@ -11,9 +11,9 @@
 <div class="container">
 
     <div id="navbar-container">
-        <a href="{{previous.url}}">&laquo; {{previous.title}}</a>
-        <div>{{month_str}}, <a href="{% url 'goals:year' year %}">{{ year }}</div>
-        <a href="{{next.url}}">{{next.title}} &raquo;</a>
+        <div>&laquo; <a href="{{previous.url}}">{{previous.title}}</a></div>
+        <div>{{month_str}}, <a href="{% url 'goals:year' year %}" class="year-link">{{ year }}</a></div>
+        <div><a href="{{next.url}}">{{next.title}}</a> &raquo;</div>
     </div>
 
     {% if goal_collected %}
