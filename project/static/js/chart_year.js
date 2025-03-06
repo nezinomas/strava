@@ -3,6 +3,12 @@ loadChart("chart-year-data", "chart-year-container");
 function loadChart(idData, idContainer) {
     const chartData = JSON.parse(document.getElementById(idData).textContent);
 
+    let fail_col_color = "#EB5353";
+    let fail_txt_color = "#c60202";
+
+    let success_col_color = "#5D9C59";
+    let success_txt_color = "#5D9C59";
+
     Highcharts.chart(idContainer, {
         chart: {
             type: "bullet"
@@ -46,10 +52,10 @@ function loadChart(idData, idContainer) {
                     let color = "#000000";
 
                     if (goal == "goal_fail") {
-                        color = "#c60202";
+                        color = fail_txt_color;
                     }
                     if (goal == "goal_success") {
-                        color = "#5D9C59";
+                        color = success_txt_color;
                     }
 
                     if(chartData.collected[this.x] > 0) {
@@ -83,13 +89,13 @@ function loadChart(idData, idContainer) {
             let css_class = chartData.css_class[i];
 
             if (css_class == "goal_fail") {
-                point.graphic.attr({ fill: "#EB5353" });
+                point.graphic.attr({ fill: fail_col_color });
                 point.dataLabel.attr({ y: point.dataLabel.y + 25 });
 
             }
 
             if (css_class == "goal_success") {
-                point.graphic.attr({ fill: "#5D9C59" });
+                point.graphic.attr({ fill: success_col_color });
             }
         });
     });
