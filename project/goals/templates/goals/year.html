@@ -4,17 +4,19 @@
 
 
 {% block content %}
-<div class="year-container">
+<div class="container">
 
-    <div id="nav-header">
+    <div id="navbar-container">
         <a href="{% url 'goals:year' prev_year %}">&laquo; {{prev_year}}</a>
         <div><a href="{% url 'goals:year' year %}">{{ year }}</a></div>
         <a href="{% url 'goals:year' next_year %}">{{next_year}} &raquo;</a>
     </div>
 
-    <div id="chart-year-container"></div>
+    <div id="chart-container">
+        <div id="chart-year-container"></div>
+    </div>
 
-    <div id="data-table">{{table}}</div>
+    <div id="table-container">{{table}}</div>
 </div>
 
 

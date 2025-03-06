@@ -5,25 +5,25 @@
     justify-items: center;
 
     grid-template-areas:
-        ".  nav-header               ."
-        ".  info-row                 ."
-        ".  chart-goals-container    ."
-        ".  data-table               .";
+        ".  navbar-container     ."
+        ".  info-row-container   ."
+        ".  chart-container      ."
+        ".  table-container      .";
 
-    #nav-header {
-        grid-area: nav-header;
+    #navbar-container {
+        grid-area: navbar-container;
     }
 
-    #info-row {
-        grid-area: info-row;
+    #info-row-container {
+        grid-area: info-row-container;
     }
 
-    #data-table {
-        grid-area: data-table;
+    #table-container {
+        grid-area: table-container;
     }
 
-    #chart-goals-container {
-        grid-area: chart-goals-container;
+    #chart-container {
+        grid-area: chart-container;
     }
 }
 
@@ -39,7 +39,7 @@
     grid-template-columns: repeat(3, 1fr);
     row-gap: 2.5rem;
     column-gap: 5rem;
-    grid-area: data-table;
+    grid-area: table-container;
     width: 100%;
     text-align: center;
 }

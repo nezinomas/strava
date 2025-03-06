@@ -10,14 +10,14 @@
 {% block content %}
 <div class="container">
 
-    <div id="nav-header">
+    <div id="navbar-container">
         <a href="{{previous.url}}">&laquo; {{previous.title}}</a>
         <div>{{month_str}}, <a href="{% url 'goals:year' year %}">{{ year }}</div>
         <a href="{{next.url}}">{{next.title}} &raquo;</a>
     </div>
 
     {% if goal_collected %}
-        <div id="info-row" class="info-row">
+        <div id="info-row-container" class="info-row">
             {% if goal_hours %}
                 <div data-info-row="{{ goal_hours|floatformat:'0g'}}h">Tikslas:</div>
             {% endif %}
@@ -35,23 +35,23 @@
             {% if last_update %}<div class="last-update">Duomenys atnaujinti: {{last_update|date:"Y-m-d H:i"}}</div>{% endif %}
         </div>
 
-        <div id="chart-goals-container"></div>
+        <div id="chart-container"></div>
         {% else %}
 
         {% if goal_hours %}
-            <div id="info-row" class="info-row">
+            <div id="info-row-container" class="info-row">
                 <div data-info-row="{{ goal_hours|floatformat:'0g'}}h">Tikslas:</div>
             </div>
         {% endif %}
 
     {% endif %}
 
-    <div id="data-table">{{table}}</div>
+    <div id="table-container">{{table}}</div>
 
 
 </div>
 
 {{chart_data|json_script:"chart-goals-data"}}
-<script>loadChart('chart-goals-data', 'chart-goals-container');</script>
+<script>loadChart('chart-goals-data', 'chart-container');</script>
 
 {% endblock %}
