@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from datetime import datetime
 
 import polars as pl
 
@@ -77,13 +76,6 @@ class YearService:
             .with_columns(
                 color=(
                     pl.when(pl.col("target") == 0)
-                    .then(pl.lit(""))
-                    .otherwise(pl.col("color"))
-                )
-            )
-            .with_columns(
-                color=(
-                    pl.when(pl.col("month") >= datetime.now().month)
                     .then(pl.lit(""))
                     .otherwise(pl.col("color"))
                 )
