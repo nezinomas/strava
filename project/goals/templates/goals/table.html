@@ -12,23 +12,23 @@
             {% url 'goals:year_table' year=kwargs.year as url %}
             {% endif %}
             <th class="w-rank">Vieta</th>
-            <th class="w-athlete order {% if active_col == 'athlete' %}active-col{% endif %}" hx-get="{{url}}?order=athlete" hx-target="#data-table">
+            <th class="w-athlete order {% if active_col == 'athlete' %}active-col{% endif %}" hx-get="{{url}}?order=athlete" hx-target="#table-container">
                 Eksplėnas
                 {% if active_col != 'athlete' %}<span class="asc"></span>{% endif%}
             </th>
-            <th class="w-time order {% if active_col == 'moving_time' %}active-col{% endif %}" hx-get="{{url}}?order=moving_time" hx-target="#data-table">
+            <th class="w-time order {% if active_col == 'moving_time' %}active-col{% endif %}" hx-get="{{url}}?order=moving_time" hx-target="#table-container">
                 Laikas
                 {% if active_col != 'moving_time' %}<span></span>{% endif%}
             </th>
-            <th class="w-activities order {% if active_col == 'num_activities' %}active-col{% endif %}" hx-get="{{url}}?order=num_activities" hx-target="#data-table">
+            <th class="w-activities order {% if active_col == 'num_activities' %}active-col{% endif %}" hx-get="{{url}}?order=num_activities" hx-target="#table-container">
                 Veiklos
                 {% if active_col != 'num_activities' %}<span></span>{% endif%}
             </th>
-            <th class="w-distance order {% if active_col == 'distance' %}active-col{% endif %}" hx-get="{{url}}?order=distance" hx-target="#data-table">
+            <th class="w-distance order {% if active_col == 'distance' %}active-col{% endif %}" hx-get="{{url}}?order=distance" hx-target="#table-container">
                 Atstumas
                 {% if active_col != 'distance' %}<span></span>{% endif%}
             </th>
-            <th class="w-ascent order {% if active_col == 'ascent' %}active-col{% endif %}" hx-get="{{url}}?order=ascent" hx-target="#data-table">
+            <th class="w-ascent order {% if active_col == 'ascent' %}active-col{% endif %}" hx-get="{{url}}?order=ascent" hx-target="#table-container">
                 Sukilimas
                 {% if active_col != 'ascent' %}<span></span>{% endif%}
             </th>
@@ -51,6 +51,6 @@
 
 {% else %}
 
-<div id="data-table" class="alert alert-warning">{{msg}} neturi įrašų.</div>
+<div id="table-container" class="alert alert-warning">{{msg}} neturi įrašų.</div>
 
 {% endif %}
