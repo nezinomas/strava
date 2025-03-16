@@ -132,9 +132,13 @@ class StravaData:
         except NoSuchElementException:
             # self._browser.refresh()
             self._login()
+
             sleep(MAX_TIME)
+
             self._get_leaderboard_page()
+
             sleep(MAX_TIME)
+
             with contextlib.suppress(NoSuchElementException):
                 leaderbord = get_data()
 
