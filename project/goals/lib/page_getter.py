@@ -12,22 +12,6 @@ MIN_TIME = 0.62
 MAX_TIME = 5.13
 
 
-class NoEmailFieldError(Exception):
-    """Exception raised when email field is not found."""
-
-
-class NoPasswordFieldError(Exception):
-    """Exception raised when password field is not found."""
-
-
-class NoLoginButtonError(Exception):
-    """Exception raised when login button is not found."""
-
-
-class NoLeaderboardError(Exception):
-    """Exception raised when leaderboard is not found."""
-
-
 class StravaData:
     _browser = None
 
@@ -85,11 +69,22 @@ class StravaData:
             email.send_keys(self._conf["STRAVA_USER"])
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
-            raise NoEmailFieldError("Email field not found.") from e
+            raise NoSuchElementException("Email field not found.") from e
 
         self._press_login_button()
 
-        # second stage: find password field and click login button
+        #second stage: find password link and click it
+        try:
+            sleep(random.uniform(MIN_TIME, MAX_TIME))
+            password_link = self._browser.find_element(
+                By.XPATH, "//div[@data-testid='use-password-cta']/button"
+            )
+            password_link.click()
+        except NoSuchElementException as e:
+            raise NoSuchElementException("Password link not found.") from e
+
+
+        # third stage: find password field and click login button
         try:
             sleep(MAX_TIME)
             password_field = self._browser.find_element(
@@ -98,7 +93,7 @@ class StravaData:
             password_field.send_keys(self._conf["STRAVA_PASSWORD"])
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
-            raise NoPasswordFieldError("Password field not found.") from e
+            raise NoSuchElementException("Password field not found.") from e
 
         self._press_login_button()
 
@@ -116,7 +111,7 @@ class StravaData:
             )
             self._browser.execute_script("arguments[0].click();", login_button)
         except NoSuchElementException as e:
-            raise NoLoginButtonError("Login button not found.") from e
+            raise NoSuchElementException("Login button not found.") from e
 
     def _get_leaderboard_page(self):
         self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
@@ -132,9 +127,13 @@ class StravaData:
         except NoSuchElementException:
             # self._browser.refresh()
             self._login()
+
             sleep(MAX_TIME)
+
             self._get_leaderboard_page()
+
             sleep(MAX_TIME)
+
             with contextlib.suppress(NoSuchElementException):
                 leaderbord = get_data()
 
@@ -142,7 +141,7 @@ class StravaData:
             txt = "Leaderboard not found."
             if msg:
                 txt += f" {msg}"
-            raise NoLeaderboardError(txt)
+            raise NoSuchElementException(txt)
 
         return leaderbord.get_attribute("outerHTML")
 
@@ -153,6 +152,6 @@ class StravaData:
             ).click()
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
-            raise NoLeaderboardError("Last week leaderboard button not found.") from e
+            raise NoSuchElementException("Last week leaderboard button not found.") from e
 
         return self._get_leaderboard("For last week.")
