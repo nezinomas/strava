@@ -63,11 +63,7 @@ class StravaData:
 
         # first stage: find email field and clid login button
         try:
-            email = self._browser.find_element(
-                By.CSS_SELECTOR, "input[data-cy='email']"
-            )
-            email.send_keys(self._conf["STRAVA_USER"])
-            sleep(random.uniform(MIN_TIME, MAX_TIME))
+            self._find_and_fill_input("input[data-cy='email']", "STRAVA_USER")
         except NoSuchElementException as e:
             raise NoSuchElementException("Email field not found.") from e
 
@@ -87,15 +83,16 @@ class StravaData:
         # third stage: find password field and click login button
         try:
             sleep(MAX_TIME)
-            password_field = self._browser.find_element(
-                By.CSS_SELECTOR, "input[data-cy='password']"
-            )
-            password_field.send_keys(self._conf["STRAVA_PASSWORD"])
-            sleep(random.uniform(MIN_TIME, MAX_TIME))
+            self._find_and_fill_input("input[data-cy='password']", "STRAVA_PASSWORD")
         except NoSuchElementException as e:
             raise NoSuchElementException("Password field not found.") from e
 
         self._press_login_button()
+
+    def _find_and_fill_input(self, input_description, conf_name):
+        email = self._browser.find_element(By.CSS_SELECTOR, input_description)
+        email.send_keys(self._conf[conf_name])
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
 
     def _accept_cookies(self):
         with contextlib.suppress(NoSuchElementException):
