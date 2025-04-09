@@ -69,7 +69,7 @@ class StravaData:
 
         self._press_login_button()
 
-        #second stage: find password link and click it
+        # second stage: find password link and click it
         try:
             sleep(random.uniform(MIN_TIME, MAX_TIME))
             password_link = self._browser.find_element(
@@ -78,7 +78,6 @@ class StravaData:
             password_link.click()
         except NoSuchElementException as e:
             raise NoSuchElementException("Password link not found.") from e
-
 
         # third stage: find password field and click login button
         try:

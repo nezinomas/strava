@@ -61,7 +61,7 @@ class Year(TemplateView):
                 "percent": o.percent,
                 "css_class": o.css_class,
                 "collected": o.collected,
-            }
+            },
         }
         return super().get_context_data(**kwargs) | context
 

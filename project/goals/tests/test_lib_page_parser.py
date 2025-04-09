@@ -96,7 +96,7 @@ def test_get_time_minutes():
     item = BeautifulSoup(
         '<td class="moving_time highlighted-column">'
         '1<abbr class="unit" title="minute">m</abbr>'
-        '</td>',
+        "</td>",
         "html.parser",
     )
 
@@ -109,7 +109,7 @@ def test_get_time_hours_minutes():
         '<td class="moving_time highlighted-column">'
         '1<abbr class="unit" title="hour">h</abbr> '
         '2<abbr class="unit" title="minute">m</abbr>'
-        '</td>',
+        "</td>",
         "html.parser",
     )
 

@@ -58,7 +58,7 @@ def test_year_context(client):
     assert context["year"] == 1974
     assert context["next_year"] == 1975
     assert context["prev_year"] == 1973
-    assert 'table' in context
+    assert "table" in context
 
 
 def test_index_200(client):
@@ -499,8 +499,7 @@ def test_delete_load_form(admin_client):
     assert f' hx-post="{reverse("goals:goal_delete", kwargs={"pk": obj.pk})}"' in form
     assert (
         f"Ar tikrai nori ištrinti: <strong>{obj.year} / {obj.month} / "
-        f"{obj.hours}</strong>?"
-        in form
+        f"{obj.hours}</strong>?" in form
     )
 
 
