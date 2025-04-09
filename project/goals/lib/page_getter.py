@@ -110,7 +110,8 @@ class StravaData:
             raise NoSuchElementException("Login button not found.") from e
 
     def _get_leaderboard_page(self):
-        self._browser.get("https://www.strava.com/clubs/1028542/leaderboard")
+        _id = self._conf["STRAVA_LEADERBOARD_ID"]
+        self._browser.get(f"https://www.strava.com/clubs/{_id}/leaderboard")
         sleep(MAX_TIME)
 
     def _get_leaderboard(self, msg=None):
