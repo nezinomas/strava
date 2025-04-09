@@ -149,6 +149,8 @@ class StravaData:
             ).click()
             sleep(random.uniform(MIN_TIME, MAX_TIME))
         except NoSuchElementException as e:
-            raise NoSuchElementException("Last week leaderboard button not found.") from e
+            raise NoSuchElementException(
+                "Last week leaderboard button not found."
+            ) from e
 
         return self._get_leaderboard("For last week.")
