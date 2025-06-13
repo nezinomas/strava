@@ -42,6 +42,8 @@ function loadChart(idData, idContainer) {
             borderRadius: 0,
             dataLabels: [{
                 enabled: true,
+                crop: false,
+                overflow: "allow",
                 style: {
                     fontSize: "11px",
                     fontWeight: "bold",
