@@ -189,3 +189,38 @@ def test_log_failed():
     assert actual.date == datetime(1974, 1, 2, 3, 4, 3, tzinfo=timezone.utc)
     assert actual.status == "Failed"
     assert actual.message == "Exception message"
+
+
+def test_total_stats_year():
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory(date=date(2222, 5, 1))
+
+    actual = Activities.objects.total_stats(2022)
+
+    assert actual["moving_time"] == 60
+    assert actual["num_activities"] == 2
+    assert actual["distance"] == 2
+    assert actual["ascent"] == 20
+
+
+def test_total_stats_month():
+    ActivityFactory()
+    ActivityFactory()
+    ActivityFactory(date=date(2022, 5, 1))
+
+    actual = Activities.objects.total_stats(2022, 4)
+
+    assert actual["moving_time"] == 60
+    assert actual["num_activities"] == 2
+    assert actual["distance"] == 2
+    assert actual["ascent"] == 20
+
+
+def test_total_stats_empty_db():
+    actual = Activities.objects.total_stats(2022)
+
+    assert actual["moving_time"] is None
+    assert actual["num_activities"] is None
+    assert actual["distance"] is None
+    assert actual["ascent"] is None

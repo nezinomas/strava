@@ -109,3 +109,16 @@ class ActivityManager(models.QuerySet):
             .get("moving_time__sum")
             or 0
         )
+
+    def total_stats(self, year: int, month=None):
+        sql = self.related().filter(date__year=year)
+
+        if month:
+            sql = sql.filter(date__month=month)
+
+        return sql.aggregate(
+            moving_time=Sum("moving_time"),
+            num_activities=Sum("num_activities"),
+            distance=Sum("distance"),
+            ascent=Sum("ascent"),
+        )
