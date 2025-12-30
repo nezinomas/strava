@@ -13,6 +13,12 @@
         background-color: hsl(40, 60%, 90%);
         text-align: left;
     }
+    
+    tfoot th {
+        background-color: hsl(40, 60%, 90%);
+        border-top: #383838 double;
+        text-align: left;
+    }
 
     th, td {
         padding: .5rem .25rem;
