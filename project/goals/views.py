@@ -86,16 +86,20 @@ class Table(ListView):
         return sql
 
     def get_context_data(self, **kwargs):
+        year = self.kwargs.get("year")
+        month = self.kwargs.get("month")
+
         active_col = self.request.GET.get("order", "moving_time")
         active_col = active_col if active_col in SORT_BY else "moving_time"
 
-        msg = str(self.kwargs.get("year"))
-        if month := self.kwargs.get("month"):
+        msg = str(year)
+        if month:
             msg += f" {utils.get_month(month).lower()}"
 
         context = {
             "msg": msg,
             "active_col": active_col,
+            "total": Activities.objects.total_stats(year, month)
         }
         return super().get_context_data(**kwargs) | context
 
