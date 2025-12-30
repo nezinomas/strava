@@ -54,6 +54,7 @@ def test_activity_week_stats():
     ActivityFactory()
     ActivityFactory(date=date(2022, 4, 24))
     ActivityFactory(date=date(2022, 4, 24), athlete=AthleteFactory(strava_id=2))
+    ActivityFactory(date=date(2222, 4, 24))
 
     actual = Activities.objects.week_stats(pendulum.date(2022, 4, 25))
 
@@ -66,6 +67,7 @@ def test_activity_activities_stats_for_month():
     ActivityFactory()
     ActivityFactory()
     ActivityFactory(date=date(2022, 5, 1))
+    ActivityFactory(date=date(2222, 5, 1))
 
     actual = Activities.objects.activities_stats(pendulum.date(2022, 4, 25))
 
@@ -80,6 +82,7 @@ def test_activity_activities_stats_for_month_wrong_period():
     ActivityFactory()
     ActivityFactory()
     ActivityFactory(date=date(2022, 5, 1))
+    ActivityFactory(date=date(2222, 5, 1))
 
     actual = Activities.objects.activities_stats(
         pendulum.date(2022, 4, 25), period="hack"
