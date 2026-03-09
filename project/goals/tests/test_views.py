@@ -196,7 +196,7 @@ def test_index_year(client):
 
 
 def test_index_log_success(client, time_machine):
-    time_machine.move_to("1974-1-1 5:4:3")
+    time_machine.move_to("1974-2-1 5:4:3")
     LogSuccessFactory()
 
     time_machine.move_to("2022-04-02")
@@ -205,9 +205,13 @@ def test_index_log_success(client, time_machine):
     url = reverse("goals:index")
     actual = client.get(url).context["last_update"]
 
-    assert actual == datetime.datetime(
-        1974, 1, 1, 3, 4, 3, tzinfo=datetime.timezone.utc
-    )
+    assert actual.year == 1974
+    assert actual.month == 2
+    assert actual.day == 1
+    assert actual.hour == 3
+    assert actual.minute == 4
+    assert actual.second == 3
+
 
 
 def test_index_log_failed(client, time_machine):

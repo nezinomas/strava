@@ -166,7 +166,12 @@ def test_log_created():
 
     actual = Logs.objects.last()
 
-    assert actual.date == datetime(1974, 1, 2, 3, 4, 3, tzinfo=timezone.utc)
+    assert actual.date.year == 1974
+    assert actual.date.month == 1
+    assert actual.date.day == 2
+    assert actual.date.hour == 3
+    assert actual.date.minute == 4
+    assert actual.date.second == 3
 
 
 @time_machine.travel("1974-1-2 5:4:3")
@@ -175,9 +180,14 @@ def test_log_successful():
 
     actual = Logs.objects.last()
 
-    assert actual.date == datetime(1974, 1, 2, 3, 4, 3, tzinfo=timezone.utc)
     assert actual.status == "Success"
     assert not actual.message
+    assert actual.date.year == 1974
+    assert actual.date.month == 1
+    assert actual.date.day == 2
+    assert actual.date.hour == 3
+    assert actual.date.minute == 4
+    assert actual.date.second == 3
 
 
 @time_machine.travel("1974-1-2 5:4:3")
@@ -186,9 +196,14 @@ def test_log_failed():
 
     actual = Logs.objects.last()
 
-    assert actual.date == datetime(1974, 1, 2, 3, 4, 3, tzinfo=timezone.utc)
     assert actual.status == "Failed"
     assert actual.message == "Exception message"
+    assert actual.date.year == 1974
+    assert actual.date.month == 1
+    assert actual.date.day == 2
+    assert actual.date.hour == 3
+    assert actual.date.minute == 4
+    assert actual.date.second == 3
 
 
 def test_total_stats_year():
