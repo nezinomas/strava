@@ -1,6 +1,3 @@
-import datetime
-from multiprocessing import context
-
 import pytest
 import time_machine
 from django.urls import resolve, reverse
