@@ -49,11 +49,18 @@ class Year(TemplateView):
 
         load_year_service(year)
 
+        back_url = self.request.GET.get("back")
+        if not back_url or not back_url.startswith("/") or back_url.startswith("//"):
+            now = pendulum.now()
+            month = now.month if year == now.year else 1
+            back_url = reverse("goals:index_month", kwargs={"year": year, "month": month})
+
         context = {
             "table": rendered_content(self.request, Table, **table_view_kwargs),
             "year": year,
             "next_year": year + 1,
             "prev_year": year - 1,
+            "back_url": back_url,
             "chart_data": {
                 "categories": o.categories,
                 "targets": o.targets,
