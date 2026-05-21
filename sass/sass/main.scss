@@ -23,12 +23,15 @@ body {
     max-width: 1200px;
 }
 
-a, a:visited, a:hover, a:active {
+a,
+a:visited,
+a:hover,
+a:active {
     font-size: 0.9rem;
     color: $primary;
     text-decoration: none;
     transition: color 0.15s ease-in-out;
-    
+
     &:hover {
         color: $accent;
     }
@@ -36,6 +39,7 @@ a, a:visited, a:hover, a:active {
 
 a {
     --arrow-padding: .75rem;
+
     &.prev:before {
         content: "« ";
         color: $text-color;
@@ -54,22 +58,24 @@ a {
     gap: 1.25rem;
     width: 100%;
     margin-bottom: 1.5rem;
-    
-    > .stats-card {
+
+    >.stats-card {
         flex: 1;
         min-width: 0; // Allows shrinking below contents if needed
     }
 
     &.single-card {
         justify-content: center;
-        > .stats-card {
+
+        >.stats-card {
             flex: 0 1 350px;
         }
     }
 
     @media only screen and (max-width: 576px) {
         flex-direction: column;
-        > .stats-card {
+
+        >.stats-card {
             width: 100%;
         }
     }
@@ -127,7 +133,7 @@ a {
         &::before {
             background-color: $danger;
         }
-        
+
         &.success-state::before {
             background-color: $success;
         }
@@ -164,7 +170,7 @@ a.back-link {
     font-size: 0.85rem;
     color: $text-muted;
     transition: color 0.15s ease-in-out;
-    
+
     &:hover {
         color: $primary;
     }
@@ -183,20 +189,20 @@ a.back-link {
     justify-content: space-between;
     align-items: center;
 
-    > div {
+    >div {
         flex: 1;
         display: flex;
         align-items: center;
-        
+
         &:first-child {
             justify-content: flex-start;
         }
-        
+
         &:nth-child(2) {
             justify-content: center;
             gap: 1.5rem;
         }
-        
+
         &:last-child {
             justify-content: flex-end;
         }
@@ -207,7 +213,8 @@ a.back-link {
     }
 }
 
-#chart-container, #table-container {
+#chart-container,
+#table-container {
     width: 100%;
 }
 
@@ -242,18 +249,18 @@ a.back-link {
     height: 97vh;
     margin: 0 2rem;
 
-    > form {
+    >form {
         display: flex;
         align-self: center;
         flex-direction: column;
         gap: 1rem;
         padding: 2rem;
 
-        box-shadow: rgba(0,0,0,.16) 0px 1px 4px;
+        box-shadow: rgba(0, 0, 0, .16) 0px 1px 4px;
         border-radius: var(--border-radius);
         border-radius: 0.05rem;
 
-        > button {
+        >button {
             max-width: max-content;
             margin-left: auto;
         }
@@ -264,7 +271,7 @@ a.back-link {
     .login {
         grid-template-columns: repeat(3, 1fr);
 
-        > form {
+        >form {
             grid-column-start: 2;
             grid-column-end: 3;
         }
@@ -283,7 +290,7 @@ a.back-link {
     gap: 0.75rem;
     text-align: center;
 
-    > .title {
+    >.title {
         font-family: $font-family-heading;
         font-weight: 600;
         font-size: 1.15rem;
@@ -293,7 +300,7 @@ a.back-link {
         margin-bottom: 0.5rem;
     }
 
-    > .goal {
+    >.goal {
         font-family: $font-family-heading;
         font-size: 1.75rem;
         font-weight: 700;
@@ -301,19 +308,19 @@ a.back-link {
         margin-top: 0.25rem;
     }
 
-    > .collected {
+    >.collected {
         font-family: $font-family-sans-serif;
         font-size: 0.85rem;
         color: $text-muted;
         margin-bottom: 0.5rem;
-        
+
         strong {
             color: $text-color;
             font-weight: 600;
         }
     }
 
-    > .buttons {
+    >.buttons {
         display: flex;
         gap: 0.5rem;
         margin-top: auto;
