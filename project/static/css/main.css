@@ -756,18 +756,14 @@ a:hover, a:visited:hover, a:hover:hover, a:active:hover {
   line-height: 1;
 }
 
-.back-link-container {
-  text-align: center;
-  padding: 0.75rem 0 1.5rem 0;
-}
-.back-link-container a.back-link {
+a.back-link {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   font-weight: 500;
   font-size: 0.85rem;
   color: #64748b;
   transition: color 0.15s ease-in-out;
 }
-.back-link-container a.back-link:hover {
+a.back-link:hover {
   color: #006432;
 }
 
@@ -777,10 +773,26 @@ a:hover, a:visited:hover, a:hover:hover, a:active:hover {
   font-weight: 500;
   text-align: center;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem 0;
+  margin-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+#navbar-container > div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+#navbar-container > div:first-child {
+  justify-content: flex-start;
+}
+#navbar-container > div:nth-child(2) {
+  justify-content: center;
+  gap: 1.5rem;
+}
+#navbar-container > div:last-child {
+  justify-content: flex-end;
 }
 #navbar-container a.year-link {
   font-size: var(--font-size);

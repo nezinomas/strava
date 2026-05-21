@@ -7,13 +7,20 @@
 <div class="container">
 
     <div id="navbar-container">
-        <div>&laquo; <a href="{% url 'goals:year' prev_year %}?back={{ back_url|urlencode }}">{{prev_year}}</a></div>
-        <div><span class="year-title">{{ year }}</span></div>
-        <div><a href="{% url 'goals:year' next_year %}?back={{ back_url|urlencode }}">{{next_year}}</a> &raquo;</div>
-    </div>
-
-    <div class="back-link-container">
-        <a href="{{ back_url }}" class="back-link">Grįžti atgal</a>
+        <!-- Far Left: Back Link -->
+        <div class="navbar-left">
+            <a href="{{ back_url }}" class="back-link">Grįžti atgal</a>
+        </div>
+        
+        <!-- Center: Year Pagination (prev, current, next) -->
+        <div class="navbar-center">
+            &laquo; <a href="{% url 'goals:year' prev_year %}?back={{ back_url|urlencode }}">{{prev_year}}</a>
+            <span class="year-title">{{ year }}</span>
+            <a href="{% url 'goals:year' next_year %}?back={{ back_url|urlencode }}">{{next_year}}</a> &raquo;
+        </div>
+        
+        <!-- Far Right: Balanced Spacer -->
+        <div class="navbar-right"></div>
     </div>
 
     <div id="chart-container">
