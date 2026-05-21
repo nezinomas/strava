@@ -8,11 +8,12 @@
 
     <div id="navbar-container">
         <div>&laquo; <a href="{% url 'goals:year' prev_year %}?back={{ back_url|urlencode }}">{{prev_year}}</a></div>
-        <div class="navbar-center">
-            <span class="year-title">{{ year }}</span>
-            <a href="{{ back_url }}" class="back-link">Grįžti atgal</a>
-        </div>
+        <div><span class="year-title">{{ year }}</span></div>
         <div><a href="{% url 'goals:year' next_year %}?back={{ back_url|urlencode }}">{{next_year}}</a> &raquo;</div>
+    </div>
+
+    <div class="back-link-container">
+        <a href="{{ back_url }}" class="back-link">Grįžti atgal</a>
     </div>
 
     <div id="chart-container">

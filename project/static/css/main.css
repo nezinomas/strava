@@ -748,27 +748,26 @@ a:hover, a:visited:hover, a:hover:hover, a:active:hover {
   margin-bottom: 2rem;
 }
 
-.navbar-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-.navbar-center .year-title {
+.year-title {
   font-family: "Outfit", system-ui, -apple-system, sans-serif;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   color: #1e293b;
-  line-height: 1.1;
+  line-height: 1;
 }
-.navbar-center a.back-link {
+
+.back-link-container {
+  text-align: center;
+  padding: 0.75rem 0 1.5rem 0;
+}
+.back-link-container a.back-link {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   font-weight: 500;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #64748b;
   transition: color 0.15s ease-in-out;
 }
-.navbar-center a.back-link:hover {
+.back-link-container a.back-link:hover {
   color: #006432;
 }
 
