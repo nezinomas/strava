@@ -160,6 +160,9 @@ video {
   background-color: #e2e8f0;
   color: #006432;
 }
+.main th.order:hover > span:before, .main th.order:hover > span:after {
+  background-color: #19af23;
+}
 .main th.order > span {
   display: inline-block;
   vertical-align: middle;
@@ -167,24 +170,27 @@ video {
 .main th.order > span:before, .main th.order > span:after {
   content: "";
   position: absolute;
-  background-color: #19af23;
+  background-color: #94a3b8;
   width: 1.5px;
   height: 6px;
   margin-top: 0.35rem;
   margin-left: 0.5rem;
   transition: background-color 0.2s, transform 0.2s;
 }
-.main th.order > span:before {
-  transform: translate(2px, 0) rotate(45deg);
-}
-.main th.order > span:after {
-  transform: translate(-2px, 0) rotate(-45deg);
-}
-.main th.order > span.asc:before {
+.main th.order > span.desc:before {
   transform: translate(-2px, 0) rotate(45deg);
 }
-.main th.order > span.asc:after {
+.main th.order > span.desc:after {
   transform: translate(2px, 0) rotate(-45deg);
+}
+.main th.order > span.asc:before {
+  transform: translate(-2px, 0) rotate(-45deg);
+}
+.main th.order > span.asc:after {
+  transform: translate(2px, 0) rotate(45deg);
+}
+.main th.order.active-col > span:before, .main th.order.active-col > span:after {
+  background-color: #19af23;
 }
 .main.striped tbody tr:nth-child(even) td {
   background-color: #f8fafc;

@@ -61,6 +61,12 @@
         &:hover {
             background-color: #e2e8f0; // Slate 200 on hover
             color: $primary;
+
+            > span {
+                &:before, &:after {
+                    background-color: $accent;
+                }
+            }
         }
 
         > span {
@@ -70,7 +76,7 @@
             &:before, &:after {
                 content: "";
                 position: absolute;
-                background-color: $accent;
+                background-color: #94a3b8; // Muted color for sortable columns
                 width: 1.5px;
                 height: 6px;
                 margin-top: 0.35rem;
@@ -78,20 +84,33 @@
                 transition: background-color 0.2s, transform 0.2s;
             }
 
-            &:before {
-                transform: translate(2px, 0) rotate(45deg);
+            // Descending chevron (pointing down)
+            &.desc {
+                &:before {
+                    transform: translate(-2px, 0) rotate(45deg);
+                }
+                &:after {
+                    transform: translate(2px, 0) rotate(-45deg);
+                }
             }
 
-            &:after {
-                transform: translate(-2px, 0) rotate(-45deg);
+            // Ascending chevron (pointing up)
+            &.asc {
+                &:before {
+                    transform: translate(-2px, 0) rotate(-45deg);
+                }
+                &:after {
+                    transform: translate(2px, 0) rotate(45deg);
+                }
             }
+        }
 
-            &.asc:before {
-                transform: translate(-2px, 0) rotate(45deg);
-            }
-
-            &.asc:after {
-                transform: translate(2px, 0) rotate(-45deg);
+        // Active sorted column highlight
+        &.active-col {
+            > span {
+                &:before, &:after {
+                    background-color: $accent; // Highlighted color for the active sorted column
+                }
             }
         }
     }
