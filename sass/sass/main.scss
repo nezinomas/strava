@@ -69,14 +69,9 @@ a, a:visited, a:hover, a:active {
     gap: 0.5rem;
     border: 1px solid $border-color;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     position: relative;
     overflow: hidden;
-
-    &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-    }
+    text-align: center;
 
     &::before {
         content: '';
@@ -228,15 +223,10 @@ a, a:visited, a:hover, a:active {
     border: 1px solid $border-color;
     padding: 1.5rem;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-
-    &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-    }
+    text-align: center;
 
     > .title {
         font-family: $font-family-heading;
@@ -272,6 +262,7 @@ a, a:visited, a:hover, a:active {
         display: flex;
         gap: 0.5rem;
         margin-top: auto;
+        justify-content: center;
     }
 }
 
