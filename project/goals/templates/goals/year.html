@@ -14,9 +14,9 @@
         
         <!-- Center: Year Pagination (prev, current, next) -->
         <div class="navbar-center">
-            &laquo; <a href="{% url 'goals:year' prev_year %}">{{prev_year}}</a>
+            <a href="{% url 'goals:year' prev_year %}" class="prev">{{prev_year}}</a>
             <span class="year-title">{{ year }}</span>
-            <a href="{% url 'goals:year' next_year %}">{{next_year}}</a> &raquo;
+            <a href="{% url 'goals:year' next_year %}" class="next">{{next_year}}</a>
         </div>
         
         <!-- Far Right: Balanced Spacer -->

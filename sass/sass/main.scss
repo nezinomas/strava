@@ -34,6 +34,21 @@ a, a:visited, a:hover, a:active {
     }
 }
 
+a {
+    --arrow-padding: .75rem;
+    &.prev:before {
+        content: "« ";
+        color: $text-color;
+        padding-right: var(--arrow-padding);
+    }
+
+    &.next:after {
+        content: " »";
+        color: $text-color;
+        padding-left: var(--arrow-padding);
+    }
+}
+
 .stats-cards {
     display: flex;
     gap: 1.25rem;
