@@ -11,38 +11,52 @@
 <div class="container">
 
     <div id="navbar-container">
-        <div>&laquo; <a href="{{previous.url}}">{{previous.title}}</a></div>
+        <div><a href="{{previous.url}}" class="prev">{{previous.title}}</a></div>
         <div>{{month_str}}, <a href="{% url 'goals:year' year %}" class="year-link">{{ year }}</a></div>
-        <div><a href="{{next.url}}">{{next.title}}</a> &raquo;</div>
+        <div><a href="{{next.url}}" class="next">{{next.title}}</a></div>
     </div>
 
     {% if goal_collected %}
-        <div id="info-row-container" class="info-row">
+        <div id="info-row-container" class="stats-cards">
             {% if goal_hours %}
-                <div data-info-row="{{ goal_hours|floatformat:'0g'}}h">Tikslas:</div>
+                <div class="stats-card card-goal">
+                    <span class="card-label">Tikslas</span>
+                    <span class="card-value">{{ goal_hours|floatformat:'0g' }}h</span>
+                </div>
             {% endif %}
 
-            <div data-info-row="{{ goal_collected|convert_seconds }}">Surinkta:</div>
+            <div class="stats-card card-collected">
+                <span class="card-label">Surinkta</span>
+                <span class="card-value">{{ goal_collected|convert_seconds }}</span>
+            </div>
 
             {% if goal_hours %}
                 {% if goal_left > 0 %}
-                    <div class="danger" data-info-row="{{ goal_left|convert_seconds }}">Liko:</div>
+                    <div class="stats-card card-remaining danger-state">
+                        <span class="card-label">Liko</span>
+                        <span class="card-value">{{ goal_left|convert_seconds }}</span>
+                    </div>
                 {% else %}
-                    <div class="success">Tikslas pasiektas!</div>
+                    <div class="stats-card card-remaining success-state">
+                        <span class="card-label">Statusas</span>
+                        <span class="card-value success-text">Pasiektas!</span>
+                    </div>
                 {% endif %}
             {% endif %}
-
-            {% if last_update %}<div class="last-update">Duomenys atnaujinti: {{last_update|date:"Y-m-d H:i"}}</div>{% endif %}
         </div>
+        {% if last_update %}
+            <div class="last-update">Duomenys atnaujinti: {{ last_update|date:"Y-m-d H:i" }}</div>
+        {% endif %}
 
         <div id="chart-container"></div>
-        {% else %}
+    {% else %}
 
         {% if goal_hours %}
-            <div id="info-row-container" class="info-row">
-                <div></div>
-                <div data-info-row="{{ goal_hours|floatformat:'0g'}}h">Tikslas:</div>
-                <div></div>
+            <div id="info-row-container" class="stats-cards single-card">
+                <div class="stats-card card-goal">
+                    <span class="card-label">Tikslas</span>
+                    <span class="card-value">{{ goal_hours|floatformat:'0g' }}h</span>
+                </div>
             </div>
         {% endif %}
 

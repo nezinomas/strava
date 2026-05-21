@@ -1,26 +1,8 @@
+// Core variables used across other scss modules
 $disabled: #E9ECEF;
-$active: rgb(250, 124, 145, 1);
 $transition: 280ms all var(--delay) ease-out;
-$gap: 0.75rem;
-$primary: #0d6efd;
-$black:   black;
-$modal-border-radius: 0.25rem;
-
-
-$success: #28a745;
-$success-text-clr: #0a3622;
-$success-bg: #d1e7dd;
-$success-border: #a3cfbb;
-
-$warning: #ffc107;
-$warning-text-clr: #664d03;
-$warning-bg: #fff3cd;
-$warning-border: #ffe69c;
-
-$danger: #dc3545;
-$danger-text-clr: #58151c;
-$danger-bg: #f8d7da;
-$danger-border: #f1aeb5;
+$modal-border-radius: 0.5rem;
+$black: black;
 
 @import 'normalize';
 @import 'variables';
@@ -31,61 +13,167 @@ $danger-border: #f1aeb5;
 @import 'buttons';
 @import 'modal';
 
-
 body {
     font-family: $font-family-sans-serif;
-    font-size: .85rem;
-    color: black;
+    font-size: 0.9rem;
+    color: $text-color;
+    background-color: $bg-color;
     margin: $gap auto;
+    padding: 0 1.5rem;
+    max-width: 1200px;
 }
 
-a, a:visited, a:hover, a:active {
-    // text-decoration: none;
-    font-size: .85rem;
-    color:#004010;
+a,
+a:visited,
+a:hover,
+a:active {
+    font-size: 0.9rem;
+    color: $primary;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+
+    &:hover {
+        color: $accent;
+    }
 }
 
-.info-row {
+a {
+    --arrow-padding: .75rem;
+
+    &.prev:before {
+        content: "«";
+        color: $text-color;
+        padding-right: var(--arrow-padding);
+    }
+
+    &.next:after {
+        content: "»";
+        color: $text-color;
+        padding-left: var(--arrow-padding);
+    }
+}
+
+.stats-cards {
     display: flex;
-    flex-wrap: wrap;
-    white-space:nowrap;
-    justify-content: space-evenly;
-    column-gap: 2rem;
+    gap: 1.25rem;
     width: 100%;
-    padding: .5rem 0;
+    margin-bottom: 1.5rem;
 
-    > *:first-child {
-        margin-left: auto;
+    >.stats-card {
+        flex: 1;
+        min-width: 0; // Allows shrinking below contents if needed
     }
 
-    // left hours
-    > *:nth-child(3) {
-        margin-right: auto;
+    &.single-card {
+        justify-content: center;
+
+        >.stats-card {
+            flex: 0 1 350px;
+        }
     }
 
-    > .last-update {
-        flex-basis: 100%;
-        font-size: x-small;
-        text-align: center;
-        color: #6e6d6d;
+    @media only screen and (max-width: 576px) {
+        flex-direction: column;
+
+        >.stats-card {
+            width: 100%;
+        }
+    }
+}
+
+.stats-card {
+    background-color: $card-bg;
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 1px solid $border-color;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: $primary;
     }
 
-    ::after {
-        content: attr(data-info-row);
-        font-weight: 400;
-        font-size: 1.1rem;
-        margin-left: 0.25rem;
-        vertical-align: -8%;
-        color: $success;
+    .card-label {
+        font-family: $font-family-sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $text-muted;
     }
 
-    .danger::after {
-        color: $danger;
+    .card-value {
+        font-family: $font-family-heading;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: $text-color;
+        line-height: 1.2;
     }
 
-    .success {
-        color: $success;
-        font-size: 1.1rem;
+    &.card-goal::before {
+        background-color: $primary;
+    }
+
+    &.card-collected::before {
+        background-color: $accent;
+    }
+
+    &.card-remaining {
+        &::before {
+            background-color: $danger;
+        }
+
+        &.success-state::before {
+            background-color: $success;
+        }
+
+        .success-text {
+            color: $success;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+    }
+}
+
+.last-update {
+    width: 100%;
+    font-size: 0.75rem;
+    text-align: center;
+    color: $text-muted;
+    margin-top: -0.5rem;
+    margin-bottom: 2rem;
+}
+
+
+.year-title {
+    font-family: $font-family-heading;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: $text-color;
+    line-height: 1;
+    margin: 0 5rem;
+}
+
+a.back-link {
+    font-family: $font-family-sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: $text-muted;
+    transition: color 0.15s ease-in-out;
+
+    &:hover {
+        color: $primary;
     }
 }
 
@@ -96,17 +184,38 @@ a, a:visited, a:hover, a:active {
     font-weight: 500;
     text-align: center;
     width: 100%;
-    padding: .5rem;
+    padding: .75rem 0;
+    margin-bottom: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    >div {
+        flex: 1;
+        display: flex;
+        align-items: center;
+
+        &:first-child {
+            justify-content: flex-start;
+        }
+
+        &:nth-child(2) {
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        &:last-child {
+            justify-content: flex-end;
+        }
+    }
 
     a.year-link {
         font-size: var(--font-size);
     }
 }
 
-#chart-container, #table-container {
+#chart-container,
+#table-container {
     width: 100%;
 }
 
@@ -141,18 +250,18 @@ a, a:visited, a:hover, a:active {
     height: 97vh;
     margin: 0 2rem;
 
-    > form {
+    >form {
         display: flex;
         align-self: center;
         flex-direction: column;
         gap: 1rem;
         padding: 2rem;
 
-        box-shadow: rgba(0,0,0,.16) 0px 1px 4px;
+        box-shadow: rgba(0, 0, 0, .16) 0px 1px 4px;
         border-radius: var(--border-radius);
         border-radius: 0.05rem;
 
-        > button {
+        >button {
             max-width: max-content;
             margin-left: auto;
         }
@@ -163,7 +272,7 @@ a, a:visited, a:hover, a:active {
     .login {
         grid-template-columns: repeat(3, 1fr);
 
-        > form {
+        >form {
             grid-column-start: 2;
             grid-column-end: 3;
         }
@@ -172,32 +281,58 @@ a, a:visited, a:hover, a:active {
 
 
 .month-goal {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    padding: 1rem;
+    background-color: $card-bg;
+    border-radius: 0.75rem;
+    border: 1px solid $border-color;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
 
-    > .title {
-        font-weight: 500;
-        font-size: 1.2rem;
-        border-bottom: 1px solid #ededed;
-    }
-
-    > .goal {
-        font-size: 1.5rem;
+    >.title {
+        font-family: $font-family-heading;
         font-weight: 600;
-        margin-top: 1.5rem;
+        font-size: 1.15rem;
+        color: $text-color;
+        border-bottom: 1px solid $border-color;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
     }
 
-    > .collected {
-        margin-top: .5rem;
-        margin-bottom: 1.5rem;
-        font-size: .85rem;
+    >.goal {
+        font-family: $font-family-heading;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: $text-color;
+        margin-top: 0.25rem;
+    }
+
+    >.collected {
+        font-family: $font-family-sans-serif;
+        font-size: 0.85rem;
+        color: $text-muted;
+        margin-bottom: 0.5rem;
+
+        strong {
+            color: $text-color;
+            font-weight: 600;
+        }
+    }
+
+    >.buttons {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: auto;
+        justify-content: center;
     }
 }
 
 .goal_success {
-    color: $success;
+    color: $success !important;
 }
 
 .goal_fail {
-    color: $danger;
+    color: $danger !important;
 }

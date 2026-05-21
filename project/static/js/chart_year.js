@@ -3,15 +3,17 @@ loadChart("chart-year-data", "chart-year-container");
 function loadChart(idData, idContainer) {
     const chartData = JSON.parse(document.getElementById(idData).textContent);
 
-    let fail_col_color = "#EB5353";
-    let fail_txt_color = "#c60202";
-
-    let success_col_color = "#5D9C59";
-    let success_txt_color = "#5D9C59";
+    let fail_col_color = "#fb7185";  // Modern soft rose-400
+    let fail_txt_color = "#e11d48";  // Rose-600
+    let success_col_color = "#19af23"; // Ekspla vibrant green
+    let success_txt_color = "#006432"; // Ekspla dark green
 
     Highcharts.chart(idContainer, {
         chart: {
-            type: "bullet"
+            type: "bullet",
+            style: {
+                fontFamily: "'Inter', sans-serif"
+            }
         },
         title: {
             text: "",
@@ -19,11 +21,19 @@ function loadChart(idData, idContainer) {
         xAxis: {
             categories: chartData.categories,
             gridLineWidth: 0,
+            labels: {
+                style: {
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "11px",
+                    color: "#64748b"
+                }
+            }
         },
         yAxis: {
             title: {
                 text: ""
             },
+            gridLineColor: "#e2e8f0"
         },
         plotOptions: {
             series: {
@@ -31,7 +41,7 @@ function loadChart(idData, idContainer) {
                 targetOptions: {
                     borderWidth: 0,
                     height: 2,
-                    color: "black",
+                    color: "#64748b",
                     width: "105%"
                 }
             },
@@ -39,19 +49,20 @@ function loadChart(idData, idContainer) {
         series: [{
             data: chartData.fact,
             opacity: 0.85,
-            borderRadius: 0,
+            borderRadius: 4,
             dataLabels: [{
                 enabled: true,
                 crop: false,
                 overflow: "allow",
                 style: {
+                    fontFamily: "'Inter', sans-serif",
                     fontSize: "11px",
-                    fontWeight: "bold",
-                    textOutline: false
+                    fontWeight: "600",
+                    textOutline: "none"
                 },
                 formatter: function() {
                     let goal = chartData.css_class[this.x];
-                    let color = "#000000";
+                    let color = "#1e293b";
 
                     if (goal == "goal_fail") {
                         color = fail_txt_color;
@@ -73,15 +84,16 @@ function loadChart(idData, idContainer) {
             color: "rgba(0,0,0,0)",
             dataLabels: [{
                 enabled: true,
-                color: "black",
+                color: "#64748b",
                 align: "left",
                 x: -27,
                 y: -13,
                 verticalAlign: "top",
                 style: {
+                    fontFamily: "'Inter', sans-serif",
                     fontSize: "11px",
-                    fontWeight: "bold",
-                    textOutline: false
+                    fontWeight: "600",
+                    textOutline: "none"
                 }
             }]
         }]
@@ -93,7 +105,6 @@ function loadChart(idData, idContainer) {
             if (css_class == "goal_fail") {
                 point.graphic.attr({ fill: fail_col_color });
                 point.dataLabel.attr({ y: point.dataLabel.y + 25 });
-
             }
 
             if (css_class == "goal_success") {
@@ -101,4 +112,4 @@ function loadChart(idData, idContainer) {
             }
         });
     });
-};
+}
