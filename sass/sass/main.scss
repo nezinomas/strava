@@ -41,13 +41,13 @@ a {
     --arrow-padding: .75rem;
 
     &.prev:before {
-        content: "« ";
+        content: "«";
         color: $text-color;
         padding-right: var(--arrow-padding);
     }
 
     &.next:after {
-        content: " »";
+        content: "»";
         color: $text-color;
         padding-left: var(--arrow-padding);
     }
@@ -162,6 +162,7 @@ a {
     font-size: 1.8rem;
     color: $text-color;
     line-height: 1;
+    margin: 0 5rem;
 }
 
 a.back-link {
