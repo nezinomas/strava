@@ -128,6 +128,7 @@ video {
   padding: 1rem 1.25rem;
   border-bottom: 2px solid #e2e8f0;
   text-align: left;
+  white-space: nowrap;
   transition: background-color 0.2s ease-in-out;
 }
 .main tfoot th {
@@ -184,16 +185,16 @@ video {
   transition: background-color 0.2s, transform 0.2s;
 }
 .main th.order > span.desc:before {
-  transform: translate(-2px, 0) rotate(45deg);
-}
-.main th.order > span.desc:after {
-  transform: translate(2px, 0) rotate(-45deg);
-}
-.main th.order > span.asc:before {
   transform: translate(-2px, 0) rotate(-45deg);
 }
-.main th.order > span.asc:after {
+.main th.order > span.desc:after {
   transform: translate(2px, 0) rotate(45deg);
+}
+.main th.order > span.asc:before {
+  transform: translate(-2px, 0) rotate(45deg);
+}
+.main th.order > span.asc:after {
+  transform: translate(2px, 0) rotate(-45deg);
 }
 .main th.order.active-col > span:before, .main th.order.active-col > span:after {
   background-color: #19af23;

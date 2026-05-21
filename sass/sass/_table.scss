@@ -24,6 +24,7 @@
         padding: 1rem 1.25rem;
         border-bottom: 2px solid $border-color;
         text-align: left;
+        white-space: nowrap; // Prevent text and sorting arrow from wrapping
         transition: background-color 0.2s ease-in-out;
     }
     
@@ -93,20 +94,20 @@
             // Descending chevron (pointing down)
             &.desc {
                 &:before {
-                    transform: translate(-2px, 0) rotate(45deg);
+                    transform: translate(-2px, 0) rotate(-45deg);
                 }
                 &:after {
-                    transform: translate(2px, 0) rotate(-45deg);
+                    transform: translate(2px, 0) rotate(45deg);
                 }
             }
 
             // Ascending chevron (pointing up)
             &.asc {
                 &:before {
-                    transform: translate(-2px, 0) rotate(-45deg);
+                    transform: translate(-2px, 0) rotate(45deg);
                 }
                 &:after {
-                    transform: translate(2px, 0) rotate(45deg);
+                    transform: translate(2px, 0) rotate(-45deg);
                 }
             }
         }
