@@ -49,11 +49,12 @@ class Year(TemplateView):
 
         load_year_service(year)
 
-        back_url = self.request.GET.get("back")
-        if not back_url or not back_url.startswith("/") or back_url.startswith("//"):
+        if not (back_url := self.request.META.get("HTTP_REFERER")):
             now = pendulum.now()
             month = now.month if year == now.year else 1
-            back_url = reverse("goals:index_month", kwargs={"year": year, "month": month})
+            back_url = reverse(
+                "goals:index_month", kwargs={"year": year, "month": month}
+            )
 
         context = {
             "table": rendered_content(self.request, Table, **table_view_kwargs),
@@ -106,7 +107,7 @@ class Table(ListView):
         context = {
             "msg": msg,
             "active_col": active_col,
-            "total": Activities.objects.total_stats(year, month)
+            "total": Activities.objects.total_stats(year, month),
         }
         return super().get_context_data(**kwargs) | context
 

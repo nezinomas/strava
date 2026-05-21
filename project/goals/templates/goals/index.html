@@ -12,7 +12,7 @@
 
     <div id="navbar-container">
         <div>&laquo; <a href="{{previous.url}}">{{previous.title}}</a></div>
-        <div>{{month_str}}, <a href="{% url 'goals:year' year %}?back={{ request.get_full_path|urlencode }}" class="year-link">{{ year }}</a></div>
+        <div>{{month_str}}, <a href="{% url 'goals:year' year %}" class="year-link">{{ year }}</a></div>
         <div><a href="{{next.url}}">{{next.title}}</a> &raquo;</div>
     </div>
 
