@@ -1,42 +1,81 @@
 .main {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     min-width: 100%;
     width: 100%;
+    background-color: $card-bg;
+    border: 1px solid $border-color;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
-    thead  {
-        border-bottom: #383838 solid 3px;
+    thead {
+        background-color: #f1f5f9; // Slate 100
     }
 
     thead th {
-        font-weight: bold;
-        min-height: 36px;
-        background-color: hsl(40, 60%, 90%);
+        font-family: $font-family-heading;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $text-muted;
+        padding: 1rem 1.25rem;
+        border-bottom: 2px solid $border-color;
         text-align: left;
+        transition: background-color 0.2s ease-in-out;
     }
     
     tfoot th {
-        background-color: hsl(40, 60%, 90%);
-        border-top: #383838 double;
+        font-family: $font-family-heading;
+        font-size: 0.85rem;
+        font-weight: 700;
+        background-color: #f8fafc; // Slate 50
+        border-top: 2px solid $border-color;
+        padding: 1rem 1.25rem;
         text-align: left;
+        color: $text-color;
     }
 
     th, td {
-        padding: .5rem .25rem;
+        padding: 0.85rem 1.25rem;
+    }
+
+    tbody td {
+        font-size: 0.875rem;
+        color: $text-color;
+        border-bottom: 1px solid $border-color;
+        transition: background-color 0.15s ease-in-out;
+    }
+
+    // Remove bottom border from last row to respect card layout border radius
+    tbody tr:last-child td {
+        border-bottom: none;
     }
 
     th.order {
         position: relative;
         cursor: pointer;
 
+        &:hover {
+            background-color: #e2e8f0; // Slate 200 on hover
+            color: $primary;
+        }
+
         > span {
+            display: inline-block;
+            vertical-align: middle;
+            
             &:before, &:after {
                 content: "";
                 position: absolute;
-                background-color: hotpink;
-                width: 2px;
-                height: 7px;
+                background-color: $accent;
+                width: 1.5px;
+                height: 6px;
                 margin-top: 0.35rem;
-                margin-left: .75rem;
+                margin-left: 0.5rem;
+                transition: background-color 0.2s, transform 0.2s;
             }
 
             &:before {
@@ -57,51 +96,55 @@
         }
     }
 
-    // Striped styles
+    // Striped styles - clean alternate rows
     &.striped {
-        tbody tr:nth-child(odd) {
+        tbody tr:nth-child(even) {
             td {
-                background-color: rgba(0, 0, 0, 0.05);
+                background-color: #f8fafc; // Slate 50
             }
 
             td.active-col {
-                background-color: rgba(0, 0, 0, 0.11);
+                background-color: rgba($primary, 0.04);
             }
         }
     }
 
-    // Hover styles
+    // Hover styles - soft light green highlight
     &.hover {
         tbody tr:hover {
-            background-color: rgba(0, 0, 0, 0.09);
+            td {
+                background-color: rgba($accent, 0.04);
+            }
         }
     }
 
     th.active-col {
-        background-color: hsl(40, 60%, 85%);
+        background-color: #e2e8f0; // Slate 200
+        color: $primary;
     }
 
     td.active-col {
-        background-color: rgba(0, 0, 0, 0.08);
+        background-color: rgba($primary, 0.02);
+        font-weight: 500;
     }
 
     .w-rank {
-        width: 4rem;
+        width: 5rem;
     }
 
     .w-ascent {
-        width: 6rem;
+        width: 7rem;
     }
 
     .w-distance {
-        width: 6rem;
+        width: 7rem;
     }
 
     .w-activities {
-        width: 6rem;
+        width: 7rem;
     }
 
     .w-time {
-        width: 6rem;
+        width: 8rem;
     }
 }

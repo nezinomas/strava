@@ -1,10 +1,12 @@
 .alert {
     border: 1px solid transparent;
-    border-radius: 0.25rem;
-    padding: .5rem 0;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
     margin-bottom: $gap;
     text-align: center;
     width: 100%;
+    font-family: $font-family-sans-serif;
+    font-size: 0.875rem;
 }
 
 .alert.alert-warning {
