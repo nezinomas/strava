@@ -164,8 +164,12 @@ video {
   background-color: #19af23;
 }
 .main th.order > span {
+  position: relative;
   display: inline-block;
   vertical-align: middle;
+  width: 14px;
+  height: 14px;
+  margin-left: 0.25rem;
 }
 .main th.order > span:before, .main th.order > span:after {
   content: "";
@@ -173,8 +177,10 @@ video {
   background-color: #94a3b8;
   width: 1.5px;
   height: 6px;
-  margin-top: 0.35rem;
-  margin-left: 0.5rem;
+  top: 50%;
+  left: 50%;
+  margin-top: -3px;
+  margin-left: -0.75px;
   transition: background-color 0.2s, transform 0.2s;
 }
 .main th.order > span.desc:before {

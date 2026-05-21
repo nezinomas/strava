@@ -70,8 +70,12 @@
         }
 
         > span {
+            position: relative; // Position relative so that absolute children position relative to this span
             display: inline-block;
             vertical-align: middle;
+            width: 14px;
+            height: 14px;
+            margin-left: 0.25rem;
             
             &:before, &:after {
                 content: "";
@@ -79,8 +83,10 @@
                 background-color: #94a3b8; // Muted color for sortable columns
                 width: 1.5px;
                 height: 6px;
-                margin-top: 0.35rem;
-                margin-left: 0.5rem;
+                top: 50%;
+                left: 50%;
+                margin-top: -3px; // Center vertically inside the 14px span
+                margin-left: -0.75px; // Center horizontally inside the 14px span
                 transition: background-color 0.2s, transform 0.2s;
             }
 
