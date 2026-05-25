@@ -15,9 +15,9 @@ def fixture_meters_template():
 @pytest.mark.parametrize(
     "value, expect",
     [
-        (3600, "1h 0m"),
-        (60, "1m"),
-        (5400, "1h 30m"),
+        (3600, '<span class="time-hours">1</span><span class="time-unit">h</span> <span class="time-minutes">0</span><span class="time-unit">m</span>'),
+        (60, '<span class="time-minutes">1</span><span class="time-unit">m</span>'),
+        (5400, '<span class="time-hours">1</span><span class="time-unit">h</span> <span class="time-minutes">30</span><span class="time-unit">m</span>'),
     ],
 )
 def test_convert_seconds(value, expect, seconds_template):
