@@ -22,7 +22,7 @@
                 {% if goal_hours %}
                     <div class="stats-card card-goal">
                         <span class="card-label">Tikslas</span>
-                        <span class="card-value">{{ goal_hours|floatformat:'0g' }}h</span>
+                        <span class="card-value"><span class="time-hours">{{ goal_hours|floatformat:'0g' }}</span><span class="time-unit">h</span></span>
                     </div>
                 {% endif %}
 

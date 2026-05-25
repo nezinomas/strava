@@ -5,14 +5,19 @@ from ..lib import utils
 register = template.Library()
 
 
+from django.utils.safestring import mark_safe
+
 @register.filter
 def convert_seconds(seconds):
     hours, minutes, _ = utils.convert_seconds(seconds)
 
-    hours = f"{hours}h" if hours else ""
-    minutes = f"{minutes}m" if minutes else "0m"
+    hours_str = f'<span class="time-hours">{hours}</span><span class="time-unit">h</span>' if hours else ""
+    minutes_str = f'<span class="time-minutes">{minutes}</span><span class="time-unit">m</span>'
 
-    return f"{hours} {minutes}" if hours and minutes else minutes
+    if hours:
+        return mark_safe(f"{hours_str} {minutes_str}")
+    else:
+        return mark_safe(minutes_str)
 
 
 @register.filter
