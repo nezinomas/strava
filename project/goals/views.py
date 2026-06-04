@@ -3,8 +3,11 @@ from django.contrib.auth import logout
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from urllib.parse import urlparse
+
+from django.urls import resolve, reverse_lazy
 from django.urls.base import reverse
+from django.urls.exceptions import Resolver404
 from vanilla import ListView, TemplateView
 
 from .forms import GoalForm
@@ -49,11 +52,17 @@ class Year(TemplateView):
 
         load_year_service(year)
 
-        if not (back_url := self.request.META.get("HTTP_REFERER")):
+        back_url = self.request.META.get("HTTP_REFERER", "")
+        try:
+            resolved = resolve(urlparse(back_url).path)
+            is_index_month = resolved.url_name == "index_month" and resolved.app_name == "goals"
+        except Resolver404:
+            is_index_month = False
+
+        if not is_index_month:
             now = pendulum.now()
-            month = now.month if year == now.year else 1
             back_url = reverse(
-                "goals:index_month", kwargs={"year": year, "month": month}
+                "goals:index_month", kwargs={"year": now.year, "month": now.month}
             )
 
         context = {
