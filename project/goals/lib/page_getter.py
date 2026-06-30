@@ -19,17 +19,22 @@ class StravaData:
         self._conf = self._get_conf()
         self._browser = self._get_browser()
 
-        self._browser.set_window_size(600, 1000)
+        try:
+            self._browser.set_window_size(600, 1000)
 
-        # self._login()
-        sleep(MAX_TIME * 2)
+            # self._login()
+            sleep(MAX_TIME * 2)
 
-        self._get_leaderboard_page()
+            self._get_leaderboard_page()
 
-        self.this_week = self._get_leaderboard("For current week.")
-        self.last_week = self._get_leaderboard_for_last_week()
-
-        self._browser.close()
+            self.this_week = self._get_leaderboard("For current week.")
+            self.last_week = self._get_leaderboard_for_last_week()
+        finally:
+            # quit() closes the browser AND ends the chromedriver process.
+            # In a finally block it runs even when something above raises,
+            # so a Chromium process is never left behind to leak memory.
+            with contextlib.suppress(Exception):
+                self._browser.quit()
 
     def _get_conf(self):
         conf_path = Path(__file__).absolute().parent.parent.parent.parent
