@@ -50,13 +50,14 @@ class StravaData:
         options.add_argument("--kiosk")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--user-data-dir=chromium")
+        options.add_argument(f"--user-data-dir={self._conf['PROFILE']}")
 
         return uc.Chrome(
             headless=False,
             use_subprocess=False,
             options=options,
             driver_executable_path=self._conf["DRIVER_PATH"],
+            browser_executable_path=self._conf["BROWSER_PATH"],
         )
 
     def _login(self):
