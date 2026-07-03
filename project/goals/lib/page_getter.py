@@ -1,12 +1,15 @@
 import contextlib
 import random
+import tempfile
 import tomllib as toml
 from pathlib import Path
 from time import sleep
 
 import undetected_chromedriver as uc
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 MIN_TIME = 0.62
 MAX_TIME = 5.13
@@ -67,37 +70,72 @@ class StravaData:
 
         self._accept_cookies()
 
-        # first stage: find email field and clid login button
+        # first stage: find email field and submit it
         try:
             self._find_and_fill_element("input[data-cy='email']", "STRAVA_USER")
         except NoSuchElementException as e:
+            self._dump_debug("login-email")
             raise NoSuchElementException("Email field not found.") from e
 
         self._press_login_button()
 
-        # second stage: find password link and click it
-        try:
-            sleep(random.uniform(MIN_TIME, MAX_TIME))
-            password_link = self._browser.find_element(
-                By.XPATH, "//div[@data-testid='use-password-cta']/button"
-            )
-            password_link.click()
-        except NoSuchElementException as e:
-            raise NoSuchElementException("Password link not found.") from e
+        # second stage: Strava sometimes gates the password field behind a
+        # "use password" button and sometimes shows it directly. Click the
+        # button only if it is actually present -- never fail on its absence.
+        sleep(random.uniform(MIN_TIME, MAX_TIME))
+        self._click_use_password_cta()
 
-        # third stage: find password field and click login button
+        # third stage: fill the password field (waiting for it to appear) and
+        # submit. If it never shows, Strava is most likely presenting a captcha
+        # or "verify it's you" challenge -- the screenshot dump shows which.
         try:
-            sleep(MAX_TIME)
-            self._find_and_fill_element("input[data-cy='password']", "STRAVA_PASSWORD")
+            self._find_and_fill_element(
+                "input[data-cy='password']", "STRAVA_PASSWORD"
+            )
         except NoSuchElementException as e:
-            raise NoSuchElementException("Password field not found.") from e
+            self._dump_debug("login-password")
+            raise NoSuchElementException(
+                "Password field not found -- Strava may be showing a captcha "
+                "or verification challenge (see the saved screenshot)."
+            ) from e
 
         self._press_login_button()
 
-    def _find_and_fill_element(self, input_description, conf_name):
-        element = self._browser.find_element(By.CSS_SELECTOR, input_description)
+    def _find_and_fill_element(self, input_description, conf_name, timeout=15):
+        element = self._wait_for(By.CSS_SELECTOR, input_description, timeout)
         element.send_keys(self._conf[conf_name])
         sleep(random.uniform(MIN_TIME, MAX_TIME))
+
+    def _wait_for(self, by, selector, timeout=15):
+        # Wait for an element instead of relying on fixed sleeps, then reduce a
+        # timeout to the NoSuchElementException the callers already handle.
+        try:
+            return WebDriverWait(self._browser, timeout).until(
+                EC.presence_of_element_located((by, selector))
+            )
+        except TimeoutException as e:
+            raise NoSuchElementException(
+                f"Timed out waiting for element: {selector}"
+            ) from e
+
+    def _click_use_password_cta(self):
+        # After the email step Strava usually shows a "Use password instead"
+        # button that reveals the password field; occasionally the field is
+        # shown directly. If it's already present, nothing to do. Otherwise wait
+        # for the button (it renders a beat after the page loads -- the original
+        # no-wait lookup raced it) and click it. A captcha/challenge (neither
+        # present) is left for the password stage to surface with a debug dump.
+        if self._browser.find_elements(
+            By.CSS_SELECTOR, "input[data-cy='password']"
+        ):
+            return
+        with contextlib.suppress(NoSuchElementException):
+            button = self._wait_for(
+                By.XPATH,
+                "//button[contains(normalize-space(.), 'Use password instead')]",
+            )
+            button.click()
+            sleep(random.uniform(MIN_TIME, MAX_TIME))
 
     def _accept_cookies(self):
         with contextlib.suppress(NoSuchElementException):
@@ -108,12 +146,25 @@ class StravaData:
 
     def _press_login_button(self):
         try:
-            login_button = self._browser.find_element(
+            login_button = self._wait_for(
                 By.CSS_SELECTOR, "button[type='submit']"
             )
             self._browser.execute_script("arguments[0].click();", login_button)
         except NoSuchElementException as e:
+            self._dump_debug("login-button")
             raise NoSuchElementException("Login button not found.") from e
+
+    def _dump_debug(self, label):
+        # Save a screenshot + page HTML so a failed login can be diagnosed
+        # without watching the (headless) browser live. Never raises.
+        with contextlib.suppress(Exception):
+            debug_dir = Path(self._conf.get("DEBUG_DIR") or tempfile.gettempdir())
+            debug_dir.mkdir(parents=True, exist_ok=True)
+            stem = debug_dir / f"strava-{label}"
+            self._browser.save_screenshot(f"{stem}.png")
+            Path(f"{stem}.html").write_text(
+                self._browser.page_source, encoding="utf-8"
+            )
 
     def _get_leaderboard_page(self):
         _id = self._conf["STRAVA_LEADERBOARD_ID"]
@@ -141,6 +192,7 @@ class StravaData:
                 leaderbord = get_data()
 
         if leaderbord is None:
+            self._dump_debug("leaderboard")
             txt = "Leaderboard not found."
             if msg:
                 txt += f" {msg}"
