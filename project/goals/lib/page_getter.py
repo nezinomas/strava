@@ -1,6 +1,5 @@
 import contextlib
 import random
-import tempfile
 import tomllib as toml
 from pathlib import Path
 from time import sleep
@@ -40,8 +39,8 @@ class StravaData:
                 self._browser.quit()
 
     def _get_conf(self):
-        conf_path = Path(__file__).absolute().parent.parent.parent.parent
-        with open(conf_path / ".conf", "rb") as f:
+        self._base_dir = Path(__file__).absolute().parent.parent.parent.parent
+        with open(self._base_dir / ".conf", "rb") as f:
             return toml.load(f)["strava"]
 
     def _get_browser(self):
@@ -156,9 +155,13 @@ class StravaData:
 
     def _dump_debug(self, label):
         # Save a screenshot + page HTML so a failed login can be diagnosed
-        # without watching the (headless) browser live. Never raises.
+        # without watching the (headless) browser live. Never raises. Defaults
+        # to a "debug" dir next to the code (/data/sites/strava/debug); override
+        # with DEBUG_DIR in .conf.
         with contextlib.suppress(Exception):
-            debug_dir = Path(self._conf.get("DEBUG_DIR") or tempfile.gettempdir())
+            debug_dir = Path(
+                self._conf.get("DEBUG_DIR") or self._base_dir / "debug"
+            )
             debug_dir.mkdir(parents=True, exist_ok=True)
             stem = debug_dir / f"strava-{label}"
             self._browser.save_screenshot(f"{stem}.png")
