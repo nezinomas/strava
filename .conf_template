@@ -1,0 +1,32 @@
+# Template for .conf (TOML). Copy to .conf next to this file and fill in.
+# .conf holds secrets: git ignores it. On the server it is 400 strava:strava.
+# Paths below are the production values on the web server.
+
+[django]
+SECRET_KEY = "change-me"
+ALLOWED_HOSTS = ["strava.unknownbug.net"]
+MEDIA_ROOT = "/data/media/strava"
+LOG_FILE = "/data/sites/_strava.log"        # production.py only
+
+[database]
+# Passed as-is to Django's DATABASES["default"]. Use a per-site account,
+# never the MariaDB root account.
+ENGINE = "django.db.backends.mysql"
+NAME = "strava"
+USER = "strava"
+PASSWORD = "change-me"
+HOST = "localhost"
+PORT = "3306"
+
+[strava]
+# Read by project/goals/lib/page_getter.py (the leaderboard scraper).
+STRAVA_USER = "you@example.com"
+STRAVA_PASSWORD = "change-me"
+STRAVA_LEADERBOARD_ID = "000000"
+DRIVER_PATH = "/data/sites/chromedriver"     # a strava-owned COPY, not a symlink
+BROWSER_PATH = "/usr/bin/chromium"
+PROFILE = "/data/sites/.strava_chromium"     # keeps the Strava login cookie
+# Optional. Where a failed login saves its screenshot + page HTML.
+# Default is <project>/debug, which the strava user cannot create on the
+# server (the project dir is nznm:strava 750), so set this there.
+DEBUG_DIR = "/home/strava/debug"
